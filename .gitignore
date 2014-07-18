@@ -1,0 +1,6 @@
+*.pyc
+venv
+*.sublime-project
+*.sublime-workspace
+blender-id/config.py
+blender-id/runserver.wsgi

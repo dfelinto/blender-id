@@ -1,0 +1,10 @@
+{% macro render_field_horizontal(field) %}
+  <div class="col-sm-6">
+    {{ field(class='form-control')|safe }}
+  </div>
+{% endmacro %}
+
+{% macro render_label_horizontal(label) %}
+    {{ label(class='col-sm-6 control-label')|safe }}
+{% endmacro %}
+

@@ -1,0 +1,81 @@
+{% extends 'settings/_settings_layout.html' %}
+{% from 'settings/_macros.html' import render_field_horizontal, render_label_horizontal%}
+
+{% block page_title %}
+  {% if current_user.first_name %}
+    {{current_user.first_name}}'s
+  {% else %}
+    Your
+  {% endif %}
+  Profile
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row profile">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
+      <div class="row panel bright">
+        <div class="col-md-3 col-md-push-9 col-sm-2 col-sm-push-10 col-xs-12 offset-vertical-4 centered_content" title="Gravatar Profile Picture">
+          <img class="img-circle" src="{{gravatar_url}}"/>
+          <hr class="light visible-xs"/>
+        </div>
+        <div class="col-md-9 col-md-pull-3 col-sm-10 col-sm-pull-2">
+        <h1>Profile</h1>
+        <form class="form-horizontal" action="{{url_for('profile')}}" method="POST" role="form">
+          {{ form.hidden_tag() }}
+          <fieldset>
+
+            <label class="control-label">
+             <div class="input-group input-group-lg" title="Blender IDs are not changeable">
+               <span class="input-group-addon">Blender ID</span>
+                {{ form.blender_id(class='form-control', disabled='') }} 
+             </div>
+            </label>
+
+            <label class="control-label">
+             <div class="input-group input-group-lg">
+               <span class="input-group-addon">First Name</span>
+                {{ form.first_name(class='form-control', placeholder='First Name') }} 
+             </div>
+            </label>
+
+            <label class="control-label">
+             <div class="input-group input-group-lg">
+               <span class="input-group-addon">Last Name</i></span>
+                {{ form.last_name(class='form-control', placeholder='Last Name') }} 
+             </div>
+            </label>
+
+            <div class="control-label">
+              <label class="pull-left">
+                {{ form.cloud_communications(type='checkbox') }} Get Gooseberry campaign updates and notifications
+              </label>  
+              <label class="pull-right remember">
+                {{ form.show_avatar(type='checkbox')}} Make your profile <a id="public_setting" data-toggle="tooltip" data-placement="bottom" title="Display your name and gravatar in backers">public</a>*</label>
+            <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-12">
+            <hr class="light"/>
+            <div class="form-group">
+              <button type="submit" class="btn btn-default btn-xl btn-block">Update Profile</button>
+            </div>
+          </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block footer_scripts %}
+<script>
+  $(document).ready(function() {
+    $('#public_setting').tooltip({container:'body'});
+  });
+</script>
+{% endblock %}
+

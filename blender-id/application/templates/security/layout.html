@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Blender Cloud</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+    <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'> -->
+    <link href="{{ url_for('static', filename='assets/css/yeti.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/login.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/jquery.vegas.min.css') }}" rel="stylesheet">
+    {% block head_elements %}{% endblock %}
+<!--     <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"> -->
+
+    <!-- IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          {% for message in get_flashed_messages() %}
+          <div class="alert alert-warning">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ message }}
+            </div>
+          {% endfor %}
+          {% block body %}{% endblock %}
+        </div>
+      </div>
+
+      <footer class="white navbar-fixed-bottom">
+        <a href="{{url_for('terms_and_conditions')}}">Terms and Services, Cancellation</a>
+        <a href="{{url_for('privacy')}}">Privacy Policy</a>
+      </footer>
+    </div> <!-- /container -->
+    <script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/jquery.vegas.min.js') }}"></script>
+    <script>
+      $(function() {
+        $.vegas({
+          src:"{{ url_for('static', filename='assets/img/placeholder_background.jpg') }}"
+        });
+      });
+
+
+      //$.backstretch("{{ url_for('static', filename='assets/img/pot-holder.jpg') }}");
+    </script>
+  {% block footer_scripts %}{% endblock %}
+
+
+  </body>
+</html>
+

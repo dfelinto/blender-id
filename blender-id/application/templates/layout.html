@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block page_title %}Home{% endblock %} - Blender ID - blender.org</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'> -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/blender-id.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets_shared/css/generic.css') }}" rel="stylesheet">
+
+<!--     <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"> -->
+
+    <!-- IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
+    {% block header %}
+    {% endblock %}
+  </head>
+
+  <body>
+    {% block modal %}
+    {% endblock %}
+    <a name="hop"></a>
+
+    <header class="navbar navbar-default navbar-fixed-top bright" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-menu">
+            <span class="sr-only">Toggle navigation</span>
+            <i class="fa fa-bars"></i>
+          </button>
+          <a class="logo" href="http://www.blender.org"></a>
+        </div>
+
+        <nav class="collapse navbar-collapse" id="navbar-collapse-menu">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://www.blender.org/features/">Features</a></li>
+                <li><a href="http://www.blender.org/download/">Download</a></li>
+                <li><a href="http://www.blender.org/support/">Support</a></li>
+                <li><a href="http://www.blender.org/get-involved/">Get Involved</a></li>
+                <li><a href="http://www.blender.org/about/">About</a></li>
+                <li><a href="http://www.blender3d.org/e-shop/">Store</a></li>
+            </ul>
+        </nav>
+      </div>
+    </header>
+
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+      <div class="container">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button>
+      </div>
+    </div>
+    {% endfor %}
+
+  <div class="container-main">
+    <div class="container-fluid featured featured-xs">
+      <div class="col-md-12">
+        <div class="container">
+          <i class="backicon bf-network"></i>
+          <h1>Blender ID</h1>
+        </div>
+      </div>
+    </div>
+
+    <header class="navbar navbar-default navbar-secondlevel navbar-static-top bright" role="navigation">
+      <div class="container relative">
+        <ul class="nav navbar-nav navbar-left">
+          <li {% if title == 'about': %} class="active"{% endif %}>
+            <a href="{{ url_for('about') }}">About</a>
+          </li>
+
+
+          {% if current_user.is_authenticated() %}
+          <li class="dropdown absolute right">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{current_user.email}} <b class="caret"></b></a>
+            <ul class="dropdown-menu right">
+              {% if not current_user.has_role('bfct') %}
+              <li><a href="{{url_for('profile')}}"><i class="fa fa-cog"></i> Settings</a></li>
+              {% endif %}
+              <li class="divider"></li>
+              <li><a href="{{url_for_security('logout', next='/id')}}"><i class="fa fa-power-off"></i> Log out</a></li>
+            </ul>
+          </li>
+          {% else %}
+          <li class="absolute right"><a href="{{url_for_security('login', next='/id')}}"><i class="fa fa-sign-in"></i> Sign in</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </header> <!-- // second level-->
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          {% block body %}{% endblock %}
+        </div>
+      </div>
+    </div> <!-- /container -->
+  </div> <!-- /container-main -->
+
+    <div id="footer-navigation"> <!-- Sitemap -->
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 col-xs-6 offset-vertical-1">
+            <h4>Blender</h4>
+            <ul>
+              <a href="http://www.blender.org/download/" title="Download Blender">
+                <li>Download</li>
+              </a>
+              <a href="http://www.blender.org/download/" title="Source Code">
+                <li>Source Code</li>
+              </a>
+              <a href="http://www.blender.org/features/" title="Blender Features">
+                <li>Features</li>
+              </a>
+              <a href="http://wiki.blender.org/index.php/Doc:2.6/Manual" title="Blender Documentation">
+                <li>Documentation</li>
+              </a>
+            </ul>
+          </div>
+          <div class="col-md-3 col-xs-6 offset-vertical-1">
+            <h4>Organization</h4>
+            <ul>
+              <a href="http://www.blender.org/foundation/" title="Blender Foundation">
+                <li>Foundation</li>
+              </a>
+              <a href="http://www.blender.org/institute/" title="Blender Institute">
+                <li>Institute</li>
+              </a>
+              <a href="http://www.blender.org/get-involved/developers/" title="Developers">
+                <li>Developers</li>
+              </a>
+              <a href="http://www.blendernetwork.org"
+              title="The Network of Blender Professionals">
+                <li><i class="bf-network"></i> Blender Network</li>
+              </a>
+            </ul>
+          </div>
+          <div class="col-md-3 col-xs-6 offset-vertical-1">
+            <h4>Get Involved</h4>
+            <ul>
+              <a href="http://www.blender.org/foundation/donation-payment/" title="Donations">
+                <li>Donations</li>
+              </a>
+              <a href="http://www.blender.org/get-involved/developers/" title="Software">
+                <li>Software</li>
+              </a>
+              <a href="http://www.blender.org/get-involved/" title="Websites and Docs">
+                <li>Websites & Docs</li>
+              </a>
+              <a href="http://www.blender.org/conference/" title="Conferences">
+                <li>Conferences</li>
+              </a>
+            </ul>
+          </div>
+          <div class="col-md-3 col-xs-12 offset-vertical-1">
+            <h4>Blender.org</h4>
+            <ul>
+              <a href="http://www.blender.org/news/" title="News">
+                <li>News</li>
+              </a>
+              <a href="http://www.blender.org/foundation/" title="Contact">
+                <li>Contact</li>
+              </a>
+              <a href="http://www.blender.org/about/logo/" title="Trademark and Logo">
+                <li>Trademark & Logo</li>
+              </a>
+              <a href="http://www.blender.org/about/website/" title="Website License">
+                <li>Website License</li>
+              </a>
+            </ul>
+          </div>
+        </div> <!-- footer row -->
+      </div> <!-- footer container -->
+    </div> <!-- footer-navigation -->
+
+    <footer>
+      <div class="container">
+        <span class="pull-right">
+          <p>
+            Blender.org
+            <a href="#hop"><i class="fa fa-angle-up"></i></a>
+          </p>
+        </span>
+      </div> <!-- /footer-container -->
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  {% block footer_scripts %}{% endblock %}
+
+
+  </body>
+</html>
+
