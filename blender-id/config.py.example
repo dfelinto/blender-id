@@ -1,7 +1,4 @@
-import braintree
-
 class Config(object):
-    DEBUG=False
 
     # Configured for GMAIL
     MAIL_SERVER = 'smtp.gmail.com'
@@ -21,75 +18,18 @@ class Config(object):
     SECURITY_PASSWORD_SALT = 'YOURSALT'
     SECURITY_EMAIL_SENDER = ''
     SECURITY_POST_REGISTER_VIEW = '/welcome'
+    SECURITY_MSG_EMAIL_ALREADY_ASSOCIATED = ('This address already exists', 'error')
     GOOGLE_ANALYTICS_TRACKING_ID = ''
     GOOGLE_ANALYTICS_DOMAIN = ''
 
-    ADMIN_EMAIL = ['']
-
-    CDN_USE_URL_SIGNING = False
-    CDN_SERVICE_DOMAIN_PROTOCOL = 'http'
-    CDN_SERVICE_DOMAIN = ''
-    CDN_CONTENT_SUBFOLDER = ''
-    CDN_URL_SIGNING_KEY = ''
 
 class Development(Config):
-    SECRET_KEY='YOURSECRET'
-    SERVER_NAME='cloud.blender.local'
+    SECRET_KEY=''
     DEBUG=True
-    SQLALCHEMY_DATABASE_URI='mysql://root:root@localhost/blender-cloud'
-    SQLALCHEMY_BINDS = {
-        'users': 'mysql://root:root@localhost/blender-id',
-        'news': 'mysql://root:root@localhost/blender-news',
-    }
+    SQLALCHEMY_DATABASE_URI='mysql://root:root@localhost/blender-id'
     SECURITY_REGISTERABLE=True
     SECURITY_LOGIN_USER_TEMPLATE = 'security/login_user.html'
-    MEDIA_FOLDER = '/path/to/files'
-    MEDIA_URL = 'files/'
-    MEDIA_THUMBNAIL_FOLDER = '/path/to/thumbnails'
-    MEDIA_THUMBNAIL_URL = 'thumbnails/'
-    BRAINTREE_CSE_KEY=''       
     ASSETS_DEBUG = False
     CACHE_TYPE = ''
     CACHE_DEFAULT_TIMEOUT = 60
     CACHE_DIR = ''
-                                                                                
-class Production(Config):
-    SERVER_NAME='cloud.blender.test'
-    SQLALCHEMY_DATABASE_URI='mysql://root:root@localhost/blender-cloud'
-    SQLALCHEMY_BINDS = {
-        'users': 'mysql://root:root@localhost/blender-id',
-    }
-
-class BraintreeSandboxConfig(object):
-    ENVIRONMENT = braintree.Environment.Sandbox
-    BRAINTREE_MERCHANT_ID=''
-    BRAINTREE_PUBLIC_KEY=''
-    BRAINTREE_PRIVATE_KEY=''
-    BRAINTREE_USD_MERCHANT = ''
-    BRAINTREE_EUR_MERCHANT = ''
-
-class BraintreeProductionConfig(object):
-    ENVIRONMENT = braintree.Environment.Production
-    BRAINTREE_MERCHANT_ID=''
-    BRAINTREE_PUBLIC_KEY=''
-    BRAINTREE_PRIVATE_KEY=''
-    BRAINTREE_USD_MERCHANT = ''
-    BRAINTREE_EUR_MERCHANT = ''
-
-class BraintreeDeploymentConfig(BraintreeSandboxConfig):
-    BRAINTREE_CONFIG='PRODUCTION'
-
-class PayPalSandboxConfig(object):
-    API_USERNAME = ''
-    API_PASSWORD = ''
-    API_SIGNATURE = ''
-    API_ENVIRONMENT = 'SANDBOX'
-
-class PayPalLiveConfig(object):
-    API_USERNAME = ''
-    API_PASSWORD = ''
-    API_SIGNATURE = ''
-    API_ENVIRONMENT = 'PRODUCTION'
-
-class PayPalDeploymentConfig(PayPalSandboxConfig):
-    DEBUG_LEVEL = 0
