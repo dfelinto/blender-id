@@ -7,147 +7,157 @@
 {% endblock %}
 
 {% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-push-2">
 
-<div class="container-fluid">
-  <div class="row" id="featured">
-    <div class="container">
-      <div class="col-md-12">
-          <div class="login"
-            style="background: url('{{ url_for('static', filename='assets/img/placeholder_background.jpg') }}') center;">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="panel">
-                    <h1>No Blender ID yet?</h1>
-                    <h2>Start here.</h2>
+      <div class="flip relative">
 
-                    <form class="form-horizontal" role="login" action="{{ url_for_security('register') }}" method="POST" name="login_user_form">
-                      {{ login_user_form.hidden_tag() }}
-                      <fieldset>
-                       <!-- Email input-->
-                       <label class="control-label btn-block" for="userid">
-                        <div class="input-group input-group-lg">
-                          <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
-                            <input class="form-control" id="email" name="email" type="email" value="" placeholder="E-mail">
-                        </div>
-                       </label>
+        <div class="card">
+          <div class="face front"> 
+            <!-- Front face stuff-->
+            <div class="box">
+              <i class="bf-blender backicon"></i>
 
-                       <div class="clearfix offset-vertical-2"></div>
+              <div class="col-md-6">
 
-                       <!-- Password input-->
-                       <label class="control-label btn-block" for="passwordinput">
-                        <div class="input-group input-group-lg">
-                          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input class="form-control" id="password" name="password" type="password" value="" placeholder="Password" onkeyup="password_match();">
-                        </div>
-                       </label>
+                  <form role="login" action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+                    {{ login_user_form.hidden_tag() }}
+                    <fieldset>
+                     <!-- Email input-->
+                     <label class="control-label width-full" for="userid">
+                      <div class="input-group input-group-lg width-full">
+                        <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+                          {{ render_login_field_with_errors(login_user_form.email, class='form-control', placeholder="E-mail") }}
+                      </div>
+                     </label>
 
-                       <div class="clearfix offset-vertical-2"></div>
+                     <div class="clearfix offset-vertical-2"></div>
 
-                       <!-- Retype Password input-->
-                       <label class="control-label btn-block" for="password_confirm">
-                        <div class="input-group input-group-lg">
-                          <span class="input-group-addon"><div id="password_match"></div></span>
-                            <input class="form-control" id="password_confirm" name="password_confirm" type="password" value="" placeholder="Retype Password" onkeyup="password_match();">
-                        </div>
-                       </label>
+                     <!-- Password input-->
+                     <label class="control-label width-full" for="passwordinput">
+                      <div class="input-group input-group-lg width-full">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                          {{ render_login_field_with_errors(login_user_form.password, class='form-control', placeholder="Password") }}
+                      </div>
+                     </label>
 
-
-                        {{ render_field(login_user_form.next) }}
-                       <!-- Button -->
+                     <!-- Multiple Checkboxes (inline) -->
+                     <div class="login-extra offset-vertical-2">
                        <div class="control-group">
-                         <label class="control-label" for="signin"></label>
-                         <div class="controls">
-                           {{ render_field(login_user_form.submit, value="Sign Up", class='btn btn-default btn-lg btn-xl centered') }}
-                         </div>
+                         <label class="control-label remember pull-left" for="remember">
+                           {{ render_login_field_with_errors(login_user_form.remember) }}
+                           Remember me
+                         </label>
+                         <a class="pull-right small" href="{{url_for_security('forgot_password')}}">forgot password?</a>
                        </div>
-                      </fieldset>
-                    </form>
+                     <div class="clearfix"></div>
+                     </div>
 
+                      {{ render_field(login_user_form.next) }}
+                     <div class="clearfix"></div>
+              </div> <!-- col-md-6 -->
+
+              <div class="col-md-6">
+                <div class="width-full content-align-center offset-top-5 offset-bottom-5">
+                  <h2>
+                    One Account<br/>
+                    Everything Blender
+                  </h2>
+
+                   <!-- Button -->
+                  <div class="control-group">
+                    <label class="control-label" for="signin"></label>
+                    <div class="controls content-align-center">
+                      {{ render_field(login_user_form.submit, value="Sign In", class='btn btn-default btn-lg btn-squishy width-75') }}
+                    </div>
                   </div>
+
+                  </fieldset>
+                </form>
+                  <hr/>
+                  <div class="flip_login link">Don't have a Blender ID yet?</div>
                 </div>
+              </div> <!-- col-md-6 -->
+            </div>
+          </div> <!-- // Front face stuff -->
+
+          <div class="face back"> 
+            <!-- Back face stuff-->
+            <div class="box">
+              <i class="bf-blender backicon"></i>
+
                 <div class="col-md-6">
-                  <div class="panel">
-                    <h1>Welcome Back!</h1>
-                    <h2>We've missed you.</h2>
 
-                    <form class="form-horizontal" role="login" action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
-                      {{ login_user_form.hidden_tag() }}
-                      <fieldset>
-                       <!-- Email input-->
-                       <label class="control-label btn-block" for="userid">
-                        <div class="input-group input-group-lg">
-                          <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
-                            {{ render_login_field_with_errors(login_user_form.email, class='form-control', placeholder="E-mail") }}
-                        </div>
-                       </label>
+                  <form role="login" action="{{ url_for_security('register') }}" method="POST" name="login_user_form">
+                    {{ login_user_form.hidden_tag() }}
+                    <fieldset>
+                     <!-- Email input-->
+                     <label class="control-label width-full" for="userid">
+                      <div class="input-group input-group-lg width-full">
+                        <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+                          <input class="form-control" id="email" name="email" type="email" value="" placeholder="E-mail">
+                      </div>
+                     </label>
 
-                       <div class="clearfix offset-vertical-2"></div>
+                     <div class="clearfix offset-vertical-2"></div>
 
-                       <!-- Password input-->
-                       <label class="control-label btn-block" for="passwordinput">
-                        <div class="input-group input-group-lg">
-                          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            {{ render_login_field_with_errors(login_user_form.password, class='form-control', placeholder="Password") }}
-                        </div>
-                       </label>
+                     <!-- Password input-->
+                     <label class="control-label width-full" for="passwordinput">
+                      <div class="input-group input-group-lg width-full">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                          <input class="form-control" id="password" name="password" type="password" value="" placeholder="Password" onkeyup="password_match();">
+                      </div>
+                     </label>
 
-                       <!-- Multiple Checkboxes (inline) -->
-                       <div class="login-extra offset-vertical-2">
-                         <div class="control-group">
-                           <label class="control-label remember pull-left" for="remember">
-                             {{ render_login_field_with_errors(login_user_form.remember) }}
-                             Remember me
-                           </label>
-                           <a class="pull-right" href="{{url_for_security('forgot_password')}}">Forgot Password <i class="fa fa-question-circle"></i></a>
-                         </div>
-                       <div class="clearfix"></div>
-                       </div>
+                     <div class="clearfix offset-vertical-2"></div>
 
-                        {{ render_field(login_user_form.next) }}
-                       <div class="clearfix"></div>
-                       <!-- Button -->
-                       <div class="control-group">
-                         <label class="control-label" for="signin"></label>
-                         <div class="controls">
-                           {{ render_field(login_user_form.submit, value="Sign In", class='btn btn-default btn-lg btn-xl centered') }}
-                         </div>
-                       </div>
-                      </fieldset>
-                    </form>
+                     <!-- Retype Password input-->
+                     <label class="control-label width-full" for="password_confirm">
+                      <div class="input-group input-group-lg width-full">
+                        <span class="input-group-addon"><div id="password_match"></div></span>
+                          <input class="form-control" id="password_confirm" name="password_confirm" type="password" value="" placeholder="Retype Password" onkeyup="password_match();">
+                      </div>
+                     </label>
 
-                  </div>
+                      {{ render_field(login_user_form.next) }}
+
                 </div>
+
+                <div class="col-md-6">
+                  <div class="width-full content-align-center offset-top-5 offset-bottom-5">
+                    <h2>
+                      Get your own<br/>
+                      Blender ID
+                    </h2>
+
+                     <!-- Button -->
+                     <div class="control-group">
+                       <label class="control-label" for="signin"></label>
+                       <div class="controls">
+                         {{ render_field(login_user_form.submit, value="Sign Up", class='btn btn-default btn-lg btn-squishy width-75') }}
+                       </div>
+                     </div>
+
+                    </fieldset>
+                  </form>
+                    <hr/>
+                    <div class="flip_login link"><i class="fa fa-angle-double-left"></i> Back to Login</div>
+                  </div>
+                </div> <!-- col-md-6 -->
               </div>
-          </div>
-      </div>
+            </div>
+          </div> <!-- // Back face stuff -->
+        </div> <!-- Card -->
+
+      </div> <!-- Flip toggle -->
     </div>
   </div>
 </div>
 
-<div class="container-fluid">
-  <div class="row secondary-nav">
-    <div class="container">
-      <div class="col-md-6">
-        <h2>Blender Cloud<i class="fa fa-cloud pull-right"></i></h2>
-        <p>Blender Cloud is a high quality web service in which we share all data of our previous films, all our training videos and files, and a continuous stream of data from the <a href="http://gooseberry.blender.org">Gooseberry</a> project.</p>
-        <p>Blender Cloud subscribers can watch the creation progress closely, share this with others, learn from it, and even contribute back to it. </p>
-      </div>
-
-      <div class="col-md-6">
-        <div class="row">
-          <h2>What is the Blender ID?</h2>
-          <p>
-          The Blender ID is a unified login system that will give you access to Blender Institute and Blender Foundation web platforms.
-          </p>
-          <p>
-          With just one account you can set up a Blender Cloud subscription, manage your Blender Foundation Certified Trainer application, and much more in the future.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
+{% endblock %}
+{% block footer_scripts %}
+  <script src="{{ url_for('static', filename='assets_shared/js/interactive.js') }}"></script>
 <script>
 function password_match() {
     var pwd = $("#password").val();
@@ -160,7 +170,14 @@ function password_match() {
 }
 
 $(document).ready(function () {
-   $("#password_confirm").onkeypress(password_match);
+
+    $('.flip_login').each(function(){
+      $(this).click(function(){
+        $(document).find('.card').toggleClass('flipped').next($(this).fadeOut(150)).next($(this).fadeIn('slow'));
+      });
+    });
+
+   //$("#password_confirm").onkeypress(password_match);
 });
 </script>
 {% endblock %}
