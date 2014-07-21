@@ -16,10 +16,17 @@
     <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-12">
       <div class="row box">
         <h1>Your Profile</h1>
-        <div class="col-md-5 col-md-push-7 col-sm-2 col-sm-push-9 col-xs-12 offset-vertical-4 content-align-center" title="Gravatar Profile Picture">
+        <div class="col-md-5 col-md-push-7 col-sm-2 col-sm-push-9 col-xs-12 offset-vertical-4 content-align-center">
           <a href="http://gravatar.com" target="_blank">
-            <img class="img-circle thumbnail offset-top-5 offset-bottom-1 content-margin-center" src="{{gravatar_url}}"/>
+            <img class="img-circle thumbnail offset-top-5 offset-bottom-1 content-margin-center" src="{{gravatar_url}}" title="Gravatar Profile Picture"/>
             <small>Change Gravatar <i class="fa fa-angle-double-right"></i></small>
+          </a>
+          <hr/>
+          <a href="{{url_for_security('change_password')}}">
+            <small>
+            Change Password
+            </small>
+            <i class="fa fa-lock"></i>
           </a>
           <hr class="visible-xs"/>
         </div>
