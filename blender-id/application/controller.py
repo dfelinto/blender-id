@@ -47,10 +47,10 @@ def profile():
     if form.validate_on_submit():
         current_user.first_name = form.first_name.data
         current_user.last_name = form.last_name.data
-        current_user.set_setting('cloud_communications',form.cloud_communications.data)
-        current_user.set_setting('show_avatar',form.show_avatar.data)
+        #current_user.set_setting('cloud_communications',form.cloud_communications.data)
+        #current_user.set_setting('show_avatar',form.show_avatar.data)
         db.session.commit()
-        return redirect(url_for('profile'))
+        return redirect(url_for('homepage'))
 
     # Display form on GET request
     return render_template('settings/profile.html', 

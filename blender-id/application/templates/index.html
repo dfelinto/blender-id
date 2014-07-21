@@ -24,7 +24,7 @@
       </h2>
       {% if not current_user.first_name
         or not current_user.last_name %}
-        <p><i>Your name or last name is missing, <a href="{{url_for('profile')}}">add it here</a></i></p>
+        <p><div class="background-info"><span class="offset-left-2">Your name or last name is missing, <a href="{{url_for('profile')}}">add it here</a></span></div></p>
       {% endif %}
       <p>
        {{ current_user.email }}
