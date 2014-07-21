@@ -1,22 +1,13 @@
-{% extends 'email/layout.html' %}
+<p>Congrats!</p>
+<p>You now have your own Blender ID.</p>
 
-{% block body %}
-<p>Hello!</p>
-
-<p>Thanks for the registration at the Blender Cloud website. This email address ({{ user.email }}) will now function as your Blender ID for login to the Blender Cloud. </p>
-
-<p>Blender Cloud is the central hub for sharing all Blender Foundation's Open Movies and training videos, and for the crowd-funding campaign of the new Open Feature Movie: the Gooseberry Project. </p>
+<p>Use this email address ({{ user.email }}) to login to any Blender ID enabled website (such as Blender Cloud, Blender BFCT, Blender Store, etc).</p>
 
 {% if security.confirmable %}
 <p>You can confirm your email through the link below:</p>
 <p><a href="{{ confirmation_link }}">Confirm my account</a></p>
 {% endif %}
 
-<p>Please check on <a href="http://cloud.blender.org">cloud.blender.org</a> for more information. </p>
+<p>Check your dashboard at <a href="http://www.blender.org/id/">blender.org/id</a> for more information.</p>
 
-<p>The Blender Cloud team: <br/>
-Francesco Siddi and Ton Roosendaal. 
-</p>
-
-<p>cloudsupport@blender.org </p>
-{% endblock %}
+<p>The Blender Web Team</p>

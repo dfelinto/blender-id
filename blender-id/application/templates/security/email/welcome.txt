@@ -1,17 +1,13 @@
-Hello! 
+Congrats!
+You now have your own Blender ID.
 
-Thanks for the registration at the Blender Cloud website. This email address will now function as your Blender ID for login to the Blender Cloud. 
-
-Blender Cloud is the central hub for sharing all Blender Foundation's Open Movies and training videos, and for the crowd-funding campaign of the new Open Feature Movie: the Gooseberry Project. 
+Use this email address ({{ user.email }}) to login to any Blender ID enabled website (such as Blender Cloud, Blender BFCT, Blender Store, etc).
 
 {% if security.confirmable %}
 You can confirm your email through the link below:
-{{ confirmation_link }}
+<a href="{{ confirmation_link }}">Confirm my account</a>
 {% endif %}
 
-Please check on http://cloud.blender.org for more information. 
+Check your dashboard at <a href="http://www.blender.org/id/">blender.org/id</a> for more information.
 
-The Blender Cloud team: 
-Francesco Siddi and Ton Roosendaal. 
-
-cloudsupport@blender.org 
+The Blender Web Team
