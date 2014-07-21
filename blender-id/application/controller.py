@@ -32,12 +32,14 @@ class ProfileForm(Form):
 @login_required
 def profile():
     # Load the current data in the form
+    cloud_communications = None;
+    show_avatar = None;
     form = ProfileForm(
         blender_id=current_user.email,
         first_name=current_user.first_name,
         last_name=current_user.last_name,
-        cloud_communications=current_user.get_setting('cloud_communications'),
-        show_avatar=current_user.get_setting('show_avatar'))
+        cloud_communications=cloud_communications,
+        show_avatar=show_avatar)
 
     # Run if form is being submitted
     if form.validate_on_submit():

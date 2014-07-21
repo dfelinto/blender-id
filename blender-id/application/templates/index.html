@@ -11,67 +11,67 @@
 
 {% block body %}
 <div class="row">
-	<div class="col-md-6">
-		<div class="box">
-			<img class="img-circle pull-right thumbnail offset-right-2 offset-top-2" src="{{current_user.gravatar(120, False)}}" title="Gravatar Profile Picture"/>
-			<h2>
-			{% if current_user.first_name %}
-				{{ current_user.first_name }}
-			{% endif %}
-			{% if current_user.last_name %}
-				{{ current_user.last_name }}
-			{% endif %}
-			</h2>
-			{% if not current_user.first_name
-				or not current_user.last_name %}
-				<i>Your name or last name is missing, <a href="{{url_for('profile')}}">change it here</a></i>
-			{% endif %}
-			<p>
-			 {{ current_user.email }}
-			</p>
-			<p class="info">
-				{% if current_user.has_role('bfct_board') %}
-					<i class="fa fa-graduation-cap"></i> BFCT Board Member
-				{% endif %}
-			</p>
-			<p>
-				<a class="btn btn-default" href="{{url_for('profile')}}">
-					<i class="fa fa-edit"></i> Edit Profile
-				</a>
-			</p>
-		</div> <!-- box -->
+  <div class="col-md-6">
+    <div class="box">
+      <img class="img-circle pull-right thumbnail offset-right-2 offset-top-2" src="{{current_user.gravatar(120, False)}}" title="Gravatar Profile Picture"/>
+      <h2>
+      {% if current_user.first_name %}
+        {{ current_user.first_name }}
+      {% endif %}
+      {% if current_user.last_name %}
+        {{ current_user.last_name }}
+      {% endif %}
+      </h2>
+      {% if not current_user.first_name
+        or not current_user.last_name %}
+        <p><i>Your name or last name is missing, <a href="{{url_for('profile')}}">add it here</a></i></p>
+      {% endif %}
+      <p>
+       {{ current_user.email }}
+      </p>
+      <p class="info">
+        {% if current_user.has_role('bfct_board') %}
+          <i class="fa fa-graduation-cap"></i> BFCT Board Member
+        {% endif %}
+      </p>
+      <p>
+        <a class="btn btn-default" href="{{url_for('profile')}}">
+          <i class="fa fa-edit"></i> Edit Profile
+        </a>
+      </p>
+    </div> <!-- box -->
 
-		<div class="box">
-			<h2>Blender Conference</h2>
-			<p><i>Coming soon...</i></p>
-		</div> <!-- box -->
+    <div class="box">
+      <h2>Blender Conference</h2>
+      <p><i>Coming soon...</i></p>
+    </div> <!-- box -->
 
-	</div> <!-- col-md-6 -->
-	<div class="col-md-6">
-		<div class="box">
-			<h2>Your Subscriptions</h2>
-			<hr/>
-			<h1 class="relative"><i class="bf-cloud fa fa-2x top right"></i></h1>
-			<h3>Blender Cloud</h3>
-			<p>
-				{% if current_user.has_role('cloud_single_member')
-					or current_user.has_role('cloud_team_owner') %}
-					You have an active <a href="http://cloud.blender.org/settings/subscription">Cloud subscription</a>
-				{% else %}
-					You don't have an active <a href="http://cloud.blender.org">Cloud subscription</a>
-				{% endif %}
-				{% if current_user.get_setting('cloud_communications') %}
-					<br/>
-					<small><i class="fa fa-envelope-o"></i> Email notifications are on (<a href="http://cloud.blender.org/settings/profile">change</a>)</small>
-				{% endif %}
-			</p>
-			<hr/>
-			<h1 class="relative"><i class="bf-network fa fa-2x top right"></i></h1>
-			<h3>Blender Network</h3>
-			<p><i>Coming soon...</i></p>
-			<hr/>
-		</div>
-	</div>
+  </div> <!-- col-md-6 -->
+  <div class="col-md-6">
+    <div class="box">
+      <h2>Your Subscriptions</h2>
+      <hr/>
+      <h1 class="relative"><i class="bf-cloud fa fa-2x top right"></i></h1>
+      <h3>Blender Cloud</h3>
+      <p>
+        {% if current_user.has_role('cloud_single_member')
+          or current_user.has_role('cloud_team_owner') %}
+          You have an active <a href="http://cloud.blender.org/settings/subscription">Cloud subscription</a>
+          {% if current_user.get_setting('cloud_communications') %}
+            <br/>
+            <small><i class="fa fa-envelope-o"></i> Email notifications are on (<a href="http://cloud.blender.org/settings/profile">change</a>)</small>
+          {% endif %}
+        {% else %}
+          You don't have an active <a href="http://cloud.blender.org">Cloud subscription</a>
+        {% endif %}
+      </p>
+      <hr/>
+      <h1 class="relative"><i class="bf-network fa fa-2x top right"></i></h1>
+      <h3>Blender Network</h3>
+      <p><i>Coming soon...</i></p>
+      <hr/>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
