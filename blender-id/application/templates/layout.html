@@ -85,7 +85,7 @@
           </li>
           {% if current_user.is_authenticated() %}
           <li {% if title == 'dashboard': %} class="active"{% endif %}>
-            <a href="/">Dashboard</a>
+            <a href="{{url_for('homepage')}}">Dashboard</a>
           </li>
           {% endif %}
 

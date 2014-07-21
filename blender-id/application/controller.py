@@ -1,7 +1,7 @@
 from application import app, db
 
 from flask import render_template, redirect, url_for, request
-from flask.ext.security import login_required
+from flask.ext.security import login_required, url_for_security
 from flask.ext.security.core import current_user
 
 from flask_wtf import Form
@@ -10,9 +10,11 @@ from wtforms.validators import DataRequired
 
 # Views
 @app.route('/')
-@login_required
 def homepage():
-    return render_template('index.html', title='home')
+    if current_user.is_authenticated():
+        return render_template('index.html', title='home')
+    else:
+        return redirect(url_for_security('login', next='id'))
 
 @app.route('/about')
 def about():
