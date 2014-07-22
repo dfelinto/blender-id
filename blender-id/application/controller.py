@@ -14,7 +14,7 @@ def homepage():
     if current_user.is_authenticated():
         return render_template('index.html', title='home')
     else:
-        return redirect(url_for_security('login', next='id'))
+        return redirect(url_for_security('login', next='/id'))
 
 @app.route('/about')
 def about():
