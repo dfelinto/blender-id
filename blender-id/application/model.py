@@ -8,6 +8,7 @@ from flask.ext.security import (Security,
     SQLAlchemyUserDatastore,
     UserMixin, 
     RoleMixin)
+from sqlalchemy.orm.exc import NoResultFound
 
 # Define models
 roles_users = db.Table('roles_users',
