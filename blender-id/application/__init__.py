@@ -14,3 +14,4 @@ mail = Mail(app)
 
 from application import model
 from application import controller
+from application import admin

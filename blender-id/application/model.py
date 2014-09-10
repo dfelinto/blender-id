@@ -20,6 +20,9 @@ class Role(db.Model, RoleMixin):
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
 
+    def __str__(self):
+        return str(self.name)
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True)
@@ -90,6 +93,10 @@ class User(db.Model, UserMixin):
         return "https://www.gravatar.com/avatar/" + \
             hashlib.md5(self.email.lower()).hexdigest() + \
             "?" + urllib.urlencode(parameters)
+
+
+    def __str__(self):
+        return str(self.email)
 
 # Setup Flask-Security
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
