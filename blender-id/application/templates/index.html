@@ -31,7 +31,11 @@
       </p>
       <p class="info">
         {% if current_user.has_role('bfct_board') %}
-          <i class="fa fa-graduation-cap"></i> BFCT Board Member
+          <i class="fa fa-graduation-cap"></i> BFCT Board Member{% if current_user.has_role('bfct_manager') %} & Manager{% endif %}
+          <br/>
+        {% endif %}
+        {% if current_user.has_role('bfct_trainer') %}
+          <i class="fa fa-graduation-cap"></i> Blender Foundation Certified Trainer
         {% endif %}
       </p>
       <p>
