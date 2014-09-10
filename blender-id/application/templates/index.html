@@ -13,49 +13,53 @@
 <div class="row">
   <div class="col-md-6">
     <div class="box">
-      <img class="img-circle pull-right thumbnail offset-right-2 offset-top-2" src="{{current_user.gravatar(120, False)}}" title="Gravatar Profile Picture"/>
-      <h2>
+      <img class="img-circle pull-right margin-right-2 margin-top-3" src="{{current_user.gravatar(120, False)}}" title="Gravatar Profile Picture"/>
+      <h1>
       {% if current_user.first_name %}
         {{ current_user.first_name }}
       {% endif %}
       {% if current_user.last_name %}
         {{ current_user.last_name }}
       {% endif %}
-      </h2>
+      </h1>
       {% if not current_user.first_name
         or not current_user.last_name %}
         <p><div class="background-info"><span class="offset-left-2">Your name or last name is missing, <a href="{{url_for('profile')}}">add it here</a></span></div></p>
       {% endif %}
-      <p>
+      <p class="margin-top-1">
        {{ current_user.email }}
-      </p>
-      <p class="info">
-        {% if current_user.has_role('bfct_board') %}
-          <i class="fa fa-graduation-cap"></i> BFCT Board Member{% if current_user.has_role('bfct_manager') %} & Manager{% endif %}
-          <br/>
-        {% endif %}
-        {% if current_user.has_role('bfct_trainer') %}
-          <i class="fa fa-graduation-cap"></i> Blender Foundation Certified Trainer
-        {% endif %}
       </p>
       <p>
         <a class="btn btn-default" href="{{url_for('profile')}}">
           <i class="fa fa-edit"></i> Edit Profile
         </a>
       </p>
+      <i class="backicon bf-blender"></i>
     </div> <!-- box -->
 
+    {% if current_user.has_role('bfct_trainer') %}
     <div class="box">
-      <h2>Blender Conference</h2>
-      <p><i>Coming soon...</i></p>
-    </div> <!-- box -->
+      <h2>Blender Foundation Certified Trainer</h2>
+      <p>
+        You're an official <span class="info">Blender Foundation Certified Trainer</span>
+        <br/>More details about your <a href="http://www.blender.org/certification">certification</a>
+        {% if current_user.has_role('bfct_board') %}
+          <hr/>
+          <p class="info">
+          <i class="fa fa-graduation-cap"></i> BFCT Board Member{% if current_user.has_role('bfct_manager') %} & Manager{% endif %}
+          </p>
+        {% endif %}
+      </p>
+      <i class="backicon fa fa-graduation-cap"></i>
+    </div>
+    {% endif %}
 
   </div> <!-- col-md-6 -->
   <div class="col-md-6">
     <div class="box">
       <h2>Your Subscriptions</h2>
       <hr/>
-      <h1 class="relative"><i class="bf-cloud fa fa-2x top right"></i></h1>
+      <h1 class="relative"><i class="bf-cloud fa fa-2x top right disabled"></i></h1>
       <h3>Blender Cloud</h3>
       <p>
         {% if current_user.has_role('cloud_single_member')
@@ -70,11 +74,15 @@
         {% endif %}
       </p>
       <hr/>
-      <h1 class="relative"><i class="bf-network fa fa-2x top right"></i></h1>
+      <h1 class="relative"><i class="bf-network fa fa-2x top right disabled"></i></h1>
       <h3>Blender Network</h3>
-      <p><i>Coming soon...</i></p>
+      <p class="margin-bottom-25px"><i>Coming soon...</i></p>
       <hr/>
     </div>
+    <div class="box">
+      <h2>Blender Conference</h2>
+      <p><i>Coming soon...</i></p>
+    </div> <!-- box -->
   </div>
 </div>
 
