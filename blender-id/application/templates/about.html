@@ -1,36 +1,49 @@
 {% extends 'layout.html' %}
 {% block body %}
-<div class="row">
-    <div class="col-md-6">
-        <h2>What is the Blender ID?</h2>
-        <p>
+<div class="row margin-bottom-2">
+	<div class="col-md-6">
+		{% if current_user.is_authenticated() %}
+		<div class="box">
+			<h2>Hi {{ current_user.first_name }}!</h2>
+			<p>
+				Welcome to Blender ID, check your <a href="{{url_for('homepage')}}">dashboard</a> for more info
+			</p>
+		</div>
+		{% endif %}
+		<h2>What is the Blender ID?</h2>
+		<p>
 			The Blender ID is a unified login system that will give you access to <a href="http://blender.org/institute">Blender Institute</a> and <a href="http://blender.org/foundation">Blender Foundation</a> web platforms.
 		</p>
 		<p>
 			With just one account you can set up a Blender Cloud subscription, manage your <span title="Blender Foundation Certified Trainer">BFCT</span> application, your Blender Conference talks, and much more in the future.
-        </p>
-    </div>
-    <div class="col-md-6">
-    	<div class="box">
-        <p>
-        	<h4>What is/will be using the Blender ID:</h4>
-        	<ul class="list-margin-none offset-top-2">
-        		<li>Blender Cloud</li>
-        		<li>Blender Store</li>
-        		<li>Blender Network <small>(soon)</small></li>
-        		<li>Blender Conference <small>(soon)</small></li>
-        		<li>Blender Development Fund <small>(soon)</small></li>
-        		<li>Blender Foundation Certified Trainer Program</li>
-        	</ul>
-        </p>
-    	</div>
-    </div>
-    {% if not current_user.is_authenticated() %}
-        <div class="col-md-12 content-align-center">
-        	<h4><a class="btn btn-default btn-squishy btn-lg btn-info offset-bottom-1 content-margin-center" href="{{url_for_security('register')}}">Get your Blender ID</a></h4>
-        </div>
-        <hr/>
-    {% endif %}
+		</p>
+
+		{% if not current_user.is_authenticated() %}
+			<div class="col-md-12 text-align-center">
+				<h4>
+					<a class="btn btn-default btn-lg btn-info width-75 margin-bottom-1 content-margin-center" href="{{url_for_security('register')}}">
+						Get your Blender ID
+					</a></h4>
+			</div>
+		{% endif %}
+	</div>
+	<div class="col-md-6">
+		<div class="box">
+			<p>
+				<h1 class="relative"><i class="bf-blender fa fa-2x top right disabled text-shadow-none"></i></h1>
+				<h4>Where to use your Blender ID:</h4>
+				<ul class="list-margin-none offset-top-2">
+					<a href="https://cloud.blender.org"><li class="">Blender Cloud</li></a>
+					<a href="https://store.blender.org"><li>Blender Store</li></a>
+					<a href="http://www.blender.org/conference/"><li>Blender Conference</li></a>
+					<a href="http://www.blendernetwork.org"><li>Blender Network <small>(soon)</small></li></a>
+					<a href="http://www.blender.org/foundation/development-fund/"><li>Blender Development Fund <small>(soon)</small></li></a>
+					<a href="http://www.blender.org/certification/"><li>Blender Foundation Certified Trainer Program</li></a>
+				</ul>
+			</p>
+		</div>
+	</div>
+
 </div>
 
 {% endblock %}

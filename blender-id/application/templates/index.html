@@ -39,48 +39,46 @@
 
     {% if current_user.has_role('bfct_trainer') %}
     <div class="box">
+      <h1 class="relative"><i class="fa fa-graduation-cap fa-2x top right disabled"></i></h1>
       <h2>Blender Foundation Certified Trainer</h2>
       <p>
         You're an official <span class="info">Blender Foundation Certified Trainer</span>
         <br/>More details about your <a href="http://www.blender.org/certification">certification</a>
         {% if current_user.has_role('bfct_board') %}
-          <hr/>
+          <hr class="width-full"/>
           <p class="info">
           <i class="fa fa-graduation-cap"></i> BFCT Board Member{% if current_user.has_role('bfct_manager') %} & Manager{% endif %}
           </p>
         {% endif %}
       </p>
-      <i class="backicon fa fa-graduation-cap"></i>
     </div>
     {% endif %}
 
   </div> <!-- col-md-6 -->
   <div class="col-md-6">
+    <h2 class="margin-top-0">Your Subscriptions</h2>
     <div class="box">
-      <h2>Your Subscriptions</h2>
-      <hr/>
       <h1 class="relative"><i class="bf-cloud fa fa-2x top right disabled"></i></h1>
       <h3>Blender Cloud</h3>
       <p>
         {% if current_user.has_role('cloud_single_member')
           or current_user.has_role('cloud_team_owner') %}
-          You have an active <a href="http://cloud.blender.org/settings/subscription">Cloud subscription</a>
+          <i class="fa fa-check success"></i> You have an active <a href="http://cloud.blender.org/settings/subscription">subscription</a>
           {% if current_user.get_setting('cloud_communications') %}
             <br/>
-            <small><i class="fa fa-envelope-o"></i> Email notifications are on (<a href="http://cloud.blender.org/settings/profile">change</a>)</small>
+            <small><i class="fa fa-envelope-o"></i> Email notifications are <strong>on</strong> (<a href="http://cloud.blender.org/settings/profile">change</a>)</small>
           {% endif %}
         {% else %}
-          You don't have an active <a href="http://cloud.blender.org">Cloud subscription</a>
+          <i class="fa fa-times"></i> You don't have an active <a href="http://cloud.blender.org">subscription</a>
         {% endif %}
       </p>
-      <hr/>
+      <hr class="width-full"/>
       <h1 class="relative"><i class="bf-network fa fa-2x top right disabled"></i></h1>
       <h3>Blender Network</h3>
       <p class="margin-bottom-25px"><i>Coming soon...</i></p>
-      <hr/>
     </div>
-    <div class="box">
-      <h2>Blender Conference</h2>
+    <div class="box padding-top-1">
+      <h3>Blender Conference</h3>
       <p><i>Coming soon...</i></p>
     </div> <!-- box -->
   </div>

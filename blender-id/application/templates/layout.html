@@ -83,7 +83,7 @@
             <a href="{{ url_for('about') }}">About</a>
           </li>
           {% if current_user.is_authenticated() %}
-          <li {% if title == 'dashboard': %} class="active"{% endif %}>
+          <li {% if title == 'home': %} class="active"{% endif %}>
             <a href="{{url_for('homepage')}}">Dashboard</a>
           </li>
           {% endif %}
