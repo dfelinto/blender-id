@@ -29,7 +29,7 @@
     {% endblock %}
   </head>
 
-  <body>
+  <body class="transition-none">
     {% block modal %}
     {% endblock %}
     <a name="hop"></a>
@@ -119,7 +119,7 @@
     <div id="footer-navigation"> <!-- Sitemap -->
       <div class="container">
         <div class="row">
-          <div class="col-md-3 col-xs-6 offset-vertical-1">
+          <div class="col-md-3 col-xs-6 margin-top-1">
             <h4>Blender</h4>
             <ul>
               <a href="http://www.blender.org/download/" title="Download Blender">
@@ -136,7 +136,7 @@
               </a>
             </ul>
           </div>
-          <div class="col-md-3 col-xs-6 offset-vertical-1">
+          <div class="col-md-3 col-xs-6 margin-top-1">
             <h4>Organization</h4>
             <ul>
               <a href="http://www.blender.org/foundation/" title="Blender Foundation">
@@ -154,7 +154,7 @@
               </a>
             </ul>
           </div>
-          <div class="col-md-3 col-xs-6 offset-vertical-1">
+          <div class="col-md-3 col-xs-6 margin-top-1">
             <h4>Get Involved</h4>
             <ul>
               <a href="http://www.blender.org/foundation/donation-payment/" title="Donations">
@@ -171,7 +171,7 @@
               </a>
             </ul>
           </div>
-          <div class="col-md-3 col-xs-12 offset-vertical-1">
+          <div class="col-md-3 col-xs-12 margin-top-1">
             <h4>Blender.org</h4>
             <ul>
               <a href="http://www.blender.org/news/" title="News">
@@ -205,8 +205,8 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript">$(window).load(function() {$("body").removeAttr("class"); /* Avoid transitions jump on load */});</script>
   {% block footer_scripts %}{% endblock %}
-
 
   </body>
 </html>

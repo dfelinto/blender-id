@@ -13,7 +13,7 @@
 <div class="row">
   <div class="col-md-6">
     <div class="box">
-      <img class="img-circle pull-right margin-right-2 margin-top-3" src="{{current_user.gravatar(120, False)}}" title="Gravatar Profile Picture"/>
+      <img class="img-circle pull-right margin-right-2 margin-top-2 margin-bottom-2" src="{{current_user.gravatar(120, False)}}" title="Gravatar Profile Picture"/>
       <h1>
       {% if current_user.first_name %}
         {{ current_user.first_name }}
@@ -24,7 +24,7 @@
       </h1>
       {% if not current_user.first_name
         or not current_user.last_name %}
-        <p><div class="background-info"><span class="offset-left-2">Your name or last name is missing, <a href="{{url_for('profile')}}">add it here</a></span></div></p>
+        <p><div class="background-info"><span class="margin-left-2">Your name or last name is missing, <a href="{{url_for('profile')}}">add it here</a></span></div></p>
       {% endif %}
       <p class="margin-top-1">
        {{ current_user.email }}
@@ -34,7 +34,6 @@
           <i class="fa fa-edit"></i> Edit Profile
         </a>
       </p>
-      <i class="backicon bf-blender"></i>
     </div> <!-- box -->
 
     {% if current_user.has_role('bfct_trainer') %}
