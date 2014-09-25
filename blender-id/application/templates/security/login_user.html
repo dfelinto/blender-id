@@ -21,7 +21,7 @@
 
               <div class="col-md-6">
 
-                  <form role="login" action="{{ url_for_security('login') }}" method="POST" name="login_user_form" class="offset-top-5">
+                  <form role="login" action="{{ url_for_security('login') }}" method="POST" name="login_user_form" class="margin-top-5">
                     {{ login_user_form.hidden_tag() }}
                     <fieldset>
                      <!-- Email input-->
@@ -31,7 +31,7 @@
                           <label class="control-label">Email</label>
                       </div>
 
-                     <div class="clearfix offset-vertical-2"></div>
+                     <div class="clearfix margin-top-2"></div>
 
                      <!-- Password input-->
                       <div class="input-group input-group-lg width-full">
@@ -41,7 +41,7 @@
                       </div>
 
                      <!-- Multiple Checkboxes (inline) -->
-                     <div class="login-extra offset-vertical-2">
+                     <div class="login-extra margin-top-2">
                        <div class="control-group">
                          <label class="control-label remember pull-left" for="remember">
                            {{ render_login_field_with_errors(login_user_form.remember) }}
@@ -57,7 +57,7 @@
               </div> <!-- col-md-6 -->
 
               <div class="col-md-6">
-                <div class="width-full content-align-center offset-top-5 offset-bottom-5">
+                <div class="width-full text-align-center margin-top-5 margin-bottom-5">
                   <h2>
                     One Account<br/>
                     Everything Blender
@@ -66,7 +66,7 @@
                    <!-- Button -->
                   <div class="control-group">
                     <label class="control-label" for="signin"></label>
-                    <div class="controls content-align-center">
+                    <div class="controls text-align-center">
                       {{ render_field(login_user_form.submit, value="Sign In", class='btn btn-default btn-lg btn-squishy width-75') }}
                     </div>
                   </div>
@@ -82,7 +82,7 @@
 
           <div class="face back"> 
             <!-- Back face stuff-->
-            <div class="box">
+            <div class="box padding-bottom-15px padding-top-15px">
               <i class="bf-blender backicon"></i>
 
                 <div class="col-md-6">
@@ -97,7 +97,7 @@
                           <label class="control-label">Email</label>
                       </div>
 
-                     <div class="clearfix offset-vertical-2"></div>
+                     <div class="clearfix margin-top-2"></div>
 
                      <!-- Password input-->
                       <div class="input-group input-group-lg width-full">
@@ -106,7 +106,7 @@
                           <label class="control-label">Password</label>
                       </div>
 
-                     <div class="clearfix offset-vertical-2"></div>
+                     <div class="clearfix margin-top-2"></div>
 
                      <!-- Retype Password input-->
                       <div class="input-group input-group-lg width-full">
@@ -120,7 +120,7 @@
                 </div>
 
                 <div class="col-md-6">
-                  <div class="width-full content-align-center offset-top-5 offset-bottom-5">
+                  <div class="width-full text-align-center margin-top-5 margin-bottom-5">
                     <h2>
                       Get your own<br/>
                       Blender ID
