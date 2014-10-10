@@ -93,8 +93,9 @@
           <li class="dropdown absolute right">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{current_user.email}} <b class="caret"></b></a>
             <ul class="dropdown-menu right">
-              {% if not current_user.has_role('bfct') %}
               <li><a href="{{url_for('profile')}}"><i class="fa fa-cog"></i> Settings</a></li>
+              {% if current_user.has_role('admin') %}
+              <li><a href="{{url_for('admin.index')}}"><i class="fa fa-rocket"></i> Admin</a></li>
               {% endif %}
               <li class="divider"></li>
               <li><a href="{{url_for_security('logout', next='/id')}}"><i class="fa fa-power-off"></i> Log out</a></li>
