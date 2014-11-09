@@ -1,5 +1,5 @@
 from application import app, db
-from application.model import user_datastore, User
+from application.modules.users.model import user_datastore, User
 
 from flask import render_template, redirect, url_for
 from flask.ext import admin, login
