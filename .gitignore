@@ -4,3 +4,4 @@ venv
 *.sublime-workspace
 blender-id/config.py
 blender-id/runserver.wsgi
+.arcconfig
