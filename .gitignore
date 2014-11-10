@@ -5,3 +5,4 @@ venv
 blender-id/config.py
 blender-id/runserver.wsgi
 blender-id/application/static/assets/css/main.css
+node_modules
