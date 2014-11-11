@@ -1,0 +1,14 @@
+{
+  "name": "blender-id",
+  "repository": {
+    "type": "git",
+    "url": "git://git.blender.org/blender-id.git"
+  },
+  "author": "Blender Foundation",
+  "license": "GPL",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-autoprefixer": "^1.0.1",
+    "grunt-contrib-sass": "^0.8.1"
+  }
+}
