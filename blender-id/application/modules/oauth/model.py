@@ -9,6 +9,11 @@ from sqlalchemy.orm.exc import NoResultFound
 
 
 class Client(db.Model):
+    # human readable name
+    name = db.Column(db.String(125))
+    description = db.Column(db.String(400))
+    picture = db.Column(db.String(125))
+
     client_id = db.Column(db.String(40), primary_key=True)
     client_secret = db.Column(db.String(55), nullable=False)
 
