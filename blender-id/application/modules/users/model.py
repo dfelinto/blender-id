@@ -37,6 +37,7 @@ class User(db.Model, UserMixin):
     current_login_ip = db.Column(db.String(100))
     login_count = db.Column(db.Integer)
 
+    address = db.relationship('Address', backref='user')
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
 
@@ -105,6 +106,23 @@ security = Security(app, user_datastore)
 
 ## --------- User Settings ---------
 
+class Address(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    address_type = db.Column(db.String(128))
+    first_name = db.Column(db.String(255))
+    last_name = db.Column(db.String(255))
+    street_address = db.Column(db.String(255))
+    extended_address = db.Column(db.String(255))
+    locality = db.Column(db.String(128))
+    region = db.Column(db.String(255))
+    postal_code = db.Column(db.String(24))
+    country_code_alpha2 = db.Column(db.String(2))
+
+    def __str__(self):
+        return str(self.id)
+
+
 class Setting(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(128), nullable=False)
@@ -112,9 +130,9 @@ class Setting(db.Model):
     data_type = db.Column(db.String(128), nullable=False)
     default = db.Column(db.String(128), nullable=False)
 
-
     def __str__(self):
         return self.name
+
 
 class UsersSettings(db.Model):
     id = db.Column(db.Integer(), primary_key=True)

@@ -1,5 +1,6 @@
 import hashlib, urllib
-from application import app, db
+from application import app
+from application import db
 
 from flask.ext.security import (Security, 
     SQLAlchemyUserDatastore,

@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta
+from datetime import datetime
+from datetime import timedelta
 from application import app, oauth, db
 from application.modules.oauth.model import Client, Grant, Token
 
@@ -122,8 +123,27 @@ def revoke_token(): pass
 @app.route('/api/me')
 @oauth.require_oauth()
 def me():
-    print session
     user = request.oauth.user
     return jsonify(
         id=user.id,
         roles=[role.id for role in user.roles])
+
+
+@app.route('/api/address')
+@oauth.require_oauth()
+def address():
+    user = request.oauth.user
+    if user.address:
+        address = user.address[0]
+        return jsonify(
+            address_type=address.address_type,
+            first_name=address.first_name,
+            last_name=address.last_name,
+            street_address =address.street_address,
+            extended_address=address.extended_address,
+            locality=address.locality,
+            region=address.region,
+            postal_code =address.postal_code,
+            country_code_alpha2=address.country_code_alpha2)
+    else:
+        return None
