@@ -126,6 +126,9 @@ def me():
     user = request.oauth.user
     return jsonify(
         id=user.id,
+        first_name=user.first_name,
+        last_name=user.last_name,
+        email=user.email,
         roles=[role.id for role in user.roles])
 
 
