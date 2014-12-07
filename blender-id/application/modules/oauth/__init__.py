@@ -120,9 +120,9 @@ def authorize(*args, **kwargs):
 def revoke_token(): pass
 
 
-@app.route('/api/me')
+@app.route('/api/user')
 @oauth.require_oauth()
-def me():
+def user():
     user = request.oauth.user
     return jsonify(
         id=user.id,
