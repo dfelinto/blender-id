@@ -44,7 +44,7 @@ def load_grant(client_id, code):
 @oauth.grantsetter
 def save_grant(client_id, code, request, *args, **kwargs):
     # decide the expires time yourself
-    expires = datetime.utcnow() + timedelta(seconds=100)
+    expires = datetime.now() + timedelta(seconds=100)
     grant = Grant(
         client_id=client_id,
         code=code['code'],
@@ -77,7 +77,7 @@ def save_token(token, request, *args, **kwargs):
         db.session.delete(t)
 
     expires_in = token.pop('expires_in')
-    expires = datetime.utcnow() + timedelta(seconds=expires_in)
+    expires = datetime.now() + timedelta(seconds=expires_in)
 
     tok = Token(
         access_token=token['access_token'],
