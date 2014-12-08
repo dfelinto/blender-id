@@ -6,7 +6,7 @@
 		
 		<div class="authorize__pictogram">
 			{% if client.picture %}
-				<img class="authorize__app-image" src="{{client.picture}}" alt="Appname">
+				<img class="authorize__app-image" src="{{url_for('static', filename=client.picture|thumbnail('100x100', 'fit'))}}" alt="Appname">
 			{% else %}
 				<img class="authorize__app-image_placeholder">
 				<span class="authorize__app-image_placeholder_icon">
