@@ -1,11 +1,26 @@
 from datetime import datetime
 from datetime import timedelta
-from application import app, oauth, db
-from application.modules.oauth.model import Client, Grant, Token
 
-from flask import redirect, jsonify, render_template, request, session
-from flask.ext.security import current_user, login_required
+from flask import redirect
+from flask import jsonify
+from flask import render_template
+from flask import request
+from flask import session
+
+from flask.ext.security import current_user
+from flask.ext.security import login_required
 from werkzeug.security import gen_salt
+
+from application import app
+from application import oauth
+from application import db
+
+from application.modules.oauth.model import Client
+from application.modules.oauth.model import Grant
+from application.modules.oauth.model import Token
+#from application.modules.users.model import user_datastore
+
+
 
 # @app.route('/client')
 # def client():
@@ -124,12 +139,20 @@ def revoke_token(): pass
 @oauth.require_oauth()
 def user():
     user = request.oauth.user
+    public_roles = {
+        'bfct_trainer':False,
+        'network_freelance':False,
+        'network_academic':False,
+        'network_corporate':False}
+    for role in public_roles:
+        public_roles[role] = user.has_role(role)
+
     return jsonify(
         id=user.id,
         first_name=user.first_name,
         last_name=user.last_name,
         email=user.email,
-        roles=[role.id for role in user.roles])
+        roles=public_roles)
 
 
 @app.route('/api/address')
@@ -142,11 +165,11 @@ def address():
             address_type=address.address_type,
             first_name=address.first_name,
             last_name=address.last_name,
-            street_address =address.street_address,
+            street_address=address.street_address,
             extended_address=address.extended_address,
             locality=address.locality,
             region=address.region,
-            postal_code =address.postal_code,
+            postal_code=address.postal_code,
             country_code_alpha2=address.country_code_alpha2)
     else:
         return None
