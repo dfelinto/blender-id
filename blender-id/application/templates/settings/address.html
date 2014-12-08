@@ -11,15 +11,23 @@
 {% endblock %}
 
 {% block body %}
+</div></div></div>
+<header class="navbar navbar-default navbar-thirdlevel navbar-static-top bright" role="navigation">
+  <div class="container">
+    <ul class="nav navbar-nav navbar-left">
+      <li {% if title == 'profile' %}class="active"{% endif %}><a href="{{url_for('profile')}}">Profile</a></li>
+      <li {% if title == 'address' %}class="active"{% endif %}><a href="{{url_for('address')}}">Address</a></li>
+    </ul>
+  </div>
+</header>
 <div class="container">
-  <div class="row profile">
+  <div class="row profile address">
     <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-12">
       <div class="row box">
-        <h1>Your Address</h1>
+        <h2>Your Billing Address</h2>
         <form class="form-horizontal" action="{{url_for('address')}}" method="POST" role="form">
           {{ form.hidden_tag() }}
           <fieldset>
-
 
              <div class="input-group input-group-lg width-full">
                 <span class="input-group-addon"><i class="fa fa-font"></i></span>
@@ -34,48 +42,40 @@
              </div>
 
              <div class="input-group input-group-lg width-full">
-                <span class="input-group-addon"><i class="fa fa-font"></i></span>
                 {{ form.street_address(class='form-control') }}
                 {{ form.street_address.label(class='control-label')}}
              </div>
 
              <div class="input-group input-group-lg width-full">
-                <span class="input-group-addon"><i class="fa fa-font"></i></span>
                 {{ form.extended_address(class='form-control') }}
                 {{ form.extended_address.label(class='control-label')}}
              </div>
 
              <div class="input-group input-group-lg width-full">
-                <span class="input-group-addon"><i class="fa fa-font"></i></span>
                 {{ form.locality(class='form-control') }}
                 {{ form.locality.label(class='control-label')}}
              </div>
 
              <div class="input-group input-group-lg width-full">
-                <span class="input-group-addon"><i class="fa fa-font"></i></span>
                 {{ form.region(class='form-control') }}
                 {{ form.region.label(class='control-label')}}
              </div>
 
              <div class="input-group input-group-lg width-full">
-                <span class="input-group-addon"><i class="fa fa-font"></i></span>
                 {{ form.postal_code(class='form-control') }}
                 {{ form.postal_code.label(class='control-label')}}
              </div>
 
              <div class="input-group input-group-lg width-full">
-                <span class="input-group-addon"><i class="fa fa-font"></i></span>
+                <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                 {{ form.country_code_alpha2(class='form-control') }}
                 {{ form.country_code_alpha2.label(class='control-label')}}
              </div>
+
+          <hr class="width-full"/>
+          <button type="submit" class="btn btn-default btn-squishy btn-success width-half center-block">Update Profile <i class="fa fa-check"></i></button>
           </div>
           <div class="clearfix"></div>
-          <div class="col-md-7">
-            <hr/>
-            <div class="form-group">
-              <button type="submit" class="btn btn-default btn-squishy btn-success width-full">Update Profile <i class="fa fa-check"></i></button>
-            </div>
-          </div>
           </fieldset>
         </form>
       </div>
