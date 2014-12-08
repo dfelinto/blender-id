@@ -21,6 +21,8 @@ class Client(db.Model):
     user_id = db.Column(db.ForeignKey('user.id'))
     user = db.relationship('User')
 
+    url = db.Column(db.String(256))
+
     _redirect_uris = db.Column(db.Text)
     _default_scopes = db.Column(db.Text)
 
