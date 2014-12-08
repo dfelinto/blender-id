@@ -1,56 +1,41 @@
 {% extends 'layout.html' %}
-
-{% block page_title %}
-  {% if current_user.first_name %}
-    {{current_user.first_name}}'s
-  {% else %}
-    Your
-  {% endif %}
-  Profile
-{% endblock %}
-
 {% block body %}
 
-<h1>Authorize [App]</h1>
-<p style="margin-bottom: 20px;">[App] wants to have permissions to access your Blender ID.</p>
+<div class="col-md-6 col-md-push-3">
+	<div class="box authorize">
+		
+		<div class="authorize__pictogram">
+			<img class="authorize__app-image" src="http://placehold.it/200/7596d9/fff" alt="Appname">
+			<img class="authorize__person-image" src="http://placehold.it/200/afd876/fff" alt="Username">
+			<div class="authorize__pictogram__arrow"></div>
+		</div>
+		
+		<h2 class="authorize__title">Authorize Application</h2>
+		<p class="authorize__blurb"><a href="#">Blender Network</a> would like permission to access your Blender ID</p>
+		<p class="authorize__info">The Blender Network is Blender Foundation's partnership program, an online directory and social network for Blender professionals.</p>
 
-<div class="row">
-  <div class="col-md-6">
-    <div class="box" style="padding-bottom: 20px;">
-      <p>[App] will get access to</p>
-      <ul>
-        <li>Personal Data</li>
-        <li>Notifications</li>
-        <li>Subscriptions</li>
-      </ul>
-      
-    <form action="{{ url_for('authorize') }}" method="post">
-      <p>Allow access?</p>
-      <input type="hidden" name="client_id" value="{{ client.client_id }}">
-      <input type="hidden" name="scope" value="{{ scopes|join(' ') }}">
-      <input type="hidden" name="response_type" value="{{ response_type }}">
-      {% if state %}
-      <input type="hidden" name="state" value="{{ state }}">
-      {% endif %}
-      <input type="submit" name="confirm" value="yes">
-      <input type="submit" name="confirm" value="no">
-    </form>
-    </div>
-  </div>
-  
-  <div class="col-md-6">
-    <div class="box">
-      <img class="img-circle pull-right margin-right-2 margin-top-2 margin-bottom-2" src="{{current_user.gravatar(120, False)}}" title="Profile Picture">
-      <h2 style="margin-bottom: 15px;">Your Blender ID</h2>
-      <h4>{{ current_user.first_name }} {{ current_user.last_name }}</h4>
-      <p class="margin-top-1">{{ current_user.email }}</p>
-    </div>
-  </div>
+		<div class="authorize__review">
+			<h3>Review permissions</h3>
+			<ul>
+				<li>
+					<strong>Personal Details</strong><br>
+					Name, Last Name, Email
+				</li>
+				<li>
+					<strong>Roles</strong><br>
+					BFCT, Coder, etc.
+				</li>
+			</ul>
+		</div>
+
+		
+		<div class="btn-chooser btn-chooser--center">
+			<button class="btn btn-success"><i class="fa fa-check"></i> Authorize</button>
+			<button class="btn">No, thanks</button>
+		</div>
+		
+		<a class="box__learn-more" href="#">Learn more about OAuth</a>
+	</div>
 </div>
-
-<!--p>Client: {{ client.client_id }}</p>
-<p>User: {{ user.username }}</p-->
-
-
 
 {% endblock %}
