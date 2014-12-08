@@ -8,3 +8,6 @@ blender-id/application/static/assets/css/main.css
 node_modules
 .sass-cache/
 *.css.map
+
+blender-id/application/static/files/
+blender-id/application/static/thumbnails/

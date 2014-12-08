@@ -1,14 +1,80 @@
-from application import app, db
-from application.modules.users.model import user_datastore, User
-
-from flask import render_template, redirect, url_for
-from flask.ext import admin, login
-from flask.ext.admin import Admin, expose, form
+from flask import render_template
+from flask import redirect
+from flask import url_for
+from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext import admin
+from flask.ext import login
+from flask.ext.admin import Admin
+from flask.ext.admin import expose
+from flask.ext.admin import form
+from flask.ext.admin.contrib import sqla
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.base import BaseView
 from flask.ext.admin.model.template import macro
+from flask.ext.security import current_user
 
-from flask.ext.security.utils import login_user
+from werkzeug import secure_filename
+from jinja2 import Markup
+from wtforms import fields
+from wtforms import validators
+from wtforms import widgets
+from wtforms.fields import SelectField
+from wtforms.fields import TextField
+import os, hashlib, time
+import os.path as op
+
+from application import app
+from application import db
+from application import thumb
+from application.modules.users.model import user_datastore
+from application.modules.users.model import User
+
+def _list_items(view, context, model, name):
+    """Utilities to upload and present images
+    """
+    if not model.name:
+        return ''
+    return Markup(
+        '<div class="select2-container-multi">'
+            '<ul class="select2-choices" style="border:0;cursor:default;background:none;">%s</ul></div>' % (
+                ''.join( ['<li class="select2-search-choice" style="padding:3px 5px;">'
+                            '<div>'+item.name+'</div></li>' for item in getattr(model,name)] )))
+
+
+def _list_thumbnail(view, context, model, name):
+    if not getattr(model,name):  #model.name only does not work because name is a string
+        return ''
+    return Markup('<img src="%s">' % url_for('static', 
+        filename=thumb.thumbnail(getattr(model,name), '50x50', crop='fit')))
+
+# Create directory for file fields to use
+file_path = op.join(op.dirname(__file__), '../../static/files',)
+try:
+    os.mkdir(file_path)
+except OSError:
+    pass
+
+
+def prefix_name(obj, file_data):
+    # Collect name and extension
+    parts = op.splitext(file_data.filename)
+    # Get current time (for unique hash)
+    timestamp = str(round(time.time()))
+    # Has filename only (not extension)
+    file_name = secure_filename(timestamp + '%s' % parts[0])
+    # Put them together
+    full_name = hashlib.md5(file_name).hexdigest() + parts[1]
+    return full_name
+
+
+def image_upload_field(label):
+    return form.ImageUploadField(label,
+                    base_path=file_path,
+                    thumbnail_size=(100, 100, True),
+                    namegen=prefix_name,
+                    endpoint='filemanager.static')
+
+
 
 # Create customized views with access restriction
 class CustomModelView(ModelView):
