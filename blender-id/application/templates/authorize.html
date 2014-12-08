@@ -5,35 +5,50 @@
 	<div class="box authorize">
 		
 		<div class="authorize__pictogram">
-			<img class="authorize__app-image" src="http://placehold.it/200/7596d9/fff" alt="Appname">
-			<img class="authorize__person-image" src="http://placehold.it/200/afd876/fff" alt="Username">
+			{% if client.picture %}
+				<img class="authorize__app-image" src="{{client.picture}}" alt="Appname">
+			{% else %}
+				<img class="authorize__app-image_placeholder">
+				<span class="authorize__app-image_placeholder_icon">
+					<i class="fa fa-4x fa-question"></i>
+				</span>
+			{% endif %}
+			<img class="authorize__person-image" src="{{gravatar}}" alt="Username">
 			<div class="authorize__pictogram__arrow"></div>
 		</div>
 		
 		<h2 class="authorize__title">Authorize Application</h2>
-		<p class="authorize__blurb"><a href="#">Blender Network</a> would like permission to access your Blender ID</p>
-		<p class="authorize__info">The Blender Network is Blender Foundation's partnership program, an online directory and social network for Blender professionals.</p>
+		<p class="authorize__blurb"><a href="#">{{client.name}}</a> would like permission to access your Blender ID</p>
+		<p class="authorize__info">{{client.description}}</p>
 
-		<div class="authorize__review">
-			<h3>Review permissions</h3>
-			<ul>
-				<li>
-					<strong>Personal Details</strong><br>
-					Name, Last Name, Email
-				</li>
-				<li>
-					<strong>Roles</strong><br>
-					BFCT, Coder, etc.
-				</li>
-			</ul>
-		</div>
+    <form action="{{ url_for('authorize') }}" method="post">
+			<div class="authorize__review">
+				<h3>Review permissions</h3>
+				<ul>
+					<li>
+						<strong>Personal Details</strong><br>
+						Name, Last Name, Email
+					</li>
+					<li>
+						<strong>Roles</strong><br>
+						BFCT, Coder, etc.
+					</li>
+				</ul>
+			</div>
+      <input type="hidden" name="client_id" value="{{ client.client_id }}">
+      <input type="hidden" name="scope" value="{{ scopes|join(' ') }}">
+      <input type="hidden" name="response_type" value="{{ response_type }}">
+      {% if state %}
+      <input type="hidden" name="state" value="{{ state }}">
+      {% endif %}
+		
+			<div class="btn-chooser btn-chooser--center">
+				<button type="submit" name="confirm" value="yes" class="btn btn-success"><i class="fa fa-check"></i> Authorize</button>
+				<button type="submit" name="confirm" value="no" class="btn">No, thanks</button>
+			</div>
 
-		
-		<div class="btn-chooser btn-chooser--center">
-			<button class="btn btn-success"><i class="fa fa-check"></i> Authorize</button>
-			<button class="btn">No, thanks</button>
-		</div>
-		
+		</form>
+
 		<a class="box__learn-more" href="#">Learn more about OAuth</a>
 	</div>
 </div>

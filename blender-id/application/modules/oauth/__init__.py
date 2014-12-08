@@ -123,6 +123,7 @@ def authorize(*args, **kwargs):
         client = Client.query.filter_by(client_id=client_id).first()
         kwargs['client'] = client
         kwargs['user'] = current_user
+        kwargs['gravatar'] = current_user.gravatar(120, False)
         return render_template('authorize.html', **kwargs)
 
     confirm = request.form.get('confirm', 'no')
