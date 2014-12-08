@@ -6,6 +6,7 @@ from flask import jsonify
 from flask import render_template
 from flask import request
 from flask import session
+from flask import Blueprint
 
 from flask.ext.security import current_user
 from flask.ext.security import login_required
@@ -20,7 +21,7 @@ from application.modules.oauth.model import Grant
 from application.modules.oauth.model import Token
 #from application.modules.users.model import user_datastore
 
-
+oauth_api = Blueprint('oauth_api', __name__)
 
 # @app.route('/client')
 # def client():
@@ -136,7 +137,7 @@ def authorize(*args, **kwargs):
 def revoke_token(): pass
 
 
-@app.route('/api/user')
+@oauth_api.route('/user')
 @oauth.require_oauth()
 def user():
     user = request.oauth.user
@@ -156,7 +157,7 @@ def user():
         roles=public_roles)
 
 
-@app.route('/api/address')
+@oauth_api.route('/address')
 @oauth.require_oauth()
 def address():
     user = request.oauth.user

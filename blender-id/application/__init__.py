@@ -25,3 +25,4 @@ from application.modules.admin import *
 from application.modules.oauth import *
 from application.modules.oauth.admin import *
 
+app.register_blueprint(oauth_api, url_prefix='/api')

@@ -1,12 +1,19 @@
-from application import app, db
+from application import app
+from application import db
 
-from flask import render_template, redirect, url_for, request
-from flask.ext.security import login_required, url_for_security
+from flask import render_template
+from flask import redirect
+from flask import url_for
+from flask import request
+from flask import flash
+
+from flask.ext.security import login_required
+from flask.ext.security import url_for_security
 from flask.ext.security.core import current_user
 
-from flask_wtf import Form
-from wtforms import TextField, BooleanField
-from wtforms.validators import DataRequired
+from application.modules.users.forms import ProfileForm
+from application.modules.users.forms import AddressForm
+from application.modules.users.model import Address
 
 # Views
 @app.route('/')
@@ -19,14 +26,6 @@ def homepage():
 @app.route('/about')
 def about():
     return render_template('about.html', title='about')
-
-
-class ProfileForm(Form):
-    blender_id = TextField('Blender-ID')
-    first_name = TextField('First Name', validators=[DataRequired()])
-    last_name = TextField('Last Name', validators=[DataRequired()])
-    cloud_communications = BooleanField('Cloud Communications')
-    show_avatar = BooleanField('Show Avatar')
 
 
 @app.route('/settings/', methods=['POST', 'GET'])
@@ -58,3 +57,59 @@ def profile():
         form=form,
         gravatar_url=current_user.gravatar(120, False),
         title='profile')
+
+
+@app.route('/settings/address', methods=['POST', 'GET'])
+@login_required
+def address():
+    address = Address.query.filter_by(user_id=current_user.id).first()
+    if address:
+        form = AddressForm(
+            first_name=address.first_name,
+            last_name=address.last_name,
+            street_address= address.street_address,
+            extended_address=address.extended_address,
+            locality=address.locality,
+            region=address.region,
+            postal_code=address.postal_code,
+            country_code_alpha2=address.country_code_alpha2
+            )
+    else:
+        form = AddressForm()
+
+    if form.validate_on_submit():
+        if address:
+            address.first_name = form.first_name.data
+            address.last_name = form.last_name.data
+            address.street_address = form.last_name.data
+            address.extended_address = form.extended_address.data
+            address.locality = form.locality.data
+            address.region = form.region.data
+            address.postal_code = form.postal_code.data
+            address.country_code_alpha2 = form.country_code_alpha2.data
+            flash('Address updated!')
+        else:
+            address = Address(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                street_address=form.last_name.data,
+                extended_address=form.extended_address.data,
+                locality=form.locality.data,
+                region=form.region.data,
+                postal_code=form.postal_code.data,
+                country_code_alpha2=form.country_code_alpha2.data)
+            db.session.add(address)
+            flash('Address added!')
+
+        db.session.commit()
+        return redirect(url_for('address'))
+
+    # Display form on GET request
+    return render_template('settings/address.html', 
+        form=form,
+        title='address')
+
+
+
+
+
