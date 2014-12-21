@@ -12,6 +12,7 @@ from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.base import BaseView
 from flask.ext.admin.model.template import macro
 from flask.ext.security import current_user
+from flask.ext.security.utils import login_user
 
 from werkzeug import secure_filename
 from jinja2 import Markup
