@@ -24,6 +24,10 @@
                         <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
                           <input class="form-control" id="email" name="email" type="email" value="" placeholder="E-mail">
                           <label class="control-label">Email</label>
+                          {% for error in register_user_form.email.errors %}
+                            <span class="error">{{error}}</span>
+                          {% endfor %}
+
                       </div>
 
                      <div class="clearfix margin-top-2"></div>
@@ -33,6 +37,9 @@
                         <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                           <input class="form-control" id="password" name="password" type="password" value="" placeholder="Password" onkeyup="password_match();">
                           <label class="control-label">Password</label>
+                          {% for error in register_user_form.password.errors %}
+                            <span class="error">{{error}}</span>
+                          {% endfor %}
                       </div>
 
                      <div class="clearfix margin-top-2"></div>
