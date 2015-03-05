@@ -142,8 +142,9 @@ def revoke_token(): pass
 def user():
     user = request.oauth.user
     public_roles = {
-        'bfct_trainer':False,
-        'network_member':False}
+        'bfct_trainer' : False,
+        'network_member' : False,
+        'dev_core' : False}
     for role in public_roles:
         public_roles[role] = user.has_role(role)
 
