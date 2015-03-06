@@ -143,8 +143,7 @@ def user():
     user = request.oauth.user
     public_roles = {
         'bfct_trainer' : False,
-        'network_member' : False,
-        'dev_core' : False}
+        'network_member' : False}
     for role in public_roles:
         public_roles[role] = user.has_role(role)
 
