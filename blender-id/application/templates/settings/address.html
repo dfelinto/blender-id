@@ -29,47 +29,87 @@
           {{ form.hidden_tag() }}
           <fieldset>
 
-             <div class="input-group input-group-lg width-full">
+             <div class="input-group input-group-lg width-full{% if form.first_name.errors %} has-error{% endif %}">
                 <span class="input-group-addon"><i class="fa fa-font"></i></span>
                 {{ form.first_name(class='form-control') }}
                 {{ form.first_name.label(class='control-label')}}
+                {% if form.first_name.errors %}
+                  <ul class="error">
+                    {% for error in form.first_name.errors %}<li>{{ error }}</li>{% endfor %}
+                  </ul>
+                {% endif %}
              </div>
 
-             <div class="input-group input-group-lg width-full">
+             <div class="input-group input-group-lg width-full{% if form.last_name.errors %} has-error{% endif %}">
                 <span class="input-group-addon"><i class="fa fa-bold"></i></span>
                 {{ form.last_name(class='form-control') }}
                 <label class="control-label">Last Name</label>
+                {% if form.last_name.errors %}
+                  <ul class="error">
+                    {% for error in form.last_name.errors %}<li>{{ error }}</li>{% endfor %}
+                  </ul>
+                {% endif %}
              </div>
 
-             <div class="input-group input-group-lg width-full">
+             <div class="input-group input-group-lg width-full{% if form.street_address.errors %} has-error{% endif %}">
                 {{ form.street_address(class='form-control') }}
                 {{ form.street_address.label(class='control-label')}}
+                {% if form.street_address.errors %}
+                  <ul class="error">
+                    {% for error in form.street_address.errors %}<li>{{ error }}</li>{% endfor %}
+                  </ul>
+                {% endif %}
              </div>
 
-             <div class="input-group input-group-lg width-full">
+             <div class="input-group input-group-lg width-full{% if form.extended_address.errors %} has-error{% endif %}">
                 {{ form.extended_address(class='form-control') }}
                 {{ form.extended_address.label(class='control-label')}}
+                {% if form.extended_address.errors %}
+                  <ul class="error">
+                    {% for error in form.extended_address.errors %}<li>{{ error }}</li>{% endfor %}
+                  </ul>
+                {% endif %}
              </div>
 
-             <div class="input-group input-group-lg width-full">
+             <div class="input-group input-group-lg width-full{% if form.locality.errors %} has-error{% endif %}">
                 {{ form.locality(class='form-control') }}
                 {{ form.locality.label(class='control-label')}}
+                {% if form.locality.errors %}
+                  <ul class="error">
+                    {% for error in form.locality.errors %}<li>{{ error }}</li>{% endfor %}
+                  </ul>
+                {% endif %}
              </div>
 
-             <div class="input-group input-group-lg width-full">
+             <div class="input-group input-group-lg width-full{% if form.region.errors %} has-error{% endif %}">
                 {{ form.region(class='form-control') }}
                 {{ form.region.label(class='control-label')}}
+                {% if form.region.errors %}
+                  <ul class="error">
+                    {% for error in form.region.errors %}<li>{{ error }}</li>{% endfor %}
+                  </ul>
+                {% endif %}
              </div>
 
-             <div class="input-group input-group-lg width-full">
+             <div class="input-group input-group-lg width-full{% if form.postal_code.errors %} has-error{% endif %}">
                 {{ form.postal_code(class='form-control') }}
                 {{ form.postal_code.label(class='control-label')}}
+                {% if form.postal_code.errors %}
+                  <ul class="error">
+                    {% for error in form.postal_code.errors %}<li>{{ error }}</li>{% endfor %}
+                  </ul>
+                {% endif %}
              </div>
 
-             <div class="input-group input-group-lg width-full">
+             <div class="input-group input-group-lg width-full{% if form.country_code_alpha2.errors %} has-error{% endif %}">
                 <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                 {{ form.country_code_alpha2(class='form-control') }}
                 {{ form.country_code_alpha2.label(class='control-label')}}
+                {% if form.country_code_alpha2.errors %}
+                  <ul class="error">
+                    {% for error in form.country_code_alpha2.errors %}<li>{{ error }}</li>{% endfor %}
+                  </ul>
+                {% endif %}
              </div>
 
           <hr class="width-full"/>

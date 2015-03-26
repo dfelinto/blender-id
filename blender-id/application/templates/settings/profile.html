@@ -51,16 +51,26 @@
                 <label class="control-label">Blender ID</label>
              </div>
 
-             <div class="input-group input-group-lg width-full">
+             <div class="input-group input-group-lg width-full{% if form.first_name.errors %} has-error{% endif %}">
                 <span class="input-group-addon"><i class="fa fa-font"></i></span>
                 {{ form.first_name(class='form-control', placeholder='First Name') }}
                 <label class="control-label">First Name</label>
+                {% if form.first_name.errors %}
+                  <ul class="error">
+                    {% for error in form.first_name.errors %}<li>{{ error }}</li>{% endfor %}
+                  </ul>
+                {% endif %}
              </div>
 
-             <div class="input-group input-group-lg width-full">
+             <div class="input-group input-group-lg width-full{% if form.last_name.errors %} has-error{% endif %}">
                 <span class="input-group-addon"><i class="fa fa-bold"></i></span>
                 {{ form.last_name(class='form-control', placeholder='Last Name') }}
                 <label class="control-label">Last Name</label>
+                {% if form.last_name.errors %}
+                  <ul class="error">
+                    {% for error in form.last_name.errors %}<li>{{ error }}</li>{% endfor %}
+                  </ul>
+                {% endif %}
              </div>
           </div>
           <div class="clearfix"></div>

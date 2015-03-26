@@ -8,23 +8,15 @@
     <meta name="author" content="">
 
     <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'> -->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='assets/css/main.css') }}" rel="stylesheet">
-
-<!--     <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"> -->
 
     <!-- IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="{{ url_for('static', filename='assets_shared/images/favicon.ico') }}">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
     {% block header %}
     {% endblock %}
   </head>
@@ -70,13 +62,12 @@
     <div class="container-fluid featured featured-xs">
       <div class="col-md-12">
         <div class="container">
-          <i class="backicon bf-network"></i>
           <h1>Blender ID</h1>
         </div>
       </div>
     </div>
 
-    <header class="navbar navbar-default navbar-secondlevel navbar-static-top bright" role="navigation">
+    <header class="navbar navbar-default navbar-secondlevel navbar-static-top" role="navigation">
       <div class="container relative">
         <ul class="nav navbar-nav navbar-left">
           <li {% if title == 'about': %} class="active"{% endif %}>
@@ -93,10 +84,10 @@
           <li class="dropdown absolute right">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{current_user.email}} <b class="caret"></b></a>
             <ul class="dropdown-menu right">
-              <li><a href="{{url_for('profile')}}"><i class="fa fa-cog"></i> Settings</a></li>
               {% if current_user.has_role('admin') %}
-              <li><a href="{{url_for('admin.index')}}"><i class="fa fa-rocket"></i> Admin</a></li>
+              <li><a href="{{url_for('admin.index')}}"><i class="fa fa-rocket"></i> Whoosh!</a></li>
               {% endif %}
+              <li><a href="{{url_for('profile')}}"><i class="fa fa-cog"></i> Settings</a></li>
               <li class="divider"></li>
               <li><a href="{{url_for_security('logout', next=config.SUBFOLDER)}}"><i class="fa fa-power-off"></i> Log out</a></li>
             </ul>

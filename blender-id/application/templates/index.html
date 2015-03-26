@@ -38,7 +38,7 @@
 
     {% if current_user.has_role('bfct_trainer') %}
     <div class="box">
-      <h1 class="relative"><i class="fa fa-graduation-cap fa-2x top right disabled"></i></h1>
+      <i class="fa fa-graduation-cap backicon"></i>
       <h2>Blender Foundation Certified Trainer</h2>
       <p>
         You're an official <span class="info">Blender Foundation Certified Trainer</span>
@@ -57,8 +57,10 @@
   <div class="col-md-6">
     <h2 class="margin-top-0">Your Subscriptions</h2>
     <div class="box">
-      <h1 class="relative"><i class="bf-cloud fa fa-2x top right disabled"></i></h1>
-      <h3>Blender Cloud</h3>
+      <i class="bf-cloud backicon"></i>
+      <p>
+        <h3>Blender Cloud</h3>
+      </p>  
       <p>
         {% if current_user.has_role('cloud_single_member')
           or current_user.has_role('cloud_team_owner') %}
@@ -71,14 +73,20 @@
           <i class="fa fa-times"></i> You don't have an active <a href="http://cloud.blender.org">subscription</a>
         {% endif %}
       </p>
-      <hr class="width-full"/>
-      <h1 class="relative"><i class="bf-network fa fa-2x top right disabled"></i></h1>
-      <h3>Blender Network</h3>
-      <p class="margin-bottom-25px"><i>Coming soon...</i></p>
     </div>
+    <div class="box">
+      <i class="bf-network backicon"></i>
+      <p>
+        <h3>Blender Network</h3>
+      </p>
+      <p>
+        Check your profile <a href="https://www.blendernetwork.org/profile/edit">settings</a>
+      </p>
+    </div>
+    <!--
     <div class="box padding-top-1">
       <h3>Blender Conference</h3>
-      <p><i>Coming soon...</i></p>
+      <p></p>
     </div> <!-- box -->
   </div>
 </div>

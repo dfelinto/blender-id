@@ -3,8 +3,40 @@
 @import url(../../assets_shared/css/font-borg.css)
 @import ../../assets_shared/sass/main.sass
 
-body
-	padding: 53px 0 0 0 !important
+.about
+
+	&__join
+		height: 400px
+		text-align: center
+
+		&-icons
+			display: inline-block
+
+			& li
+				margin: 0 10px
+				margin-bottom: 0 !important
+				color: lighten($color_text, 60%)
+				float: left
+				font-size: 4em
+				&:after
+					content: '' !important
+
+		&-anonymous, &-authenticated
+			height: 400px
+			display: inline-block
+
+			& .btn
+				margin-top: 20px
+
+	&__info
+		height: 400px
+
+		&-where, &-what
+			margin-top: 20px
+
+			&-links
+				& li
+					margin-bottom: 0 !important
 
 .application_row
 	width: 2800%
