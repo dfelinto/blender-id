@@ -1,16 +1,22 @@
-import hashlib, urllib
+import hashlib
+import urllib
+import datetime
+import uuid
+
 from application import app
 from application import db
 
-from application.helpers import convert_to_type, convert_to_db_format
+from application.helpers import convert_to_type
+from application.helpers import convert_to_db_format
 
-from flask.ext.security import (Security, 
-    SQLAlchemyUserDatastore,
-    UserMixin, 
-    RoleMixin)
+from flask.ext.security import Security
+from flask.ext.security import SQLAlchemyUserDatastore
+from flask.ext.security import UserMixin
+from flask.ext.security import RoleMixin
+
 from sqlalchemy.orm.exc import NoResultFound
 
-# Define models
+
 roles_users = db.Table('roles_users',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
         db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
@@ -102,6 +108,21 @@ class User(db.Model, UserMixin):
 # Setup Flask-Security
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
+
+
+class UsersRestTokens(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    token = db.Column(db.String(128), unique=True, nullable=False)
+    hostname = db.Column(db.String(128))
+
+    @property
+    def creation_date():
+        u = uuid.UUID(self.token)
+        return datetime.datetime.fromtimestamp((u.time - 0x01b21dd213814000L)*100/1e9)
+
+    def __str__(self):
+        return str(self.token)
 
 
 ## --------- User Settings ---------

@@ -20,9 +20,11 @@ thumb = Thumbnail(app)
 filemanager = Blueprint('filemanager', __name__, static_folder='static/files')
 
 from application.modules.users import model
+from application.modules.users import *
 from application import controller
 from application.modules.admin import *
 from application.modules.oauth import *
 from application.modules.oauth.admin import *
 
 app.register_blueprint(oauth_api, url_prefix='/api')
+
