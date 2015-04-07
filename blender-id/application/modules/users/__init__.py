@@ -1,11 +1,7 @@
 import uuid
-# import base64
 from flask import jsonify
 from flask import request
-
 from flask_security.utils import verify_password
-# from flask_security.utils import encrypt_password
-# from flask_security.utils import get_hmac
 
 from application import app
 from application import db
@@ -45,8 +41,8 @@ def verify_identity():
 @app.route('/u/validate_token', methods=['POST'])
 def validate_token():
     token = request.form['token']
-    count = UsersRestTokens.query.filter_by(token=token)
-    if count>0:
+    count = UsersRestTokens.query.filter_by(token=token).count()
+    if count > 0:
         return jsonify(
             valid=True,
             message='Valid token')
