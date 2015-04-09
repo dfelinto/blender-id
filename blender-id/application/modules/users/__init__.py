@@ -7,6 +7,7 @@ from application import app
 from application import db
 
 from application.modules.users.model import UsersRestTokens
+from application.modules.users.model import User
 from application.modules.users.model import user_datastore
 
 
@@ -41,10 +42,25 @@ def verify_identity():
 @app.route('/u/validate_token', methods=['POST'])
 def validate_token():
     token = request.form['token']
-    count = UsersRestTokens.query.filter_by(token=token).count()
-    if count > 0:
+    error = False
+
+    try:
+        token_info = UsersRestTokens.query.filter_by(token=token).one()
+    except:
+        token_info = None
+        error = True
+
+    if token_info:
+        user = User.query.get(token_info.user_id)
+        if user:
+            user_info = {
+                'email': user.email
+            }
+
+    if not error and user:
         return jsonify(
             valid=True,
+            user=user_info,
             message='Valid token')
     else:
         return jsonify(
