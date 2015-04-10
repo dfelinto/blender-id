@@ -28,7 +28,10 @@ def verify_identity():
     if not user:
         return jsonify(message='User does not exist')
     if not verify_password(password, user.password):
-        # TODO throttle authentication attempts (limit to 3 or 5)
+        # TODO Throttle authentication attempts (limit to 3 or 5)
+        # We need to address the following cases:
+        # - the user already has a token-hostname pair
+        # - the user never autheticated before (where do we store such info?)
         return jsonify(message='Wrong password')
 
     # Check if token already exists for that user and hostname
