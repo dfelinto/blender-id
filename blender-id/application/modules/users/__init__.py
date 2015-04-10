@@ -84,6 +84,8 @@ def validate_token():
             user=user_info,
             message='Valid token')
     else:
-        return jsonify(
+        response = jsonify(
             valid=False,
             message='Invalid token')
+        response.status_code = 403
+        return response
