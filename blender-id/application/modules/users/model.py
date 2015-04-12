@@ -56,13 +56,15 @@ class User(db.Model, UserMixin):
             setting_value = UsersSettings.query.\
                 filter_by(user_id=self.id, setting_id=setting.id).\
                 one()
-        except(NoResultFound): #no previous entry for this setting
+        except NoResultFound:
+            #no previous entry for this setting
             setting_value = UsersSettings(
                 user_id=self.id,
                 setting_id=setting.id,
                 unconstrained_value=convert_to_db_format(value, setting.data_type))
-        else: #previous entry exist, just updating the value
-            setting_value.unconstrained_value=convert_to_db_format(value, setting.data_type)
+        else:
+            #previous entry exist, just updating the value
+            setting_value.unconstrained_value = convert_to_db_format(value, setting.data_type)
 
         db.session.add(setting_value)
         db.session.commit()
@@ -81,7 +83,7 @@ class User(db.Model, UserMixin):
                 one().unconstrained_value
         # In case the setting does not exist, we set it to the default and actually
         # make an entry in the database for it
-        except(NoResultFound):
+        except NoResultFound:
             self.set_setting(name, convert_to_type(setting.default, setting.data_type))
             setting_value = setting.default
 
