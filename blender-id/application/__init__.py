@@ -7,6 +7,8 @@ from flask_oauthlib.provider import OAuth2Provider
 from flask.ext.thumbnails import Thumbnail
 from flask.ext.security import Security
 
+
+
 # Create app
 app = Flask(__name__)
 import config
@@ -21,7 +23,9 @@ thumb = Thumbnail(app)
 filemanager = Blueprint('filemanager', __name__, static_folder='static/files')
 
 from application.modules.users import model
-security = Security(app, model.user_datastore)
+from application.modules.users.forms import ExtendedRegisterForm
+security = Security(app, model.user_datastore,
+         register_form=ExtendedRegisterForm)
 
 from application.modules.users import *
 from application import controller
