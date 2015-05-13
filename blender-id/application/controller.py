@@ -52,8 +52,8 @@ def profile():
         return redirect(url_for('homepage'))
 
     # Display form on GET request
-    return render_template('settings/profile.html', 
-        user=current_user, 
+    return render_template('settings/profile.html',
+        user=current_user,
         form=form,
         gravatar_url=current_user.gravatar(120, False),
         title='profile')
@@ -72,8 +72,9 @@ def address():
             locality=address.locality,
             region=address.region,
             postal_code=address.postal_code,
-            country_code_alpha2=address.country_code_alpha2
             )
+        form.country_code_alpha2.data = address.country_code_alpha2
+
     else:
         form = AddressForm()
 
@@ -90,6 +91,8 @@ def address():
             flash('Address updated!')
         else:
             address = Address(
+                user_id=current_user.id,
+                address_type='billing',
                 first_name=form.first_name.data,
                 last_name=form.last_name.data,
                 street_address=form.last_name.data,
@@ -105,7 +108,7 @@ def address():
         return redirect(url_for('address'))
 
     # Display form on GET request
-    return render_template('settings/address.html', 
+    return render_template('settings/address.html',
         form=form,
         title='address')
 
