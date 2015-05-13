@@ -82,7 +82,7 @@ def address():
         if address:
             address.first_name = form.first_name.data
             address.last_name = form.last_name.data
-            address.street_address = form.last_name.data
+            address.street_address = form.street_address.data
             address.extended_address = form.extended_address.data
             address.locality = form.locality.data
             address.region = form.region.data
@@ -95,7 +95,7 @@ def address():
                 address_type='billing',
                 first_name=form.first_name.data,
                 last_name=form.last_name.data,
-                street_address=form.last_name.data,
+                street_address=form.street_address.data,
                 extended_address=form.extended_address.data,
                 locality=form.locality.data,
                 region=form.region.data,

@@ -5,6 +5,7 @@ from flask.ext.mail import Mail
 from werkzeug.security import gen_salt
 from flask_oauthlib.provider import OAuth2Provider
 from flask.ext.thumbnails import Thumbnail
+from flask.ext.security import Security
 
 # Create app
 app = Flask(__name__)
@@ -20,6 +21,8 @@ thumb = Thumbnail(app)
 filemanager = Blueprint('filemanager', __name__, static_folder='static/files')
 
 from application.modules.users import model
+security = Security(app, model.user_datastore)
+
 from application.modules.users import *
 from application import controller
 from application.modules.admin import *
@@ -27,4 +30,3 @@ from application.modules.oauth import *
 from application.modules.oauth.admin import *
 
 app.register_blueprint(oauth_api, url_prefix='/api')
-

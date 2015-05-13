@@ -9,7 +9,6 @@ from application import db
 from application.helpers import convert_to_type
 from application.helpers import convert_to_db_format
 
-from flask.ext.security import Security
 from flask.ext.security import SQLAlchemyUserDatastore
 from flask.ext.security import UserMixin
 from flask.ext.security import RoleMixin
@@ -109,7 +108,6 @@ class User(db.Model, UserMixin):
 
 # Setup Flask-Security
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-security = Security(app, user_datastore)
 
 
 class UsersRestTokens(db.Model):
