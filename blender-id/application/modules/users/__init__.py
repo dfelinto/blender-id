@@ -26,34 +26,33 @@ def verify_identity():
 
     user = user_datastore.get_user(username)
     if not user:
-        return jsonify(message='User does not exist')
+        return jsonify(status='fail', data=dict(
+            username='User does not exist'))
     if not verify_password(password, user.password):
         # TODO Throttle authentication attempts (limit to 3 or 5)
         # We need to address the following cases:
         # - the user already has a token-hostname pair
         # - the user never autheticated before (where do we store such info?)
-        return jsonify(message='Wrong password')
+        return jsonify(status='fail', data=dict(password='Wrong password'))
 
     # Check if token already exists for that user and hostname
     user_rest_token = UsersRestTokens.query\
         .filter_by(user_id=user.id, hostname=hostname)\
         .first()
 
-    if user_rest_token:
-        db.session.delete(user_rest_token)
+    if not user_rest_token:
+        # Make new REST Token
+        user_rest_token = UsersRestTokens(
+            user_id=user.id,
+            token=uuid.uuid1().hex,
+            hostname=hostname)
+        db.session.add(user_rest_token)
         db.session.commit()
 
-    # Make new REST Token
-    user_rest_token = UsersRestTokens(
-        user_id=user.id,
-        token=uuid.uuid1().hex,
-        hostname=hostname)
-    db.session.add(user_rest_token)
-    db.session.commit()
-
     return jsonify(
-        token=user_rest_token.token,
-        message='You are logged in')
+        status='success',
+        data=dict(
+            token=user_rest_token.token))
 
 
 @app.route('/u/validate_token', methods=['POST'])
@@ -75,17 +74,18 @@ def validate_token():
         user = user_datastore.get_user(token_info.user_id)
         if user:
             user_info = {
-                'email': user.email
+                'email': user.email,
+                'id': user.id
             }
 
     if not error and user:
         return jsonify(
-            valid=True,
-            user=user_info,
-            message='Valid token')
+            status='success',
+            data=dict(
+                user=user_info))
     else:
         response = jsonify(
-            valid=False,
-            message='Invalid token')
+            status='fail',
+            data=dict(token='Token is invalid'))
         response.status_code = 403
         return response
