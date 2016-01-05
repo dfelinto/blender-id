@@ -52,6 +52,7 @@ def verify_identity():
     return jsonify(
         status='success',
         data=dict(
+            user_id=user_rest_token.user_id,
             token=user_rest_token.token))
 
 
@@ -89,3 +90,4 @@ def validate_token():
             data=dict(token='Token is invalid'))
         response.status_code = 403
         return response
+
