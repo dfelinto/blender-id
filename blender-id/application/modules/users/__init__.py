@@ -91,3 +91,28 @@ def validate_token():
         response.status_code = 403
         return response
 
+
+@app.route('/u/delete_token', methods=['POST'])
+def delete_token():
+    """Delete a token for a certain user_id. This can be turned into a proper
+    RESTful request by making it a DELETE method and checking the identity
+    via the header.
+    """
+
+    user_id = request.form['user_id']
+    token = request.form['token']
+
+    user_rest_token = UsersRestTokens.query\
+        .filter_by(user_id=user_id, token=token)\
+        .first()
+
+    if user_rest_token:
+        db.session.delete(user_rest_token)
+        db.session.commit()
+        status = 'success'
+    else:
+        status = 'fail'
+    return jsonify(
+        status=status,
+        data=dict(
+            message='ole'))
