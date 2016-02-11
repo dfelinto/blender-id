@@ -10,6 +10,7 @@ from flask import Blueprint
 
 from flask.ext.security import current_user
 from flask.ext.security import login_required
+from flask_security.utils import verify_password
 from werkzeug.security import gen_salt
 
 from application import app
@@ -19,32 +20,10 @@ from application import db
 from application.modules.oauth.model import Client
 from application.modules.oauth.model import Grant
 from application.modules.oauth.model import Token
+from application.modules.users.model import User
 #from application.modules.users.model import user_datastore
 
 oauth_api = Blueprint('oauth_api', __name__)
-
-# @app.route('/client')
-# def client():
-#     if not current_user.is_authenticated():
-#         return redirect('/')
-#     item = Client(
-#         client_id=gen_salt(40),
-#         client_secret=gen_salt(50),
-#         _redirect_uris=' '.join([
-#             'http://localhost:8000/authorized',
-#             'http://127.0.0.1:8000/authorized',
-#             'http://127.0.1:8000/authorized',
-#             'http://127.1:8000/authorized',
-#             ]),
-#         _default_scopes='email',
-#         user_id=current_user.id,
-#     )
-#     db.session.add(item)
-#     db.session.commit()
-#     return jsonify(
-#         client_id=item.client_id,
-#         client_secret=item.client_secret,
-#     )
 
 
 @oauth.clientgetter
@@ -91,6 +70,7 @@ def save_token(token, request, *args, **kwargs):
     # make sure that every client has only one token connected to a user
     for t in toks:
         db.session.delete(t)
+        db.session.commit()
 
     expires_in = token.pop('expires_in')
     expires = datetime.now() + timedelta(seconds=expires_in)
@@ -109,9 +89,11 @@ def save_token(token, request, *args, **kwargs):
     return tok
 
 
-@app.route('/oauth/token')
-@oauth.token_handler
-def access_token():
+@oauth.usergetter
+def get_user(email, password, *args, **kwargs):
+    user = User.query.filter_by(email=email).first()
+    if verify_password(password, user.password):
+        return user
     return None
 
 
@@ -122,6 +104,11 @@ def authorize(*args, **kwargs):
     if request.method == 'GET':
         client_id = kwargs.get('client_id')
         client = Client.query.filter_by(client_id=client_id).first()
+        # Check if a token already exists for a user. If so, skip authorization
+        # screen.
+        if Token.query\
+            .filter_by(client_id=client_id, user_id=current_user.id).first():
+            return True
         kwargs['client'] = client
         kwargs['user'] = current_user
         kwargs['gravatar'] = current_user.gravatar(120, False)
@@ -129,6 +116,12 @@ def authorize(*args, **kwargs):
 
     confirm = request.form.get('confirm', 'no')
     return confirm == 'yes'
+
+
+@app.route('/oauth/token')
+@oauth.token_handler
+def access_token():
+    return None
 
 
 @app.route('/oauth/revoke', methods=['POST'])
