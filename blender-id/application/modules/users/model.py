@@ -117,7 +117,7 @@ class UsersRestTokens(db.Model):
     hostname = db.Column(db.String(128))
 
     @property
-    def creation_date():
+    def creation_date(self):
         u = uuid.UUID(self.token)
         return datetime.datetime.fromtimestamp((u.time - 0x01b21dd213814000L)*100/1e9)
 
