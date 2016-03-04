@@ -1,3 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -e
 
-. /data/venv/bin/activate && python /data/git/blender-id/blender-id/manage.py $1 $2 $3
+. /data/venv/bin/activate
+
+# We have to be in the correct directory for Alembic to find its ini file.
+cd /data/git/blender-id/blender-id
+python ./manage.py "$@"
