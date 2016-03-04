@@ -100,6 +100,7 @@ class Token(db.Model):
     refresh_token = db.Column(db.String(255), unique=True)
     expires = db.Column(db.DateTime)
     _scopes = db.Column(db.Text)
+    host_label = db.Column(db.String(255))
 
     @property
     def scopes(self):

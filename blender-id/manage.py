@@ -21,4 +21,23 @@ def runserver():
     """
     app.run(debug=True, port=8000, host='0.0.0.0')
 
+
+@manager.command
+def create_blender_id_client():
+    """Create OAuth client for the Blender ID authentication."""
+
+    import application.modules.oauth.model as oauth_model
+
+    test_client = oauth_model.Client(
+        name='Blender ID custom login',
+        description=None,
+        picture=None,
+        client_id=app.config['BLENDER_ID_LOGIN_CLIENT_ID'],
+        client_secret=app.config['BLENDER_ID_LOGIN_CLIENT_SECRET'],
+        user_id=None,
+        url=None
+    )
+    db.session.add(test_client)
+    db.session.commit()
+
 manager.run()
