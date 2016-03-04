@@ -166,3 +166,9 @@ def address():
             country_code_alpha2=address.country_code_alpha2)
     else:
         return None
+
+
+@app.route(oauth.error_uri)
+def oauth_error():
+    """Generic OAuth error handler."""
+    return render_template('oauth_errors.html')

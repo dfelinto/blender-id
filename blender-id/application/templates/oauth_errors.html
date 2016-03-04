@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <div class="container"><div id="alert alert-danger">
+        <h1>Oh noes!</h1>
+
+        <p>Big Buck Bunny gives you a big buck hug, because something went wrong when we tried to log you in.</p>
+        <p>For some reason, Proog tells you:</p>
+        <p>{{ request.args['error'] }}</p>
+    </div></div>
+{% endblock %}
+{% block footer_container %}{% endblock %}
