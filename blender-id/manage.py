@@ -28,6 +28,12 @@ def create_blender_id_client():
 
     import application.modules.oauth.model as oauth_model
 
+    # Make sure the client only exists once
+    client = oauth_model.Client.query.filter_by(client_id=app.config['BLENDER_ID_LOGIN_CLIENT_ID']).first()
+    if client is not None:
+        print('Removing pre-existing client from database')
+        db.session.delete(client)
+
     test_client = oauth_model.Client(
         name='Blender ID custom login',
         description=None,
@@ -35,8 +41,11 @@ def create_blender_id_client():
         client_id=app.config['BLENDER_ID_LOGIN_CLIENT_ID'],
         client_secret=app.config['BLENDER_ID_LOGIN_CLIENT_SECRET'],
         user_id=None,
-        url=None
+        url=None,
+        _default_scopes='email',
+        _redirect_uris=app.config['BLENDER_ID_LOGIN_CLIENT_REDIRECT_URIS'],
     )
+    print('Adding new client to database')
     db.session.add(test_client)
     db.session.commit()
 

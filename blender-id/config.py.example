@@ -25,7 +25,7 @@ class Config(object):
     BLENDER_ID_TOKEN_EXPIRY = {'days': 365}  # arguments to datetime.timedelta(**BLENDER_ID_TOKEN_EXPIRY)
     BLENDER_ID_LOGIN_CLIENT_ID = 'XXX'
     BLENDER_ID_LOGIN_CLIENT_SECRET = 'YYY'
-
+    BLENDER_ID_LOGIN_CLIENT_REDIRECT_URIS = ''  # whitespace-separated list of valid OAuth redirect URIs
 
 class Development(Config):
     SECRET_KEY=''
