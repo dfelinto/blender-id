@@ -118,7 +118,7 @@ def authorize(*args, **kwargs):
     return confirm == 'yes'
 
 
-@app.route('/oauth/token')
+@app.route('/oauth/token', methods=['POST'])
 @oauth.token_handler
 def access_token():
     return None
