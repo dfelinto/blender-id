@@ -8,7 +8,6 @@ from flask import request
 from flask import flash
 
 from flask.ext.security import login_required
-from flask.ext.security import url_for_security
 from flask.ext.security.core import current_user
 
 from application.modules.users.forms import ProfileForm
@@ -33,8 +32,8 @@ def about():
 @login_required
 def profile():
     # Load the current data in the form
-    cloud_communications = None;
-    show_avatar = None;
+    cloud_communications = None
+    show_avatar = None
     form = ProfileForm(
         blender_id=current_user.email,
         first_name=current_user.first_name,

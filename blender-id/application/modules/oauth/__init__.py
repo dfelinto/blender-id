@@ -1,17 +1,14 @@
 from datetime import datetime
 from datetime import timedelta
 
-from flask import redirect
 from flask import jsonify
 from flask import render_template
 from flask import request
-from flask import session
 from flask import Blueprint
 
 from flask.ext.security import current_user
 from flask.ext.security import login_required
 from flask_security.utils import verify_password
-from werkzeug.security import gen_salt
 
 from application import app
 from application import oauth
@@ -21,7 +18,6 @@ from application.modules.oauth.model import Client
 from application.modules.oauth.model import Grant
 from application.modules.oauth.model import Token
 from application.modules.users.model import User
-#from application.modules.users.model import user_datastore
 
 oauth_api = Blueprint('oauth_api', __name__)
 
