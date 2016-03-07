@@ -35,7 +35,7 @@ def create_oauth_token(user, host_label):
         token_type='Bearer',
         _scopes=DEFAULT_OAUTH_TOKEN_SCOPE,
         expires=expires,
-        client_id=app.config['BLENDER_ID_LOGIN_CLIENT_ID'],
+        client_id=app.config['BLENDER_ID_ADDON_CLIENT_ID'],
         user_id=user.id,
         host_label=host_label,
     )

@@ -24,13 +24,14 @@ class Config(object):
 
     # Token expiry for the username/password (aka special snowflake) authentication system.
     BLENDER_ID_TOKEN_EXPIRY = {'days': 365}  # arguments to datetime.timedelta(**BLENDER_ID_TOKEN_EXPIRY)
+    BLENDER_ID_ADDON_CLIENT_ID = 'XXX'  # Client ID for the special snowflake client.
 
     DEFAULT_CLIENTS = [
         {
-            'name': 'Your client',
-            'id': 'XXX',
+            'name': 'Blender ID addon',
+            'id': BLENDER_ID_ADDON_CLIENT_ID,
             'secret': 'YYY',
-            'redirect_uris': '',
+            'redirect_uris': '',  # no redirect URIs, it uses username/password special snowflake auth.
         },
         {
             'name': 'Another client',
