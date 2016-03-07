@@ -89,8 +89,10 @@ def validate_token():
     token = request.form['token']
 
     # Late import to prevent circular dependencies
+    from application.modules.oauth import expire_tokens
     from application.modules.oauth.model import Token
 
+    expire_tokens()
     token_info = Token.query.filter_by(access_token=token).first()
     if token_info is None:
         response = jsonify(

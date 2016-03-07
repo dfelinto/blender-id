@@ -29,11 +29,15 @@ def load_client(client_id):
 
 @oauth.grantgetter
 def load_grant(client_id, code):
+    expire_tokens()
+
     return Grant.query.filter_by(client_id=client_id, code=code).first()
 
 
 @oauth.grantsetter
 def save_grant(client_id, code, request, *args, **kwargs):
+    expire_tokens()
+
     # decide the expires time yourself
     expires = datetime.now() + timedelta(seconds=100)
     grant = Grant(
@@ -51,22 +55,29 @@ def save_grant(client_id, code, request, *args, **kwargs):
 
 @oauth.tokengetter
 def load_token(access_token=None, refresh_token=None):
+    expire_tokens()
+
     if access_token:
         return Token.query.filter_by(access_token=access_token).first()
     elif refresh_token:
         return Token.query.filter_by(refresh_token=refresh_token).first()
 
 
+def expire_tokens():
+    """Deletes all expired authentication and grant tokens.
+
+    Always call this before querying auth tokens or grants.
+    """
+
+    now = datetime.now()
+    Token.query.filter(Token.expires <= now).delete()
+    Grant.query.filter(Grant.expires <= now).delete()
+    db.session.commit()
+
+
 @oauth.tokensetter
 def save_token(token, request, *args, **kwargs):
-    toks = Token.query.filter_by(
-        client_id=request.client.client_id,
-        user_id=request.user.id
-    )
-    # make sure that every client has only one token connected to a user
-    for t in toks:
-        db.session.delete(t)
-        db.session.commit()
+    expire_tokens()
 
     expires_in = token.pop('expires_in')
     expires = datetime.now() + timedelta(seconds=expires_in)
@@ -102,8 +113,7 @@ def authorize(*args, **kwargs):
         client = Client.query.filter_by(client_id=client_id).first()
         # Check if a token already exists for a user. If so, skip authorization
         # screen.
-        if Token.query\
-            .filter_by(client_id=client_id, user_id=current_user.id).first():
+        if Token.query.filter_by(client_id=client_id, user_id=current_user.id).first():
             return True
         kwargs['client'] = client
         kwargs['user'] = current_user
