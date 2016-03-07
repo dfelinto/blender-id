@@ -17,9 +17,13 @@ class ProfileForm(Form):
     show_avatar = BooleanField('Show Avatar')
 
 
-class AddressForm(Form):
-    countries = [(country.alpha2, country.name) for country in pycountry.countries]
+class CountrySelectField(SelectField):
+    def __init__(self, *args, **kwargs):
+        super(CountrySelectField, self).__init__(*args, **kwargs)
+        self.choices = [(country.alpha2, country.name) for country in pycountry.countries]
 
+
+class AddressForm(Form):
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
     street_address = StringField('Street Address', validators=[DataRequired()])
@@ -27,7 +31,7 @@ class AddressForm(Form):
     locality = StringField('City', validators=[DataRequired()])
     region = StringField('Region/State', validators=[DataRequired()])
     postal_code = StringField('ZIP Code', validators=[DataRequired()])
-    country_code_alpha2 = SelectField('Country', choices=countries, validators=[DataRequired()])
+    country_code_alpha2 = CountrySelectField('Country', validators=[DataRequired()])
 
 
 class ExtendedRegisterForm(RegisterForm):
