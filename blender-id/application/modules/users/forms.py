@@ -6,8 +6,7 @@ from wtforms import SelectField
 from wtforms import BooleanField
 
 from wtforms.validators import DataRequired
-
-from application.modules.countries.model import Country
+import pycountry
 
 
 class ProfileForm(Form):
@@ -19,7 +18,7 @@ class ProfileForm(Form):
 
 
 class AddressForm(Form):
-    countries = [(country.code, country.name) for country in Country.query.all()]
+    countries = [(country.alpha2, country.name) for country in pycountry.countries]
 
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
