@@ -22,10 +22,23 @@ class Config(object):
     GOOGLE_ANALYTICS_TRACKING_ID = ''
     GOOGLE_ANALYTICS_DOMAIN = ''
 
+    # Token expiry for the username/password (aka special snowflake) authentication system.
     BLENDER_ID_TOKEN_EXPIRY = {'days': 365}  # arguments to datetime.timedelta(**BLENDER_ID_TOKEN_EXPIRY)
-    BLENDER_ID_LOGIN_CLIENT_ID = 'XXX'
-    BLENDER_ID_LOGIN_CLIENT_SECRET = 'YYY'
-    BLENDER_ID_LOGIN_CLIENT_REDIRECT_URIS = ''  # whitespace-separated list of valid OAuth redirect URIs
+
+    DEFAULT_CLIENTS = [
+        {
+            'name': 'Your client',
+            'id': 'XXX',
+            'secret': 'YYY',
+            'redirect_uris': '',
+        },
+        {
+            'name': 'Another client',
+            'id': 'ZZZ',
+            'secret': 'QQQ',
+            'redirect_uris': 'http://someserver/oauth/blender-id/authorized',
+        },
+    ]
 
 class Development(Config):
     SECRET_KEY=''

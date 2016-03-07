@@ -23,30 +23,40 @@ def runserver():
 
 
 @manager.command
-def create_blender_id_client():
-    """Create OAuth client for the Blender ID authentication."""
+def create_oauth_clients():
+    """Creates the default OAuth clients from config.py.
+
+     Default clients that already exist in the database will be removed and re-added.
+     """
+
+    for client_config in app.config['DEFAULT_CLIENTS']:
+        _create_oauth_client(client_config)
+
+    db.session.commit()
+
+
+def _create_oauth_client(client_config):
+    """Creates an OAuth client in the database."""
 
     import application.modules.oauth.model as oauth_model
-
     # Make sure the client only exists once
-    client = oauth_model.Client.query.filter_by(client_id=app.config['BLENDER_ID_LOGIN_CLIENT_ID']).first()
+    client = oauth_model.Client.query.filter_by(client_id=client_config['id']).first()
     if client is not None:
-        print('Removing pre-existing client from database')
+        print('Removing pre-existing client %r from database' % client_config['name'])
         db.session.delete(client)
-
     test_client = oauth_model.Client(
-        name='Blender ID custom login',
+        name=client_config['name'],
         description=None,
         picture=None,
-        client_id=app.config['BLENDER_ID_LOGIN_CLIENT_ID'],
-        client_secret=app.config['BLENDER_ID_LOGIN_CLIENT_SECRET'],
+        client_id=client_config['id'],
+        client_secret=client_config['secret'],
         user_id=None,
         url=None,
         _default_scopes='email',
-        _redirect_uris=app.config['BLENDER_ID_LOGIN_CLIENT_REDIRECT_URIS'],
+        _redirect_uris=client_config['redirect_uris'],
     )
-    print('Adding new client to database')
+    print('Adding new client %r to database' % client_config['name'])
     db.session.add(test_client)
-    db.session.commit()
+
 
 manager.run()
