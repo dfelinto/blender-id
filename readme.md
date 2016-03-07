@@ -15,6 +15,8 @@ Installation requires a MySQL database, the URL of which can be set in
 
 Run these commands:
 
+- `pip install -r requirements.txt`: installs Python dependencies.
+- `cd blender-id`
 - `python manage.py db upgrade`: upgrades the database to the latest
   schema version.
 - `python manage.py create_oauth_clients`: creates the default OAuth
@@ -32,3 +34,14 @@ These are some notes to help you get everything up & running.
 - When authenticating a web application, that application and Blender ID
   should run on different hostnames. Just a different port number is not
   enough; add some hostnames as aliases for 'localhost' in /etc/hosts.
+
+
+Running inside Docker
+---------------------
+
+To create the docker image, run:
+
+    cd docker
+    ./build.sh dev
+
+Also do this after an upgrade that changed `requirements.txt`.
