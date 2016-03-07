@@ -64,17 +64,19 @@ def profile():
 def address():
     address = Address.query.filter_by(user_id=current_user.id).first()
     if address:
-        form = AddressForm(
-            first_name=address.first_name,
-            last_name=address.last_name,
-            street_address= address.street_address,
-            extended_address=address.extended_address,
-            locality=address.locality,
-            region=address.region,
-            postal_code=address.postal_code,
-            )
-        form.country_code_alpha2.data = address.country_code_alpha2
-
+        if request.method == 'POST':
+            form = AddressForm(request.form, address)
+        else:
+            form = AddressForm(
+                first_name=address.first_name,
+                last_name=address.last_name,
+                street_address= address.street_address,
+                extended_address=address.extended_address,
+                locality=address.locality,
+                region=address.region,
+                postal_code=address.postal_code,
+                )
+            form.country_code_alpha2.data = address.country_code_alpha2
     else:
         form = AddressForm()
 
