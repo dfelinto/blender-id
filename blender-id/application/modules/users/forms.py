@@ -3,7 +3,6 @@ from flask_security.forms import RegisterForm
 from flask_security.forms import Required
 from wtforms import StringField
 from wtforms import SelectField
-from wtforms import TextField
 from wtforms import BooleanField
 
 from wtforms.validators import DataRequired
@@ -12,9 +11,9 @@ from application.modules.countries.model import Country
 
 
 class ProfileForm(Form):
-    blender_id = TextField('Blender-ID')
-    first_name = TextField('First Name', validators=[DataRequired()])
-    last_name = TextField('Last Name', validators=[DataRequired()])
+    blender_id = StringField('Blender-ID')
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
     cloud_communications = BooleanField('Cloud Communications')
     show_avatar = BooleanField('Show Avatar')
 
@@ -33,5 +32,5 @@ class AddressForm(Form):
 
 
 class ExtendedRegisterForm(RegisterForm):
-    first_name = TextField('First Name', [Required()])
-    last_name = TextField('Last Name', [Required()])
+    first_name = StringField('First Name', [Required()])
+    last_name = StringField('Last Name', [Required()])
