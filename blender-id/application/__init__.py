@@ -7,8 +7,6 @@ from flask_oauthlib.provider import OAuth2Provider
 from flask.ext.thumbnails import Thumbnail
 from flask.ext.security import Security
 
-
-
 # Create app
 app = Flask(__name__)
 import config
@@ -21,6 +19,15 @@ oauth = OAuth2Provider(app)
 thumb = Thumbnail(app)
 
 filemanager = Blueprint('filemanager', __name__, static_folder='static/files')
+
+if 'BUGSNAG_API_KEY' in app.config:
+    import bugsnag
+    from bugsnag.flask import handle_exceptions
+    bugsnag.configure(
+        api_key = app.config['BUGSNAG_API_KEY'],
+        project_root = app.config['APPLICATION_ROOT']
+    )
+    handle_exceptions(app)
 
 from application.modules.users import model
 from application.modules.users.forms import ExtendedRegisterForm
