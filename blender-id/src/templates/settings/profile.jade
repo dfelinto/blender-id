@@ -1,0 +1,81 @@
+| {% extends 'settings/_settings_layout.html' %}
+| {% from 'settings/_macros.html' import render_field_horizontal, render_label_horizontal%}
+| {% block page_title %}
+| {% if current_user.first_name %}
+| {{current_user.first_name}}'s
+| {% else %}
+| Your
+| {% endif %}
+| Profile
+| {% endblock %}
+| {% block body %}
+header.navbar.navbar-default.navbar-thirdlevel.navbar-static-top.bright(role='navigation')
+	.container
+		ul.nav.navbar-nav.navbar-left
+			li(class="{% if title == 'profile' %}active{% endif %}")
+				a(href="{{url_for('profile')}}") Profile
+			li(class="{% if title == 'address' %}active{% endif %}")
+				a(href="{{url_for('address')}}") Address
+.container
+	.row.profile
+		.col-lg-6.col-lg-offset-3.col-md-8.col-md-offset-2.col-sm-12
+			.row.box
+				h1 Your Profile
+				.col-md-5.col-md-push-7.col-sm-2.col-sm-push-9.col-xs-12.margin-top-4.text-align-center
+					a(href='http://gravatar.com', target='_blank')
+						img.img-circle.margin-top-5.margin-bottom-4.content-margin-center(src='{{gravatar_url}}', title='Gravatar Profile Picture')
+						.clearfix
+						small
+							| Change Gravatar
+							i.fa.fa-angle-double-right
+					hr
+					a(href="{{url_for_security('change_password')}}")
+						small
+							| Change Password
+						i.fa.fa-lock
+					hr.visible-xs
+				.col-md-7.col-md-pull-5.col-sm-9.col-sm-pull-2.col-xs-12
+					form.form-horizontal(action="{{url_for('profile')}}", method='POST', role='form')
+						| {{ form.hidden_tag() }}
+						fieldset
+							.input-group.input-group-lg.width-full.disabled(title='Blender IDs are not changeable')
+								span.input-group-addon
+									i.fa.fa-envelope-o
+								|                 {{ form.blender_id(class='form-control', disabled='') }}
+								label.control-label Blender ID
+							.input-group.input-group-lg.if.endif(class='width-full{% form.first_name.errors %} has-error{% %}')
+								span.input-group-addon
+									i.fa.fa-font
+								|                 {{ form.first_name(class='form-control', placeholder='First Name') }}
+								label.control-label First Name
+								|                 {% if form.first_name.errors %}
+								ul.error
+									| {% for error in form.first_name.errors %}
+									li {{ error }}
+									| {% endfor %}
+								|                 {% endif %}
+							.input-group.input-group-lg.if.endif(class='width-full{% form.last_name.errors %} has-error{% %}')
+								span.input-group-addon
+									i.fa.fa-bold
+								|                 {{ form.last_name(class='form-control', placeholder='Last Name') }}
+								label.control-label Last Name
+								|                 {% if form.last_name.errors %}
+								ul.error
+									| {% for error in form.last_name.errors %}
+									li {{ error }}
+									| {% endfor %}
+								|                 {% endif %}
+				.clearfix
+				.col-md-7
+					hr
+					.form-group
+						button.btn.btn-default.btn-squishy.btn-success.width-full(type='submit')
+							| Update Profile
+							i.fa.fa-check
+| {% endblock %}
+| {% block footer_scripts %}
+script.
+	$(document).ready(function() {
+	$('#public_setting').tooltip({container:'body'});
+	});
+| {% endblock %}
