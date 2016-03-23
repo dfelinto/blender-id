@@ -39,7 +39,7 @@ html(lang="en")
 						li
 							a(href='http://www.blender3d.org/e-shop/') Store
 		| {% for message in get_flashed_messages() %}
-		.alert.alert-warning
+		.alert.alert-info
 			.container
 				| {{ message }}
 				button.close(type='button', data-dismiss='alert')
@@ -85,6 +85,8 @@ html(lang="en")
 								i.fa.fa-sign-in
 								|  Sign in
 						| {% endif %}
+
+			| {% block nav_thirdlevel %}{% endblock %}
 
 			.container
 				.row

@@ -8,7 +8,7 @@
 | {% endif %}
 | Profile
 | {% endblock %}
-| {% block body %}
+| {% block nav_thirdlevel %}
 header.navbar.navbar-default.navbar-thirdlevel.navbar-static-top.bright(role='navigation')
 	.container
 		ul.nav.navbar-nav.navbar-left
@@ -16,6 +16,9 @@ header.navbar.navbar-default.navbar-thirdlevel.navbar-static-top.bright(role='na
 				a(href="{{url_for('profile')}}") Profile
 			li(class="{% if title == 'address' %}active{% endif %}")
 				a(href="{{url_for('address')}}") Address
+| {% endblock %}
+
+| {% block body %}
 .container
 	.row.profile
 		.col-lg-6.col-lg-offset-3.col-md-8.col-md-offset-2.col-sm-12
@@ -41,37 +44,36 @@ header.navbar.navbar-default.navbar-thirdlevel.navbar-static-top.bright(role='na
 							.input-group.input-group-lg.width-full.disabled(title='Blender IDs are not changeable')
 								span.input-group-addon
 									i.fa.fa-envelope-o
-								|                 {{ form.blender_id(class='form-control', disabled='') }}
+								| {{ form.blender_id(class='form-control', disabled='') }}
 								label.control-label Blender ID
-							.input-group.input-group-lg.if.endif(class='width-full{% form.first_name.errors %} has-error{% %}')
+							.input-group.input-group-lg.if.endif(class='width-full{% if form.first_name.errors %} has-error{% endif %}')
 								span.input-group-addon
 									i.fa.fa-font
-								|                 {{ form.first_name(class='form-control', placeholder='First Name') }}
+								| {{ form.first_name(class='form-control', placeholder='First Name') }}
 								label.control-label First Name
-								|                 {% if form.first_name.errors %}
+								| {% if form.first_name.errors %}
 								ul.error
 									| {% for error in form.first_name.errors %}
 									li {{ error }}
 									| {% endfor %}
-								|                 {% endif %}
-							.input-group.input-group-lg.if.endif(class='width-full{% form.last_name.errors %} has-error{% %}')
+								| {% endif %}
+							.input-group.input-group-lg.if.endif(class='width-full{% if form.last_name.errors %} has-error{% endif %}')
 								span.input-group-addon
 									i.fa.fa-bold
-								|                 {{ form.last_name(class='form-control', placeholder='Last Name') }}
+								| {{ form.last_name(class='form-control', placeholder='Last Name') }}
 								label.control-label Last Name
-								|                 {% if form.last_name.errors %}
+								| {% if form.last_name.errors %}
 								ul.error
 									| {% for error in form.last_name.errors %}
 									li {{ error }}
 									| {% endfor %}
-								|                 {% endif %}
-				.clearfix
-				.col-md-7
-					hr
-					.form-group
-						button.btn.btn-default.btn-squishy.btn-success.width-full(type='submit')
-							| Update Profile
-							i.fa.fa-check
+								| {% endif %}
+						.col-md-12
+							hr
+							.form-group
+								button.btn.btn-default.btn-squishy.btn-success.width-full(type='submit')
+									| Update Profile
+									i.fa.fa-check
 | {% endblock %}
 | {% block footer_scripts %}
 script.
