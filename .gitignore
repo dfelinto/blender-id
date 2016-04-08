@@ -11,3 +11,6 @@ node_modules
 
 blender-id/application/static/files/
 blender-id/application/static/thumbnails/
+*.egg-info/
+.cache/
+*.sql

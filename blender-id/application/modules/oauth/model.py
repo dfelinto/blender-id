@@ -94,7 +94,8 @@ class Token(db.Model):
     client = db.relationship('Client')
 
     user_id = db.Column(
-        db.Integer, db.ForeignKey('user.id')
+        db.Integer, db.ForeignKey('user.id'),
+        nullable=False,
     )
     user = db.relationship('User')
 

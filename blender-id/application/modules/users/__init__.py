@@ -79,6 +79,30 @@ def verify_identity():
         })
 
 
+def validate_oauth_token(username, token):
+    """Validates the given token, returning the User object if valid.
+
+    :return: a User or None
+    :rtype: application.module.users.model.User
+    """
+
+    # Late import to prevent circular dependencies
+    from application.modules.oauth import expire_tokens
+    from application.modules.oauth.model import Token
+
+    expire_tokens()
+    token_info = Token.query.filter_by(access_token=token).first()
+    if token_info is None:
+        return None
+
+    # Database constraints ensure that this user actually exists.
+    user = user_datastore.get_user(token_info.user_id)
+
+    # FIXME: also check the username; right now only the token is used.
+
+    return user
+
+
 @app.route('/u/validate_token', methods=['POST'])
 def validate_token():
     """Validate and existing authentication token. This is usually called by
@@ -88,21 +112,13 @@ def validate_token():
 
     token = request.form['token']
 
-    # Late import to prevent circular dependencies
-    from application.modules.oauth import expire_tokens
-    from application.modules.oauth.model import Token
-
-    expire_tokens()
-    token_info = Token.query.filter_by(access_token=token).first()
-    if token_info is None:
+    user = validate_oauth_token(None, token)
+    if user is None:
         response = jsonify(
             status='fail',
             data={'token': 'Token is invalid'})
         response.status_code = 403
         return response
-
-    # Database constraints ensure that this user actually exists.
-    user = user_datastore.get_user(token_info.user_id)
 
     return jsonify(
         status='success',

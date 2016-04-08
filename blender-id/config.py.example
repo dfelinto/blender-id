@@ -26,6 +26,8 @@ class Config(object):
     BLENDER_ID_TOKEN_EXPIRY = {'days': 365}  # arguments to datetime.timedelta(**BLENDER_ID_TOKEN_EXPIRY)
     BLENDER_ID_ADDON_CLIENT_ID = 'XXX'  # Client ID for the special snowflake client.
 
+    SUBCLIENT_SPECIFIC_TOKEN_EXPIRY = {'days': 365}   # arguments to datetime.timedelta(**SUBCLIENT_SPECIFIC_TOKEN_EXPIRY)
+
     DEFAULT_CLIENTS = [
         {
             'name': 'Blender ID addon',
