@@ -1,4 +1,4 @@
-"""empty message
+"""Add subclient-specific token support.
 
 Revision ID: 10b00e658d8
 Revises: 140c1547a39c
