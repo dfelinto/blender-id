@@ -15,7 +15,7 @@ class Config(object):
     SECURITY_CHANGEABLE = True
     SECUIRTY_POST_LOGIN = '/'
     SECURITY_PASSWORD_HASH = 'bcrypt'
-    SECURITY_PASSWORD_SALT = 'YOURSALT'
+    SECURITY_PASSWORD_SALT = ''  # only used for HMAC password hashing.
     SECURITY_EMAIL_SENDER = ''
     SECURITY_POST_REGISTER_VIEW = '/welcome'
     SECURITY_MSG_EMAIL_ALREADY_ASSOCIATED = ('This address already exists', 'error')
