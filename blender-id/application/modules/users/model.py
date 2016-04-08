@@ -102,9 +102,11 @@ class User(db.Model, UserMixin):
             hashlib.md5(self.email.lower()).hexdigest() + \
             "?" + urllib.urlencode(parameters)
 
-
     def __str__(self):
         return str(self.email)
+
+    def __repr__(self):
+        return 'User(id=%i, email=%r)' % (self.id, self.email)
 
 # Setup Flask-Security
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)

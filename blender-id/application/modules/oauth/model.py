@@ -51,6 +51,9 @@ class Client(db.Model):
             return self._default_scopes.split()
         return []
 
+    def __repr__(self):
+        return 'Client(client_id=%s)' % self.client_id
+
 
 class Grant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
