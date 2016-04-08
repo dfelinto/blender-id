@@ -18,8 +18,16 @@ if 'BLENDER_ID_CONFIG' in os.environ:
     app.config.from_pyfile(os.environ['BLENDER_ID_CONFIG'], silent=False)
 
 # Configure logging
-logging.basicConfig(level=logging.DEBUG if app.config['DEBUG'] else logging.INFO)
+logging.basicConfig(
+    level=logging.WARNING,
+    format='%(asctime)-15s %(levelname)8s %(name)s %(message)s')
+
+logging.getLogger('werkzeug').setLevel(logging.INFO)
+
 log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG if app.config['DEBUG'] else logging.INFO)
+if app.config['DEBUG']:
+    log.info('BlenderID starting, debug=%s', app.config['DEBUG'])
 
 # Create database connection object
 db = SQLAlchemy(app)
