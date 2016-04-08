@@ -1,4 +1,7 @@
-import hashlib, urllib
+import hashlib
+import logging
+import urllib
+
 from application import app
 from application import db
 
@@ -7,6 +10,8 @@ from flask.ext.security import (Security,
     UserMixin, 
     RoleMixin)
 from sqlalchemy.orm.exc import NoResultFound
+
+log = logging.getLogger(__name__)
 
 
 class Client(db.Model):
@@ -107,3 +112,36 @@ class Token(db.Model):
         if self._scopes:
             return self._scopes.split()
         return []
+
+
+def create_oauth_client(client_config):
+    """Creates an OAuth client in the database."""
+
+    # Make sure the client only exists once
+    client = Client.query.filter_by(client_id=client_config['id']).first()
+    if client is not None:
+        log.info('Removing pre-existing client %r from database', client_config['name'])
+        db.session.delete(client)
+    test_client = Client(
+        name=client_config['name'],
+        description=None,
+        picture=None,
+        client_id=client_config['id'],
+        client_secret=client_config['secret'],
+        user_id=None,
+        url=None,
+        _default_scopes='email',
+        _redirect_uris=client_config['redirect_uris'],
+    )
+    log.info('Adding new client %r to database', client_config['name'])
+    db.session.add(test_client)
+
+
+def create_oauth_clients():
+    """Creates the default OAuth clients from config.py.
+
+     Default clients that already exist in the database will be removed and re-added.
+     """
+
+    for client_config in app.config['DEFAULT_CLIENTS']:
+        create_oauth_client(client_config)
