@@ -151,3 +151,54 @@ class SubclientsTest(AbstractBlenderIdTest):
         # Revoke token, should revoke access.
         self._revoke_scst(token, subclient_id, user_id, scst['data']['scst'])
         assert_access(404)
+
+    def test_token_expiry(self):
+        from application.modules.subclients import model
+
+        user_id, token = self._create_test_user()
+
+        minute = datetime.timedelta(minutes=1)
+
+        # Directly create some SCSTs.
+        with self.app.test_request_context():
+            token1 = model.SubclientToken(
+                subclient_specific_token='EXPIRED-OLD',
+                client_id=self.oauth_client_id,
+                user_id=user_id,
+                subclient_id='unittest1',
+                expires=datetime.datetime.utcnow() - 2 * minute,
+                host_label='unittest',
+            )
+            self.db.session.add(token1)
+
+            token2 = model.SubclientToken(
+                subclient_specific_token='EXPIRED',
+                client_id=self.oauth_client_id,
+                user_id=user_id,
+                subclient_id='unittest1',
+                expires=datetime.datetime.utcnow() - minute,
+                host_label='unittest',
+            )
+            self.db.session.add(token2)
+
+            token3 = model.SubclientToken(
+                subclient_specific_token='GOOD',
+                client_id=self.oauth_client_id,
+                user_id=user_id,
+                subclient_id='unittest1',
+                expires=datetime.datetime.utcnow() + minute,
+                host_label='unittest',
+            )
+            self.db.session.add(token3)
+            self.db.session.commit()
+
+            # All three tokens should be in the database.
+            all = model.SubclientToken.query.all()
+            self.assertEqual(3, len(all), 'Database should contain 3 SCSTs, not %i' % len(all))
+
+            # Remove expired tokens and do a re-count.
+            model.SubclientToken.expire_tokens()
+            all = model.SubclientToken.query.all()
+            self.assertEqual(1, len(all), 'Database should contain 1 SCST, not %i' % len(all))
+
+            self.assertEqual('GOOD', all[0].subclient_specific_token)

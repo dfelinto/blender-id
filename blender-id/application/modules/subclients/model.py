@@ -33,6 +33,9 @@ class SubclientToken(db.Model):
         Always call this before querying tokens.
         """
 
-        now = datetime.datetime.now()
-        cls.query.filter(cls.expires <= now).delete()
+        now = datetime.datetime.utcnow()
+        expired = cls.query.filter(cls.expires <= now)
+        log.debug('Deleting %i expired tokens', expired.count())
+        expired.delete()
+
         db.session.commit()
