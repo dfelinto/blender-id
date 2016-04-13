@@ -13,7 +13,18 @@ to your needs/environment.
 Installation requires a MySQL database, the URL of which can be set in
 `config.py`. Make sure the named database exists (it can be empty).
 
-Run these commands:
+Make sure you also have the Git submodule:
+
+    git submodule update --init --recursive
+
+Install NPM, the node.js package manager. This is OS-specific, and out
+of scope for this documentation. Once installed, run:
+
+    npm install
+    ./node_modules/.bin/gulp
+
+Run these commands to install the Python dependencies and get your
+database in shape:
 
 - `pip install -r requirements.txt`: installs Python dependencies.
 - `cd blender-id`
