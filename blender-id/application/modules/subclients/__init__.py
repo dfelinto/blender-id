@@ -78,17 +78,21 @@ def validate_token():
 
     client_id = request.form['client_id']
     subclient_id = request.form['subclient_id']
-    user_id = int(request.form['user_id'])
+    user_id = request.form['user_id']
     scst = request.form['scst']
 
-    log.info('Validating subclient-specific token for client %s, subclient %s, user %s',
+    log.info('Validating subclient-specific token for client %s, subclient %s, user "%s"',
              client_id, subclient_id, user_id)
 
+    filters = dict(client_id=client_id,
+                   subclient_id=subclient_id,
+                   subclient_specific_token=scst)
+    if user_id:
+        filters['user_id'] = int(user_id)
+
     model.SubclientToken.expire_tokens()
-    token = model.SubclientToken.query.filter_by(client_id=client_id,
-                                                 subclient_id=subclient_id,
-                                                 user_id=user_id,
-                                                 subclient_specific_token=scst).first()
+    token = model.SubclientToken.query.filter_by(**filters).first()
+
     if token is None:
         log.debug('Token not found in database.')
         return jsonify({'status': 'fail'}), 404

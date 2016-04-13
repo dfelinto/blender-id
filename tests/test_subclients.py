@@ -113,6 +113,20 @@ class SubclientsTest(AbstractBlenderIdTest):
         self.assertEqual(u'test@example.com', resp['user']['email'])
         self.assertEqual(u'ဦး သီဟ', resp['user']['full_name'])
 
+
+        # Test token without user id, should work too.
+        rv = self.client.post('/subclients/validate_token',
+                              data={'client_id': self.oauth_client_id,
+                                    'subclient_id': subclient_id,
+                                    'user_id': '',
+                                    'scst': scst['data']['scst']})
+        self.assertEqual(rv.status_code, 200)  # Should be 200 OK
+
+        # Test content
+        resp = json.loads(rv.data)
+        self.assertEqual(user_id, resp['user']['id'])
+        self.assertEqual(u'test@example.com', resp['user']['email'])
+        self.assertEqual(u'ဦး သီဟ', resp['user']['full_name'])
     def test_revoke_token(self):
         subclient_id = 'TEST-REVOKE-TOKEN'
 
