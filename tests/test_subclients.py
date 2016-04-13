@@ -110,9 +110,12 @@ class SubclientsTest(AbstractBlenderIdTest):
 
         # Test content
         resp = json.loads(rv.data)
+        self.assertEqual(user_id, resp['user']['id'])
         self.assertEqual(u'test@example.com', resp['user']['email'])
         self.assertEqual(u'ဦး သီဟ', resp['user']['full_name'])
 
+        expires = datetime.datetime.strptime(resp['token_expires'], '%a, %d %b %Y %H:%M:%S GMT')
+        self.assertLess(datetime.datetime.now(), expires)
 
         # Test token without user id, should work too.
         rv = self.client.post('/subclients/validate_token',
@@ -127,6 +130,10 @@ class SubclientsTest(AbstractBlenderIdTest):
         self.assertEqual(user_id, resp['user']['id'])
         self.assertEqual(u'test@example.com', resp['user']['email'])
         self.assertEqual(u'ဦး သီဟ', resp['user']['full_name'])
+
+        expires = datetime.datetime.strptime(resp['token_expires'], '%a, %d %b %Y %H:%M:%S GMT')
+        self.assertLess(datetime.datetime.now(), expires)
+
     def test_revoke_token(self):
         subclient_id = 'TEST-REVOKE-TOKEN'
 

@@ -100,8 +100,11 @@ def validate_token():
     user = token.user
     full_name = u'%s %s' % (user.first_name, user.last_name)
     return jsonify({'status': 'success',
-                    'user': {'email': user.email,
-                             'full_name': full_name}}), 200
+                    'user': {'id': user.id,
+                             'email': user.email,
+                             'full_name': full_name},
+                    'token_expires': token.expires,
+                    }), 200
 
 
 @subclients.route('/revoke_token', methods=['POST'])
