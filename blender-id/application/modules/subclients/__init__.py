@@ -18,7 +18,7 @@ from flask import request, Blueprint, jsonify, json
 import oauthlib.common
 
 from application import oauth, db, app
-from . import model
+from application.modules.oauth import model as oauth_model
 
 subclients = Blueprint('subclients', __name__)
 log = logging.getLogger(__name__)
@@ -46,12 +46,13 @@ def create_token():
     expires = datetime.datetime.utcnow() + datetime.timedelta(
         **app.config['SUBCLIENT_SPECIFIC_TOKEN_EXPIRY'])
 
-    scst = model.SubclientToken(subclient_specific_token=oauthlib.common.generate_token(),
-                                client=request.oauth.client,
-                                subclient_id=subclient_id,
-                                user=request.oauth.user,
-                                expires=expires,
-                                host_label=host_label)
+    scst = oauth_model.Token(access_token=oauthlib.common.generate_token(),
+                             client=request.oauth.client,
+                             subclient=subclient_id,
+                             token_type='Bearer',
+                             user=request.oauth.user,
+                             expires=expires,
+                             host_label=host_label)
 
     db.session.add(scst)
     db.session.commit()
@@ -61,7 +62,7 @@ def create_token():
     return jsonify({
         'status': 'success',
         'data': {
-            'scst': scst.subclient_specific_token,
+            'token': scst.access_token,
             'expires': scst.expires,
         }
     }), 201
@@ -76,22 +77,20 @@ def validate_token():
     Returns further information about the user if the given token is valid.
     """
 
-    client_id = request.form['client_id']
-    subclient_id = request.form['subclient_id']
+    subclient = request.form.get('subclient_id')
     user_id = request.form['user_id']
-    scst = request.form['scst']
+    access_token = request.form['token']
 
-    log.info('Validating subclient-specific token for client %s, subclient %s, user "%s"',
-             client_id, subclient_id, user_id)
+    log.info('Validating token for subclient %s, user "%s", token "%s"',
+             subclient, user_id, access_token)
 
-    filters = dict(client_id=client_id,
-                   subclient_id=subclient_id,
-                   subclient_specific_token=scst)
+    filters = {'subclient': subclient,
+               'access_token': access_token}
     if user_id:
         filters['user_id'] = int(user_id)
 
-    model.SubclientToken.expire_tokens()
-    token = model.SubclientToken.query.filter_by(**filters).first()
+    # FIXME: properly delete expired tokens.
+    token = oauth_model.Token.query.filter_by(**filters).first()
 
     if token is None:
         log.debug('Token not found in database.')
@@ -100,7 +99,7 @@ def validate_token():
     user = token.user
     full_name = u'%s %s' % (user.first_name, user.last_name)
     return jsonify({'status': 'success',
-                    'user': {'id': user.id,
+                    'user': {'user_id': user.id,
                              'email': user.email,
                              'full_name': full_name},
                     'token_expires': token.expires,
@@ -115,15 +114,15 @@ def revoke_token():
     client_id = request.form['client_id']
     subclient_id = request.form['subclient_id']
     user_id = int(request.form['user_id'])
-    scst = request.form['scst']
+    token = request.form['token']
 
     log.info('Revoking subclient-specific token for client %r, subclient %r, user %r',
              client_id, subclient_id, user_id)
 
-    model.SubclientToken.query.filter_by(client_id=client_id,
-                                         subclient_id=subclient_id,
-                                         user_id=user_id,
-                                         subclient_specific_token=scst).delete()
+    oauth_model.Token.query.filter_by(client_id=client_id,
+                                      subclient=subclient_id,
+                                      user_id=user_id,
+                                      access_token=token).delete()
     db.session.commit()
 
     return jsonify({'status': 'success'}), 200

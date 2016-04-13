@@ -82,6 +82,8 @@ def verify_identity():
 def validate_oauth_token(username, token):
     """Validates the given token, returning the User object if valid.
 
+    Only accepts true OAuth tokens, and ignores subclient tokens.
+
     :return: a User or None
     :rtype: application.module.users.model.User
     """
@@ -91,7 +93,8 @@ def validate_oauth_token(username, token):
     from application.modules.oauth.model import Token
 
     expire_tokens()
-    token_info = Token.query.filter_by(access_token=token).first()
+    token_info = Token.query.filter_by(access_token=token,
+                                       subclient=None).first()
     if token_info is None:
         return None
 

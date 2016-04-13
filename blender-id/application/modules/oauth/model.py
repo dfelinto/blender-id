@@ -1,6 +1,6 @@
 import hashlib
 import logging
-import urllib
+import datetime
 
 from application import app
 from application import db
@@ -95,6 +95,7 @@ class Token(db.Model):
         nullable=False,
     )
     client = db.relationship('Client')
+    subclient = db.Column(db.String(40))
 
     user_id = db.Column(
         db.Integer, db.ForeignKey('user.id'),
