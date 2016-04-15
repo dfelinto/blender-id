@@ -68,7 +68,6 @@ def expire_tokens():
 
     Always call this before querying auth tokens or grants.
     """
-    return
 
     now = datetime.now()
     Token.query.filter(Token.expires <= now).delete()
