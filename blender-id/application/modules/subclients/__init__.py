@@ -19,6 +19,7 @@ import oauthlib.common
 
 from application import oauth, db, app
 from application.modules.oauth import model as oauth_model
+from application.modules.users import DEFAULT_OAUTH_TOKEN_SCOPE
 
 subclients = Blueprint('subclients', __name__)
 log = logging.getLogger(__name__)
@@ -47,6 +48,7 @@ def create_token():
         **app.config['SUBCLIENT_SPECIFIC_TOKEN_EXPIRY'])
 
     scst = oauth_model.Token(access_token=oauthlib.common.generate_token(),
+                             _scopes=DEFAULT_OAUTH_TOKEN_SCOPE,
                              client=request.oauth.client,
                              subclient=subclient_id,
                              token_type='Bearer',
