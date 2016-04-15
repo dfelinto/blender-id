@@ -73,25 +73,25 @@ class SubclientsTest(AbstractBlenderIdTest):
         subclient_id = 'VALIDATE-TOKEN-UNITTEST'
 
         # Test wrong HTTP method.
-        rv = self.client.get('/subclients/validate_token',
+        rv = self.client.get('/u/validate_token',
                              data={'subclient_id': subclient_id,
                                    'user_id': 1234,
                                    'token': 'je moeder'})
         self.assertEqual(rv.status_code, 405)  # Should be 405 Method Not Allowed
 
         # Test nonexistant token.
-        rv = self.client.post('/subclients/validate_token',
+        rv = self.client.post('/u/validate_token',
                               data={'subclient_id': subclient_id,
                                     'user_id': 1234,
                                     'token': 'je moeder'})
-        self.assertEqual(rv.status_code, 404)  # Should be 404 Not Found
+        self.assertEqual(rv.status_code, 403)  # Should be 403 Forbidden
 
         # Create a subclient-specific token to test with.
         user_id, token = self._create_test_user()
         scst = self._create_scst(token, subclient_id)
 
         # Test correct token
-        rv = self.client.post('/subclients/validate_token',
+        rv = self.client.post('/u/validate_token',
                               data={'subclient_id': subclient_id,
                                     'user_id': user_id,
                                     'token': scst['data']['token']})
@@ -99,7 +99,7 @@ class SubclientsTest(AbstractBlenderIdTest):
 
         # Test content
         resp = json.loads(rv.data)
-        self.assertEqual(user_id, resp['user']['user_id'])
+        self.assertEqual(user_id, resp['user']['id'])
         self.assertEqual(u'test@example.com', resp['user']['email'])
         self.assertEqual(u'ဦး သီဟ', resp['user']['full_name'])
 
@@ -107,7 +107,7 @@ class SubclientsTest(AbstractBlenderIdTest):
         self.assertLess(datetime.datetime.now(), expires)
 
         # Test token without user id, should work too.
-        rv = self.client.post('/subclients/validate_token',
+        rv = self.client.post('/u/validate_token',
                               data={'subclient_id': subclient_id,
                                     'user_id': '',
                                     'token': scst['data']['token']})
@@ -115,7 +115,7 @@ class SubclientsTest(AbstractBlenderIdTest):
 
         # Test content
         resp = json.loads(rv.data)
-        self.assertEqual(user_id, resp['user']['user_id'])
+        self.assertEqual(user_id, resp['user']['id'])
         self.assertEqual(u'test@example.com', resp['user']['email'])
         self.assertEqual(u'ဦး သီဟ', resp['user']['full_name'])
 
@@ -141,7 +141,7 @@ class SubclientsTest(AbstractBlenderIdTest):
         scst = self._create_scst(token, subclient_id)
 
         def assert_access(expect_status):
-            access_req = self.client.post('/subclients/validate_token',
+            access_req = self.client.post('/u/validate_token',
                                           data={'subclient_id': subclient_id,
                                                 'user_id': user_id,
                                                 'token': scst['data']['token']})
@@ -157,7 +157,7 @@ class SubclientsTest(AbstractBlenderIdTest):
 
         # Revoke token, should revoke access.
         self._revoke_scst(token, subclient_id, user_id, scst['data']['token'])
-        assert_access(404)
+        assert_access(403)
 
     # FIXME: Uncomment when token expiry is reinstated.
     # def test_token_expiry(self):

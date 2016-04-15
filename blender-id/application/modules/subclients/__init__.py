@@ -70,44 +70,6 @@ def create_token():
     }), 201
 
 
-@subclients.route('/validate_token', methods=['POST'])
-def validate_token():
-    """Validates the given subclient-specific token.
-
-    This is called by the subclient, to verify a user-supplied SCST.
-
-    Returns further information about the user if the given token is valid.
-    """
-
-    subclient = request.form.get('subclient_id')
-    user_id = request.form['user_id']
-    access_token = request.form['token']
-
-    log.info('Validating token for subclient %s, user "%s", token "%s"',
-             subclient, user_id, access_token)
-
-    filters = {'subclient': subclient,
-               'access_token': access_token}
-    if user_id:
-        filters['user_id'] = int(user_id)
-
-    # FIXME: properly delete expired tokens.
-    token = oauth_model.Token.query.filter_by(**filters).first()
-
-    if token is None:
-        log.debug('Token not found in database.')
-        return jsonify({'status': 'fail'}), 404
-
-    user = token.user
-    full_name = u'%s %s' % (user.first_name, user.last_name)
-    return jsonify({'status': 'success',
-                    'user': {'user_id': user.id,
-                             'email': user.email,
-                             'full_name': full_name},
-                    'token_expires': token.expires,
-                    }), 200
-
-
 @subclients.route('/revoke_token', methods=['POST'])
 @oauth.require_oauth()
 def revoke_token():

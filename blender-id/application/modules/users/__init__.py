@@ -1,4 +1,6 @@
 import datetime
+import logging
+
 from flask import jsonify
 from flask import request
 from flask_security.utils import verify_password
@@ -10,6 +12,7 @@ from application.modules.users.model import UsersRestTokens
 from application.modules.users.model import user_datastore
 
 DEFAULT_OAUTH_TOKEN_SCOPE = 'email'
+log = logging.getLogger(__name__)
 
 
 def create_oauth_token(user, host_label):
@@ -79,56 +82,73 @@ def verify_identity():
         })
 
 
-def validate_oauth_token(username, token):
+def validate_oauth_token(user_id, access_token, subclient):
     """Validates the given token, returning the User object if valid.
 
     Only accepts true OAuth tokens, and ignores subclient tokens.
 
-    :return: a User or None
-    :rtype: application.module.users.model.User
+    :return: (user, token) or (None, None) if the token is invalid.
+    :rtype: (application.module.users.model.User,
+             application.module.users.model.Token)
     """
+
+    log.info('Validating token for subclient %s, user "%s", token "%s"',
+             subclient, user_id, access_token)
 
     # Late import to prevent circular dependencies
     from application.modules.oauth import expire_tokens
     from application.modules.oauth.model import Token
 
+    filters = {'subclient': subclient,
+               'access_token': access_token}
+    if user_id:
+        filters['user_id'] = int(user_id)
+
     expire_tokens()
-    token_info = Token.query.filter_by(access_token=token,
-                                       subclient=None).first()
+    token_info = Token.query.filter_by(**filters).first()
+
     if token_info is None:
-        return None
+        return None, None
 
     # Database constraints ensure that this user actually exists.
     user = user_datastore.get_user(token_info.user_id)
 
-    # FIXME: also check the username; right now only the token is used.
-
-    return user
+    return user, token_info
 
 
 @app.route('/u/validate_token', methods=['POST'])
 def validate_token():
-    """Validate and existing authentication token. This is usually called by
-    a third party (e.g. Attract) every few requests to confirm the identity
-    of a user.
+    """Validate and existing authentication token.
+
+    This is usually called by a third party (e.g. Attract) every few requests
+    to confirm the identity of a user.
+
+    Returns further information about the user if the given token is valid.
+
+    The user ID is not used at the moment. The subclient ID can be empty or
+    absent from the request, in which a regular OAuth token is verified. If
+    the subclient is present, a subclient token is verified.
     """
 
-    token = request.form['token']
+    subclient = request.form.get('subclient_id')
+    user_id = request.form.get('user_id')
+    access_token = request.form['token']
 
-    user = validate_oauth_token(None, token)
-    if user is None:
-        response = jsonify(
-            status='fail',
-            data={'token': 'Token is invalid'})
-        response.status_code = 403
-        return response
+    user, token = validate_oauth_token(user_id, access_token, subclient)
 
-    return jsonify(
-        status='success',
-        data={'user': {
-            'email': user.email,
-            'id': user.id
-        }})
+    if token is None:
+        log.debug('Token not found in database.')
+        return jsonify({'status': 'fail',
+                        'token': 'Token is invalid'}), 403
+
+    user = token.user
+    full_name = u'%s %s' % (user.first_name, user.last_name)
+    return jsonify({'status': 'success',
+                    'user': {'id': user.id,
+                             'email': user.email,
+                             'full_name': full_name},
+                    'token_expires': token.expires,
+                    }), 200
 
 
 @app.route('/u/delete_token', methods=['POST'])
