@@ -38,8 +38,10 @@ def load_grant(client_id, code):
 def save_grant(client_id, code, request, *args, **kwargs):
     expire_tokens()
 
-    # decide the expires time yourself
-    expires = datetime.now() + timedelta(seconds=100)
+    # decide the expires time
+    expires_secs = app.config['OAUTH2_PROVIDER_TOKEN_EXPIRES_IN']
+    expires = datetime.now() + timedelta(seconds=expires_secs)
+
     grant = Grant(
         client_id=client_id,
         code=code['code'],
