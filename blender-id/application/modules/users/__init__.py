@@ -92,8 +92,8 @@ def validate_oauth_token(user_id, access_token, subclient):
              application.module.users.model.Token)
     """
 
-    log.info('Validating token for subclient %s, user "%s", token "%s"',
-             subclient, user_id, access_token)
+    log.debug('Validating token for subclient %s, user "%s", token "%s"',
+              subclient, user_id, access_token)
 
     # Late import to prevent circular dependencies
     from application.modules.oauth import expire_tokens
