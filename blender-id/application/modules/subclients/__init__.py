@@ -44,8 +44,8 @@ def create_token():
         return jsonify({'status': 'fail',
                         'message': 'Subclient ID is invalid.'}), 400
 
-    expires = datetime.datetime.now() + datetime.timedelta(
-        **app.config['SUBCLIENT_SPECIFIC_TOKEN_EXPIRY'])
+    expires_secs = app.config['OAUTH2_PROVIDER_TOKEN_EXPIRES_IN']
+    expires = datetime.datetime.now() + datetime.timedelta(seconds=expires_secs)
 
     scst = oauth_model.Token(access_token=oauthlib.common.generate_token(),
                              _scopes=DEFAULT_OAUTH_TOKEN_SCOPE,

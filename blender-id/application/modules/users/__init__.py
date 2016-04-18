@@ -27,7 +27,8 @@ def create_oauth_token(user, host_label):
     @rtype: application.modules.oauth.model.Token
     """
 
-    expires = datetime.datetime.now() + datetime.timedelta(**app.config['BLENDER_ID_TOKEN_EXPIRY'])
+    expires_secs = app.config['OAUTH2_PROVIDER_TOKEN_EXPIRES_IN']
+    expires = datetime.datetime.now() + datetime.timedelta(seconds=expires_secs)
 
     # Late import to prevent circular dependencies
     from application.modules.oauth.model import Token
