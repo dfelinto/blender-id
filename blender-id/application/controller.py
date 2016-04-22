@@ -6,6 +6,7 @@ from flask import redirect
 from flask import url_for
 from flask import request
 from flask import flash
+from flask import jsonify
 
 from flask.ext.security import login_required
 from flask.ext.security.core import current_user
@@ -13,6 +14,7 @@ from flask.ext.security.core import current_user
 from application.modules.users.forms import ProfileForm
 from application.modules.users.forms import AddressForm
 from application.modules.users.model import Address
+from application.modules.oauth.model import Client
 
 # Views
 @app.route('/')
@@ -114,6 +116,21 @@ def address():
         title='address')
 
 
-
-
-
+@app.route('/settings/developer')
+@login_required
+def developer_index():
+    """Basic entry point to view OAuth clients created by a developer.
+    """
+    user_clients = Client.query.filter_by(user_id=current_user.id).all()
+    clients = []
+    for c in user_clients:
+        client = {
+            'name': c.name,
+            'client_id': c.client_id,
+            'client_secret': c.client_secret,
+            'redirect_uris': c._redirect_uris,
+            'default_scopes': c._default_scopes,
+            'url': c.url
+        }
+        clients.append(client)
+    return jsonify(clients=clients)
