@@ -58,28 +58,9 @@
 			i.bf-cloud.backicon
 			h3.id__profile-subscriptions-title Blender Cloud
 			p
-				| {% if current_user.has_role('cloud_single_member')
-				| or current_user.has_role('cloud_team_owner') %}
 				| Visit your
 				a(href='https://cloud.blender.org/settings/billing')  preferences
 				|  for more details
-				|           {#
-				|           {% if current_user.get_setting('cloud_communications') %}
-				br
-				small
-					i.fa.fa-envelope-o
-					|  Email notifications are
-					strong on
-					|  (
-					a(href='http://cloud.blender.org/settings/emails')  change
-					| )
-				|           {% endif %}
-				|           #}
-				|         {% else %}
-				i.fa.fa-times
-				|  You don't have an active
-				a(href='https://cloud.blender.org/settings/dashboard')  subscription
-				|         {% endif %}
 		.id__profile-subscriptions
 			i.bf-network.backicon
 			h3.id__profile-subscriptions-title Blender Network
