@@ -21,7 +21,6 @@
                     <fieldset>
                       <!-- Fist name input-->
                        <div class="input-group input-group-lg width-full">
-                         <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
                            <input class="form-control" id="first_name" name="first_name" type="text" value="" placeholder="First Name">
                            <label class="control-label">First Name</label>
                            {% for error in register_user_form.first_name.errors %}
@@ -34,7 +33,6 @@
 
                       <!-- Last name input-->
                        <div class="input-group input-group-lg width-full">
-                         <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
                            <input class="form-control" id="last_name" name="last_name" type="text" value="" placeholder="Last Name">
                            <label class="control-label">Last Name</label>
                            {% for error in register_user_form.last_name.errors %}
