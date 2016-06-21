@@ -61,12 +61,14 @@ def verify_identity():
 
     user = user_datastore.get_user(username)
     if not user:
+        log.debug('User %r does not exist', username)
         return jsonify(status='fail', data={'username': 'User does not exist'})
     if not verify_password(password, user.password):
         # TODO Throttle authentication attempts (limit to 3 or 5)
         # We need to address the following cases:
         # - the user already has a token-host_label pair
         # - the user never autheticated before (where do we store such info?)
+        log.debug('User %r exists but not with password %r', username, password)
         return jsonify(status='fail', data={'password': 'Wrong password'})
 
     token = create_oauth_token(user, host_label)
