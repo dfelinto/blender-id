@@ -16,8 +16,7 @@ class SubclientsTest(AbstractBlenderIdTest):
 
     def _create_test_user(self):
         user = self.create_user(email='test@example.com', password='password123',
-                                first_name=u'ဦး',  # 'uncle' in Burmese
-                                last_name=u'သီဟ',  # 'lion' in Burmese
+                                full_name=u'ဦး သီဟ',  # 'uncle lion' in Burmese
                                 )
         self.db.session.commit()  # We need to commit to get the user ID.
 
