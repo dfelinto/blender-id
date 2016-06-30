@@ -148,7 +148,7 @@ def validate_token():
     return jsonify({'status': 'success',
                     'user': {'id': user.id,
                              'email': user.email,
-                             'full_name': u'%s' % user.full_name},
+                             'full_name': user.full_name},
                     'token_expires': token.expires,
                     }), 200
 
