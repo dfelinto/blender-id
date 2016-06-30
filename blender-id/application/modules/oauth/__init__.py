@@ -148,9 +148,16 @@ def user():
     for role in public_roles:
         public_roles[role] = self_user.has_role(role)
 
+    # Backwards compatibility for full_name last_name
+    name_split = self_user.full_name.split(' ') if self_user.full_name else ''
+    first_name = '' if len(name_split) == 0 else name_split[0]
+    last_name = '' if len(name_split) < 1 else name_split[1]
+
     return jsonify(
         id=self_user.id,
         full_name=self_user.full_name,
+        first_name=first_name,
+        last_name=last_name,
         email=self_user.email,
         roles=public_roles)
 
