@@ -1,5 +1,6 @@
 from flask_wtf import Form
 from flask_security.forms import RegisterForm
+from flask_security.forms import ConfirmRegisterForm
 from flask_security.forms import Required
 from wtforms import StringField
 from wtforms import SelectField
@@ -31,5 +32,5 @@ class AddressForm(Form):
     country_code_alpha2 = CountrySelectField('Country', validators=[DataRequired()])
 
 
-class ExtendedRegisterForm(RegisterForm):
+class ExtendedRegisterForm(RegisterForm, ConfirmRegisterForm):
     full_name = StringField('Full Name', [Required()])

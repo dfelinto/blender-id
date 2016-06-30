@@ -49,7 +49,8 @@ if 'BUGSNAG_API_KEY' in app.config:
 from application.modules.users import model
 from application.modules.users.forms import ExtendedRegisterForm
 security = Security(app, model.user_datastore,
-         register_form=ExtendedRegisterForm)
+                    register_form=ExtendedRegisterForm,
+                    confirm_register_form=ExtendedRegisterForm)
 
 from application.modules.users import *
 from application import controller
