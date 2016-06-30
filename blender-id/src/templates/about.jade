@@ -39,7 +39,7 @@
 				.vertical-align
 					a(href="{{url_for('homepage')}}")
 						img.img-circle.about__join-avatar(src='{{current_user.gravatar(192, False)}}', title='Gravatar Profile Picture')
-					h2 Hi {{ current_user.first_name }}!
+					h2 Hi {{ current_user.full_name }}!
 					p
 						| Welcome to your Blender ID
 						br

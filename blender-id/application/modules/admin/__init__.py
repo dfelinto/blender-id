@@ -91,6 +91,7 @@ class UserOperationsView(CustomBaseView):
     @expose('/')
     def index(self):
         return redirect(url_for('homepage'))
+
     @expose('/login/<int:user_id>/')
     def login(self, user_id):
         user = user_datastore.get_user(user_id)
@@ -99,24 +100,11 @@ class UserOperationsView(CustomBaseView):
 
 
 class UserView(CustomModelView):
-    column_list = ('email', 'active', 'first_name', 'last_name', 'user_operations')
-    column_filters = ('id', 'email', 'active', 'first_name', 'last_name')
+    can_delete = False
+    column_list = ('email', 'active', 'full_name', 'user_operations')
+    column_filters = ('id', 'email', 'active', 'full_name')
     column_formatters = dict(user_operations=macro('user_operations'))
-
-    form_columns = ('email', 'first_name', 'last_name', 'active', 'roles')
-    #column_formatters = dict(actions=lambda v, c, m, p: '<strong>asd</strong>')
-
-    # form_rules = [
-    #     # Header and four fields. Email field will go above phone field.
-    #     rules.FieldSet(('first_name', 'last_name', 'email', 'roles'), 'Personal'),
-    #     # Separate header and few fields
-    #     rules.Macro('user_rule_macros.detail_tabs_head'),
-    #     rules.Macro('user_rule_macros.billing', test=''),
-    #     rules.Container('user_rule_macros.subscription', rules.Field('cloud_subscription')),
-    #     rules.Container('user_rule_macros.address', rules.Field('address')),
-    #     rules.Macro('user_rule_macros.detail_tabs_tail'),      
-    # ]
-
+    form_columns = ('email', 'full_name', 'active', 'roles')
     list_template = 'admin/user/list.html'
 
 

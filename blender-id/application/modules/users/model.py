@@ -2,23 +2,20 @@ import hashlib
 import urllib
 import datetime
 import uuid
-
-from application import app
-from application import db
-
-from application.helpers import convert_to_type
-from application.helpers import convert_to_db_format
-
+from sqlalchemy.orm.exc import NoResultFound
 from flask.ext.security import SQLAlchemyUserDatastore
 from flask.ext.security import UserMixin
 from flask.ext.security import RoleMixin
 
-from sqlalchemy.orm.exc import NoResultFound
+from application import db
+from application.helpers import convert_to_type
+from application.helpers import convert_to_db_format
 
+roles_users = db.Table(
+    'roles_users',
+    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 
-roles_users = db.Table('roles_users',
-        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
@@ -28,11 +25,13 @@ class Role(db.Model, RoleMixin):
     def __str__(self):
         return str(self.name)
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True)
     first_name = db.Column(db.String(255))
     last_name = db.Column(db.String(255))
+    full_name = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
@@ -50,50 +49,43 @@ class User(db.Model, UserMixin):
         setting = Setting.query.\
             filter(Setting.name == name).\
             one()
-
         try:
             setting_value = UsersSettings.query.\
                 filter_by(user_id=self.id, setting_id=setting.id).\
                 one()
         except NoResultFound:
-            #no previous entry for this setting
+            # No previous entry for this setting
             setting_value = UsersSettings(
                 user_id=self.id,
                 setting_id=setting.id,
                 unconstrained_value=convert_to_db_format(value, setting.data_type))
         else:
-            #previous entry exist, just updating the value
+            # Previous entry exist, just updating the value
             setting_value.unconstrained_value = convert_to_db_format(value, setting.data_type)
-
         db.session.add(setting_value)
         db.session.commit()
-
         pass
-
 
     def get_setting(self, name):
         setting = Setting.query.\
             filter(Setting.name == name).\
             one()
-
         try:
             setting_value = UsersSettings.query.\
                 filter_by(user_id=self.id, setting_id=setting.id).\
                 one().unconstrained_value
-        # In case the setting does not exist, we set it to the default and actually
-        # make an entry in the database for it
+        # In case the setting does not exist, we set it to the default and
+        # actually make an entry for it
         except NoResultFound:
             self.set_setting(name, convert_to_type(setting.default, setting.data_type))
             setting_value = setting.default
 
         return convert_to_type(setting_value, setting.data_type)
 
-
     def gravatar(self, size=120, consider_settings=True):
         anonymous = False
         if consider_settings:
             anonymous = not (self.get_setting('show_avatar'))
-
         parameters = {'s':str(size), 'd':'mm'}
         if anonymous:
             parameters['f'] = 'y'
@@ -121,13 +113,12 @@ class UsersRestTokens(db.Model):
     @property
     def creation_date(self):
         u = uuid.UUID(self.token)
-        return datetime.datetime.fromtimestamp((u.time - 0x01b21dd213814000L)*100/1e9)
+        return datetime.datetime.fromtimestamp(
+            (u.time - 0x01b21dd213814000L)*100/1e9)
 
     def __str__(self):
         return str(self.token)
 
-
-## --------- User Settings ---------
 
 class Address(db.Model):
     id = db.Column(db.Integer(), primary_key=True)

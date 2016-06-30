@@ -1,7 +1,7 @@
 | {% extends 'layout.html' %}
 | {% block page_title %}
-| {% if current_user.first_name %}
-| {{current_user.first_name}}'s
+| {% if current_user.full_name %}
+| {{current_user.full_name}}'s
 | {% else %}
 | Your
 | {% endif %}
@@ -13,20 +13,16 @@
 		.id__profile-details
 			img.img-circle.id__profile-details-avatar(src='{{current_user.gravatar(120, False)}}', title='Gravatar Profile Picture')
 			h1.id__profile-details-name
-				| {% if current_user.first_name %}
-				| {{ current_user.first_name }}
+				| {% if current_user.full_name %}
+				| {{ current_user.full_name }}
 				| {% endif %}
-				| {% if current_user.last_name %}
-				| {{ current_user.last_name }}
-				| {% endif %}
-			|       {% if not current_user.first_name
-			|         or not current_user.last_name %}
+			| {% if not current_user.full_name %}
 			p
 				.background-info
 					span.margin-left-2
-						| Your name or last name is missing,
+						| Your name is missing,
 						a(href="{{url_for('profile')}}") add it here
-			|       {% endif %}
+			| {% endif %}
 			p.id__profile-details-email
 				| {{ current_user.email }}
 			p

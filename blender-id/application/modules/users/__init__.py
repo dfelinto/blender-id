@@ -145,11 +145,10 @@ def validate_token():
                         'token': 'Token is invalid'}), 403
 
     user = token.user
-    full_name = u'%s %s' % (user.first_name, user.last_name)
     return jsonify({'status': 'success',
                     'user': {'id': user.id,
                              'email': user.email,
-                             'full_name': full_name},
+                             'full_name': u'%s' % user.full_name},
                     'token_expires': token.expires,
                     }), 200
 

@@ -1,131 +1,69 @@
+
 {% extends 'layout.html' %}
 {% from "security/_macros.html" import render_field_with_errors, render_login_field_with_errors, render_register_field_with_errors, render_field %}
 {% include "security/_messages.html" %}
-
 {% block page_title %}
-  Welcome!
+Welcome!
 {% endblock %}
-
 {% block body %}
 <div class="container">
   <div class="row">
     <div class="col-md-8 col-md-push-2">
-
-            <div class="box padding-bottom-15px padding-top-15px">
-              <i class="bf-blender backicon"></i>
-
-                <div class="col-md-6">
-
-                  <form role="login" action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
-                    {{ register_user_form.hidden_tag() }}
-                    <fieldset>
-                      <!-- Fist name input-->
-                       <div class="input-group input-group-lg width-full">
-                           <input class="form-control" id="first_name" name="first_name" type="text" value="" placeholder="First Name">
-                           <label class="control-label">First Name</label>
-                           {% for error in register_user_form.first_name.errors %}
-                             <span class="error">{{error}}</span>
-                           {% endfor %}
-
-                       </div>
-
-                      <div class="clearfix margin-top-2"></div>
-
-                      <!-- Last name input-->
-                       <div class="input-group input-group-lg width-full">
-                           <input class="form-control" id="last_name" name="last_name" type="text" value="" placeholder="Last Name">
-                           <label class="control-label">Last Name</label>
-                           {% for error in register_user_form.last_name.errors %}
-                             <span class="error">{{error}}</span>
-                           {% endfor %}
-
-                       </div>
-
-                      <div class="clearfix margin-top-2"></div>
-
-                     <!-- Email input-->
-                      <div class="input-group input-group-lg width-full">
-                        <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
-                          <input class="form-control" id="email" name="email" type="email" value="" placeholder="E-mail">
-                          <label class="control-label">Email</label>
-                          {% for error in register_user_form.email.errors %}
-                            <span class="error">{{error}}</span>
-                          {% endfor %}
-
-                      </div>
-
-                     <div class="clearfix margin-top-2"></div>
-
-                     <!-- Password input-->
-                      <div class="input-group input-group-lg width-full">
-                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                          <input class="form-control" id="password" name="password" type="password" value="" placeholder="Password" onkeyup="password_match();">
-                          <label class="control-label">Password</label>
-                          {% for error in register_user_form.password.errors %}
-                            <span class="error">{{error}}</span>
-                          {% endfor %}
-                      </div>
-
-                     <div class="clearfix margin-top-2"></div>
-
-                     <!-- Retype Password input-->
-                      <div class="input-group input-group-lg width-full">
-                        <span class="input-group-addon"><div id="password_match"></div></span>
-                          <input class="form-control" id="password_confirm" name="password_confirm" type="password" value="" placeholder="Retype Password" onkeyup="password_match();">
-                          <label class="control-label">Re-type Password</label>
-                      </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="width-full text-align-center margin-top-5 margin-bottom-5">
-                    <h2>
-                      Get your own<br/>
-                      Blender ID
-                    </h2>
-
-                     <!-- Button -->
-                     <div class="control-group">
-                       <label class="control-label" for="signin"></label>
-                       <div class="controls">
-                         {{ render_field(register_user_form.submit, value="Sign Up", class='btn btn-default btn-lg btn-squishy width-75') }}
-                       </div>
-                     </div>
-
-                    </fieldset>
-                  </form>
-                    <hr/>
-                    <a href="{{ url_for_security('login', next='/id') }}"><i class="fa fa-angle-double-left"></i> Back to Login</a>
-                  </div>
-                </div> <!-- col-md-6 -->
+      <div class="box padding-bottom-15px padding-top-15px"><i class="bf-blender backicon"></i>
+        <form role="login" action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
+          <div class="col-md-6">{{ register_user_form.hidden_tag() }}
+            <fieldset>
+              <!-- Full name input-->
+              <div class="input-group input-group-lg width-full">
+                <input id="full_name" name="full_name" type="text" value="" placeholder="Full Name" class="form-control"/>
+                <label class="control-label">Full Name</label>{% for error in register_user_form.full_name.errors %}<span class="error">{{error}}</span>{% endfor %}
               </div>
+              <div class="clearfix margin-top-2"></div>
+              <!-- Email input-->
+              <div class="input-group input-group-lg width-full"><span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+                <input id="email" name="email" type="email" value="" placeholder="E-mail" class="form-control"/>
+                <label class="control-label">Email</label>{% for error in register_user_form.email.errors %}<span class="error">{{error}}</span>{% endfor %}
+              </div>
+              <div class="clearfix margin-top-2"></div>
+              <!-- Password input-->
+              <div class="input-group input-group-lg width-full"><span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <input id="password" name="password" type="password" value="" placeholder="Password" onkeyup="password_match();" class="form-control"/>
+                <label class="control-label">Password</label>{% for error in register_user_form.password.errors %}<span class="error">{{error}}</span>{% endfor %}
+              </div>
+              <div class="clearfix margin-top-2"></div>
+              <!-- Retype Password input-->
+              <div class="input-group input-group-lg width-full"><span class="input-group-addon">
+                  <div id="password_match"></div></span>
+                <input id="password_confirm" name="password_confirm" type="password" value="" placeholder="Retype Password" onkeyup="password_match();" class="form-control"/>
+                <label class="control-label">Re-type Password</label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-md-6">
+            <div class="width-full text-align-center margin-top-5 margin-bottom-5">
+              <h2>Get your own<br/>Blender ID</h2>
+              <!-- Button-->
+              <div class="control-group">
+                <label for="signin" class="control-label"></label>
+                <div class="controls">{{ render_field(register_user_form.submit, value="Sign Up", class='btn btn-default btn-lg btn-squishy width-75') }}</div>
+              </div>
+              <hr/><a href="{{ url_for_security('login', next='/id') }}"><i class="fa fa-angle-double-left"></i> Back to Login</a>
             </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-
-{% endblock %}
+</div>{% endblock %}
 {% block footer_scripts %}
-  <script src="{{ url_for('static', filename='assets_shared/js/interactive.js') }}"></script>
+<script src="{{ url_for('static', filename='assets_shared/js/interactive.js') }}"></script>
 <script>
-function password_match() {
-    var pwd = $("#password").val();
-    var confirm_pwd = $("#password_confirm").val();
-
-    if (pwd != confirm_pwd)
-        $("#password_match").html("<i class='fa fa-times'></i>");
-    else
-        $("#password_match").html("<i class='fa fa-check success'></i>");
-}
-
-$(document).ready(function () {
-
-    $('.flip_login').each(function(){
-      $(this).click(function(){
-        $(document).find('.card').toggleClass('flipped').next($(this).fadeOut(150)).next($(this).fadeIn('slow'));
-      });
-    });
-
-   //$("#password_confirm").onkeypress(password_match);
-});
-</script>
-{% endblock %}
+  function password_match() {
+  	var pwd = $("#password").val();
+  	var confirm_pwd = $("#password_confirm").val();
+  	if (pwd != confirm_pwd)
+  		$("#password_match").html("<i class='fa fa-times'></i>");
+  	else
+  		$("#password_match").html("<i class='fa fa-check success'></i>");
+  }
+</script>{% endblock %}

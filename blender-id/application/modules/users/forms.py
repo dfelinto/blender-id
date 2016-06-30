@@ -11,10 +11,7 @@ import pycountry
 
 class ProfileForm(Form):
     blender_id = StringField('Blender-ID')
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
-    cloud_communications = BooleanField('Cloud Communications')
-    show_avatar = BooleanField('Show Avatar')
+    full_name = StringField('Full Name', validators=[DataRequired()])
 
 
 class CountrySelectField(SelectField):
@@ -35,5 +32,4 @@ class AddressForm(Form):
 
 
 class ExtendedRegisterForm(RegisterForm):
-    first_name = StringField('First Name', [Required()])
-    last_name = StringField('Last Name', [Required()])
+    full_name = StringField('Full Name', [Required()])

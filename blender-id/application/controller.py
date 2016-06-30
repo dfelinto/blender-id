@@ -24,6 +24,7 @@ def homepage():
     else:
         return redirect(url_for('about'))
 
+
 @app.route('/about')
 def about():
     return render_template('about.html', title='about')
@@ -34,30 +35,21 @@ def about():
 @login_required
 def profile():
     # Load the current data in the form
-    cloud_communications = None
-    show_avatar = None
     form = ProfileForm(
         blender_id=current_user.email,
-        first_name=current_user.first_name,
-        last_name=current_user.last_name,
-        cloud_communications=cloud_communications,
-        show_avatar=show_avatar)
+        full_name=current_user.full_name)
 
-    # Run if form is being submitted
     if form.validate_on_submit():
-        current_user.first_name = form.first_name.data
-        current_user.last_name = form.last_name.data
-        #current_user.set_setting('cloud_communications',form.cloud_communications.data)
-        #current_user.set_setting('show_avatar',form.show_avatar.data)
+        current_user.full_name = form.full_name.data
         db.session.commit()
         return redirect(url_for('homepage'))
 
     # Display form on GET request
     return render_template('settings/profile.html',
-        user=current_user,
-        form=form,
-        gravatar_url=current_user.gravatar(120, False),
-        title='profile')
+                           user=current_user,
+                           form=form,
+                           gravatar_url=current_user.gravatar(120, False),
+                           title='profile')
 
 
 @app.route('/settings/address', methods=['POST', 'GET'])
