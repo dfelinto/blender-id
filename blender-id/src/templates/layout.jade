@@ -76,12 +76,12 @@ html(lang="en")
 										|  Settings
 								li.divider
 								li
-									a(href="{{url_for_security('logout', next=config.SUBFOLDER)}}")
+									a(href="{{url_for_security('logout')}}")
 										i.fa.fa-power-off
 										|  Log out
 						| {% else %}
 						li.absolute.right
-							a(href="{{url_for_security('login', next=config.SUBFOLDER)}}")
+							a(href="{{url_for_security('login')}}")
 								i.fa.fa-sign-in
 								|  Sign in
 						| {% endif %}
