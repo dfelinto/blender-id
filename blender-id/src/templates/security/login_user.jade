@@ -10,7 +10,7 @@
 		.col-md-8.col-md-push-2
 			.box
 				i.bf-blender.backicon
-				form.margin-top-5(role='login', action="{{ url_for_security('login') }}", method='POST', name='login_user_form')
+				form.margin-top-5(role='login', action="{{ url_for_security('login', next=config.APPLICATION_ROOT) }}", method='POST', name='login_user_form')
 					| {{ login_user_form.hidden_tag() }}
 					.col-md-6
 						fieldset

@@ -47,7 +47,7 @@ Welcome!
                 <label for="signin" class="control-label"></label>
                 <div class="controls">{{ render_field(register_user_form.submit, value="Sign Up", class='btn btn-default btn-lg btn-squishy width-75') }}</div>
               </div>
-              <hr/><a href="{{ url_for_security('login') }}"><i class="fa fa-angle-double-left"></i> Back to Login</a>
+              <hr/><a href="{{ url_for_security('login', next=config.APPLICATION_ROOT) }}"><i class="fa fa-angle-double-left"></i> Back to Login</a>
             </div>
           </div>
         </form>

@@ -60,7 +60,7 @@
 								.controls
 									| {{ render_field(register_user_form.submit, value="Sign Up", class='btn btn-default btn-lg btn-squishy width-75') }}
 							hr
-							a(href="{{ url_for_security('login') }}")
+							a(href="{{ url_for_security('login', next=config.APPLICATION_ROOT) }}")
 								i.fa.fa-angle-double-left
 								|  Back to Login
 | {% endblock %}
