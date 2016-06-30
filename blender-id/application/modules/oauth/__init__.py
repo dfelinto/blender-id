@@ -138,6 +138,18 @@ def access_token():
 def revoke_token(): pass
 
 
+def split_name(full_name):
+    # Backwards compatibility for full_name last_name
+    if not full_name:
+        return u'', u''
+
+    name_split = full_name.split(u' ')
+    half = len(name_split) // 2
+
+    return (u' '.join(name_split[:half]),
+            u' '.join(name_split[half:]))
+
+
 @oauth_api.route('/user')
 @oauth.require_oauth()
 def user():
@@ -148,10 +160,7 @@ def user():
     for role in public_roles:
         public_roles[role] = self_user.has_role(role)
 
-    # Backwards compatibility for full_name last_name
-    name_split = self_user.full_name.split(' ') if self_user.full_name else ''
-    first_name = '' if len(name_split) == 0 else name_split[0]
-    last_name = '' if len(name_split) < 1 else name_split[1]
+    first_name, last_name = split_name(self_user.full_name)
 
     return jsonify(
         id=self_user.id,
