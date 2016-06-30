@@ -146,12 +146,12 @@ def user():
         'bfct_trainer': False,
         'network_member': False}
     for role in public_roles:
-        public_roles[role] = user.has_role(role)
+        public_roles[role] = self_user.has_role(role)
 
     return jsonify(
         id=self_user.id,
         full_name=self_user.full_name,
-        email=user.email,
+        email=self_user.email,
         roles=public_roles)
 
 
