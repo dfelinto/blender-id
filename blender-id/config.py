@@ -18,7 +18,7 @@ SECURITY_LOGIN_WITHOUT_CONFIRMATION = True
 SECURITY_REGISTERABLE = True
 SECURITY_RECOVERABLE = True
 SECURITY_CHANGEABLE = True
-SECURITY_CONFIRMABLE = False
+SECURITY_CONFIRMABLE = True  # Enables confirmation mails.
 SECUIRTY_POST_LOGIN = '/'
 SECURITY_PASSWORD_HASH = 'bcrypt'
 SECURITY_PASSWORD_SALT = '-set-in-local-config-'
@@ -27,6 +27,10 @@ SECURITY_LOGIN_USER_TEMPLATE = 'security/login_user.html'
 SECURITY_TRACKABLE = True
 SECURITY_POST_LOGIN_VIEW = 'homepage'
 SECURITY_POST_LOGOUT_VIEW = 'homepage'
+
+SECURITY_MSG_CONFIRMATION_REQUIRED = ('We have sent you a confirmation email. Please confirm your '
+                                      'email address before logging in.',
+                                      'error')
 
 GOOGLE_ANALYTICS_TRACKING_ID = ''
 GOOGLE_ANALYTICS_DOMAIN = ''

@@ -22,7 +22,7 @@
 							| {{ render_field(send_confirmation_form.submit, class='btn btn-default btn-lg btn-squishy width-half') }}
 						hr
 						p
-							a.margin-bottom-5(href="{{url_for('homepage')}}")
-								i.fa.fa-angle-double-left
-								|  Back
+							a.margin-bottom-5(href="{{url_for_security('login')}}")
+								i.fa.fa-angle-double-right
+								|  Log in
 | {% endblock %}
