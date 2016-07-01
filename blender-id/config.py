@@ -28,9 +28,9 @@ SECURITY_TRACKABLE = True
 SECURITY_POST_LOGIN_VIEW = 'homepage'
 SECURITY_POST_LOGOUT_VIEW = 'homepage'
 
-SECURITY_MSG_CONFIRMATION_REQUIRED = ('We have sent you a confirmation email. Please confirm your '
-                                      'email address before logging in.',
-                                      'error')
+SECURITY_MSG_CONFIRMATION_REQUIRED = ('We have enabled an extra check that requires you to '
+                                      'confirm your email address.',
+                                      'warning')
 
 GOOGLE_ANALYTICS_TRACKING_ID = ''
 GOOGLE_ANALYTICS_DOMAIN = ''
