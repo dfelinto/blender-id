@@ -1,8 +1,9 @@
 *.pyc
+__pycache__
 venv
 *.sublime-project
 *.sublime-workspace
-blender-id/config.py
+blender-id/config_local.py
 blender-id/runserver.wsgi
 blender-id/application/static/assets/css/main.css
 node_modules

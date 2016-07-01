@@ -1,5 +1,5 @@
 import os
-import logging
+import logging.config
 
 from flask import Flask
 from flask import Blueprint
@@ -11,23 +11,25 @@ from flask.ext.security import Security
 
 # Create app
 app = Flask(__name__)
-import config
-app.config.from_object(config.Development)
 
-if 'BLENDER_ID_CONFIG' in os.environ:
-    app.config.from_pyfile(os.environ['BLENDER_ID_CONFIG'], silent=False)
+# Load configuration from three different sources, to make it easy to override
+# settings with secrets, as well as for development & testing.
+app_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+app.config.from_pyfile(os.path.join(app_root, 'config.py'), silent=False)
+app.config.from_pyfile(os.path.join(app_root, 'config_local.py'), silent=True)
+from_envvar = os.environ.get('BLENDER_ID_CONFIG')
+if from_envvar:
+    # Don't use from_envvar, as we want different behaviour. If the envvar
+    # is not set, it's fine (i.e. silent=True), but if it is set and the
+    # configfile doesn't exist, it should error out (i.e. silent=False).
+    app.config.from_pyfile(from_envvar, silent=False)
 
 # Configure logging
-logging.basicConfig(
-    level=logging.WARNING,
-    format='%(asctime)-15s %(levelname)8s %(name)s %(message)s')
-
-logging.getLogger('werkzeug').setLevel(logging.INFO)
-
+logging.config.dictConfig(app.config['LOGGING'])
 log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG if app.config['DEBUG'] else logging.INFO)
 if app.config['DEBUG']:
     log.info('BlenderID starting, debug=%s', app.config['DEBUG'])
+
 
 # Create database connection object
 db = SQLAlchemy(app)
