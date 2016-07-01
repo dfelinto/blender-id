@@ -32,8 +32,7 @@ GOOGLE_ANALYTICS_TRACKING_ID = ''
 GOOGLE_ANALYTICS_DOMAIN = ''
 
 # Configure the mount point of the server; usually / but /id on production.
-SUBFOLDER = '/'
-APPLICATION_ROOT = SUBFOLDER
+APPLICATION_ROOT = '/'
 
 SESSION_COOKIE_NAME = 'blenderIDsession'
 
