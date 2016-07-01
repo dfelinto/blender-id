@@ -22,4 +22,6 @@ blender-id/application/templates/authorize.html
 blender-id/application/templates/index.html
 blender-id/application/templates/layout.html
 blender-id/application/templates/security/login_user.html
+blender-id/application/templates/security/register_user.html
+blender-id/application/templates/security/send_confirmation.html
 blender-id/application/templates/settings/profile.html
