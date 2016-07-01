@@ -5,12 +5,9 @@
 | Welcome!
 | {% endblock %}
 | {% block header %}
-| <script>
-| function resend_confirm_mail() {
-|     var email = document.getElementById("email").value;
-|     window.location = "{{ url_for_security('send_confirmation') }}?email=" + email;
-| }
-| </script>
+| {% if login_user_form.requires_confirmation %}
+script(src="{{ url_for('static', filename='assets/js/confirmation_email.js') }}")
+| {% endif %}
 | {% endblock %}
 | {% block body %}
 .container
@@ -23,16 +20,15 @@
 					.col-md-6
 						fieldset
 							// Email input
-							.input-group.input-group-lg.width-full
+							.input-group.input-group-lg.width-full(id='email_input_group')
 								span.input-group-addon
 									i.fa.fa-envelope-o
 								| {{ render_login_field_with_errors(login_user_form.email, class='form-control', placeholder="E-mail") }}
 								| {# requires_confirmation is set from NicerLoginForm.validate() #}
 								| {% if login_user_form.requires_confirmation %}
-								| Send me a
-								=' '
-								a(href='javascript:resend_confirm_mail();') confirmation email
-								| .
+								p
+									button(onclick='send_confirm_mail("{{ url_for_security(\'send_confirmation\') }}"); return false;')
+										| Send me a confirmation email
 								| {% endif %}
 								label.control-label Email
 							.clearfix.margin-top-2
