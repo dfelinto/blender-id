@@ -197,7 +197,7 @@ def address():
         return None
 
 
-@app.route(oauth.error_uri)
+@app.route('/oauth/error')
 def oauth_error():
     """Generic OAuth error handler."""
     return render_template('oauth_errors.html')

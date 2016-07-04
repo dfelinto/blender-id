@@ -42,6 +42,8 @@ SESSION_COOKIE_NAME = 'blenderIDsession'
 
 # Token expiry for the username/password (aka special snowflake) authentication system.
 OAUTH2_PROVIDER_TOKEN_EXPIRES_IN = 3600 * 24 * 365  # one year, in seconds.
+OAUTH2_PROVIDER_ERROR_ENDPOINT = 'oauth_error'
+
 BLENDER_ID_ADDON_CLIENT_ID = '-set-in-local-config-'  # Client ID for the special snowflake client.
 
 DEFAULT_CLIENTS = [
