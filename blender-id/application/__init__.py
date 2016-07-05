@@ -33,7 +33,7 @@ if app.config['DEBUG']:
 
 # Get the Git hash
 try:
-    git_cmd = ['git', '-C', app_root, 'describe', '--always']
+    git_cmd = [app.config['GIT'], '-C', app_root, 'describe', '--always']
     description = subprocess.check_output(git_cmd)
     app.config['GIT_REVISION'] = description.strip()
 except (subprocess.CalledProcessError, OSError) as ex:
