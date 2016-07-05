@@ -1,5 +1,6 @@
 import os
 import logging.config
+import subprocess
 
 from flask import Flask
 from flask import Blueprint
@@ -30,6 +31,16 @@ log = logging.getLogger(__name__)
 if app.config['DEBUG']:
     log.info('BlenderID starting, debug=%s', app.config['DEBUG'])
 
+# Get the Git hash
+try:
+    git_cmd = ['git', '-C', app_root, 'describe', '--always']
+    description = subprocess.check_output(git_cmd)
+    app.config['GIT_REVISION'] = description.strip()
+except (subprocess.CalledProcessError, OSError) as ex:
+    log.warning('Unable to run "git describe" to get git revision: %s', ex)
+    app.config['GIT_REVISION'] = 'unknown'
+log.info('Git revision %r', app.config['GIT_REVISION'])
+
 
 # Create database connection object
 db = SQLAlchemy(app)
@@ -44,7 +55,8 @@ if 'BUGSNAG_API_KEY' in app.config:
     from bugsnag.flask import handle_exceptions
     bugsnag.configure(
         api_key = app.config['BUGSNAG_API_KEY'],
-        project_root = app.config['APPLICATION_ROOT']
+        project_root = app.config['APPLICATION_ROOT'],
+        revision=app.config['GIT_REVISION'],
     )
     handle_exceptions(app)
 
