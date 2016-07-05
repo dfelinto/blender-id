@@ -62,7 +62,7 @@ DEFAULT_CLIENTS = [
 SECRET_KEY = '-set-in-local-config-'
 SQLALCHEMY_DATABASE_URI = 'mysql://-set-in-local-config-@mysql/blender_id?charset=utf8'
 
-application_dir = os.path.join(ROOT_PATH, 'blender-id', 'application')
+application_dir = os.path.join(ROOT_PATH, 'application')
 MEDIA_FOLDER = os.path.join(application_dir, 'static', 'files')
 MEDIA_URL = 'files/'
 MEDIA_THUMBNAIL_FOLDER = os.path.join(application_dir, 'static', 'thumbnails')
