@@ -96,3 +96,5 @@ LOGGING = {
         ],
     }
 }
+
+GIT = 'git'
