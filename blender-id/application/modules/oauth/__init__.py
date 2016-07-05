@@ -181,20 +181,20 @@ def me():
 @oauth.require_oauth()
 def address():
     user = request.oauth.user
-    if user.address:
-        address = user.address[0]
-        return jsonify(
-            address_type=address.address_type,
-            first_name=address.first_name,
-            last_name=address.last_name,
-            street_address=address.street_address,
-            extended_address=address.extended_address,
-            locality=address.locality,
-            region=address.region,
-            postal_code=address.postal_code,
-            country_code_alpha2=address.country_code_alpha2)
-    else:
-        return None
+    if not user.address:
+        return jsonify({})
+
+    address = user.address[0]
+    return jsonify(
+        address_type=address.address_type,
+        first_name=address.first_name,
+        last_name=address.last_name,
+        street_address=address.street_address,
+        extended_address=address.extended_address,
+        locality=address.locality,
+        region=address.region,
+        postal_code=address.postal_code,
+        country_code_alpha2=address.country_code_alpha2)
 
 
 @app.route('/oauth/error')
