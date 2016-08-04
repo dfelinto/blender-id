@@ -12,16 +12,18 @@ if [ $(git rev-parse --abbrev-ref HEAD) != "production" ]; then
     exit 1
 fi
 
-echo "\n *** GULPA GULPA ***\n"
+echo
+echo "*** GULPA GULPA ***"
 if [ -x ./node_modules/.bin/gulp ]; then
     ./node_modules/.bin/gulp
 else
     gulp
 fi
 
-echo "\n *** SYNCING ASSETS ***\n"
+echo
+echo "*** SYNCING ASSETS ***"
 rsync -avh $ASSETS borg@www.blender.org:$WEBROOT/$APP/application/static/assets/
 
-echo "\n *** SYNCING TEMPLATES *** \n"
+echo
+echo "*** SYNCING TEMPLATES ***"
 rsync -avh $TEMPLATES borg@www.blender.org:$WEBROOT/$APP/application/templates/
-
