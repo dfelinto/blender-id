@@ -60,15 +60,23 @@ def verify_identity():
     host_label = request.form['host_label']
 
     user = user_datastore.get_user(username)
-    if not user:
+
+    # Blinding: we're always taking the time to verify a password,
+    # so that the caller can't determine whether the username exists
+    # or not based on timing of the response.
+    if user:
+        password_ok = verify_password(password, user.password)
+        log.debug('User %r exists but not with the given password', username)
+    else:
+        verify_password(password, 'fake-password')
+        password_ok = False
         log.debug('User %r does not exist', username)
-        return jsonify(status='fail', data={'username': 'User does not exist'})
-    if not verify_password(password, user.password):
+
+    if not password_ok:
         # TODO Throttle authentication attempts (limit to 3 or 5)
         # We need to address the following cases:
         # - the user already has a token-host_label pair
         # - the user never autheticated before (where do we store such info?)
-        log.debug('User %r exists but not with password %r', username, password)
         return jsonify(status='fail', data={'password': 'Wrong password'})
 
     token = create_oauth_token(user, host_label)
