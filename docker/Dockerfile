@@ -24,7 +24,7 @@ ENV PIP_PACKAGES_VERSION 1
 ADD requirements.txt /requirements.txt
 
 RUN . /data/venv/bin/activate \
-&& pip install -r /requirements.txt
+&& pip install -U pip && pip install -r /requirements.txt
 
 VOLUME /data/git/blender-id
 VOLUME /data/storage
