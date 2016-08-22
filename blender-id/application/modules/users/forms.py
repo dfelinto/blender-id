@@ -5,7 +5,6 @@ from flask_security.forms import Required
 from flask_security.forms import LoginForm
 from wtforms import StringField
 from wtforms import SelectField
-from wtforms import BooleanField
 
 from wtforms.validators import DataRequired
 import pycountry
@@ -19,7 +18,8 @@ class ProfileForm(Form):
 class CountrySelectField(SelectField):
     def __init__(self, *args, **kwargs):
         super(CountrySelectField, self).__init__(*args, **kwargs)
-        self.choices = [(country.alpha2, country.name) for country in pycountry.countries]
+        self.choices = [
+            (country.alpha2, country.name) for country in pycountry.countries]
 
 
 class AddressForm(Form):
@@ -30,7 +30,8 @@ class AddressForm(Form):
     locality = StringField('City', validators=[DataRequired()])
     region = StringField('Region/State', validators=[DataRequired()])
     postal_code = StringField('ZIP Code', validators=[DataRequired()])
-    country_code_alpha2 = CountrySelectField('Country', validators=[DataRequired()])
+    country_code_alpha2 = CountrySelectField('Country',
+                                             validators=[DataRequired()])
 
 
 class ExtendedRegisterForm(RegisterForm, ConfirmRegisterForm):

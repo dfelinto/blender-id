@@ -38,8 +38,8 @@ def _list_items(view, context, model, name):
     return Markup(
         '<div class="select2-container-multi">'
             '<ul class="select2-choices" style="border:0;cursor:default;background:none;">%s</ul></div>' % (
-                ''.join( ['<li class="select2-search-choice" style="padding:3px 5px;">'
-                            '<div>'+item.name+'</div></li>' for item in getattr(model,name)] )))
+                ''.join(['<li class="select2-search-choice" style="padding:3px 5px;">'
+                            '<div>'+item.name+'</div></li>' for item in getattr(model,name)])))
 
 
 def _list_thumbnail(view, context, model, name):
@@ -69,11 +69,12 @@ def prefix_name(obj, file_data):
 
 
 def image_upload_field(label):
-    return form.ImageUploadField(label,
-                    base_path=file_path,
-                    thumbnail_size=(100, 100, True),
-                    namegen=prefix_name,
-                    endpoint='filemanager.static')
+    return form.ImageUploadField(
+        label,
+        base_path=file_path,
+        thumbnail_size=(100, 100, True),
+        namegen=prefix_name,
+        endpoint='filemanager.static')
 
 
 
@@ -114,8 +115,8 @@ class MyAdminIndexView(admin.AdminIndexView):
     @expose('/')
     def index(self):
         if login.current_user.has_role('admin'):
-            return self.render('admin/homepage.html')
-            return super(MyAdminIndexView, self).index()
+            return self.render(
+                'admin/homepage.html')
         else:
             return redirect(url_for('homepage'))
 

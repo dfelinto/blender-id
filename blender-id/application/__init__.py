@@ -54,8 +54,8 @@ if 'BUGSNAG_API_KEY' in app.config:
     import bugsnag
     from bugsnag.flask import handle_exceptions
     bugsnag.configure(
-        api_key = app.config['BUGSNAG_API_KEY'],
-        project_root = app.config['APPLICATION_ROOT'],
+        api_key=app.config['BUGSNAG_API_KEY'],
+        project_root=app.config['APPLICATION_ROOT'],
         revision=app.config['GIT_REVISION'],
     )
     handle_exceptions(app)
