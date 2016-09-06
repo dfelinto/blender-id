@@ -1,10 +1,13 @@
+import datetime
 import os
 import hashlib
 import time
 import os.path
+import logging
 
 from flask import redirect
 from flask import url_for
+import flask
 
 import flask_admin
 import flask_admin.form
@@ -14,6 +17,7 @@ import flask_admin.model.template
 
 import flask_login
 import flask_security.utils
+import flask_security.recoverable
 
 from werkzeug.utils import secure_filename
 from jinja2 import Markup
@@ -23,6 +27,9 @@ from application import db
 from application import thumb
 from application.modules.users.model import user_datastore
 from application.modules.users.model import User
+
+log = logging.getLogger(__name__)
+
 
 def _list_items(view, context, model, name):
     """Utilities to upload and present images
@@ -101,6 +108,25 @@ class UserView(CustomModelView):
     column_formatters = dict(user_operations=flask_admin.model.template.macro('user_operations'))
     form_columns = ('email', 'full_name', 'active', 'roles')
     list_template = 'admin/user/list.html'
+
+    def on_model_change(self, form, user_model, is_created):
+        if not is_created:
+            return
+
+        # Users created by an admin don't need email verification
+        user_model.confirmed_at = datetime.datetime.now()
+
+        # Automatically send password-recover email.
+        if user_model.password is None:
+            user_model.password = 'you really have to reset this password'
+
+        try:
+            flask_security.recoverable.send_reset_password_instructions(user_model)
+            flask.flash('Password reset email sent to %s' % user_model.email)
+        except Exception as ex:
+            log.exception('Error sending password-recover mail to %s', user_model.email)
+            flask.flash('Unable to send password reset email to %s: %s' % (user_model.email, ex),
+                        category='warning')
 
 
 # Create customized index view class that handles login & registration
