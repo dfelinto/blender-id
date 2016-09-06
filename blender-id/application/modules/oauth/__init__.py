@@ -154,11 +154,14 @@ def split_name(full_name):
 @oauth.require_oauth()
 def user():
     self_user = request.oauth.user
+
+    # Ensure that some roles are set to False when not there.
     public_roles = {
         'bfct_trainer': False,
         'network_member': False}
-    for role in public_roles:
-        public_roles[role] = self_user.has_role(role)
+    # The remaining roles are added only when granted.
+    for role in self_user.roles:
+        public_roles[role.name] = True
 
     first_name, last_name = split_name(self_user.full_name)
 
