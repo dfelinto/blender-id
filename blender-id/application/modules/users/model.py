@@ -33,7 +33,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(255))
     full_name = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable=False, default='')
-    active = db.Column(db.Boolean())
+    active = db.Column(db.Boolean(), default=True)
     confirmed_at = db.Column(db.DateTime())
     last_login_at = db.Column(db.DateTime())
     current_login_at = db.Column(db.DateTime())

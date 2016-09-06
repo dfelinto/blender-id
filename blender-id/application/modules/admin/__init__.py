@@ -106,7 +106,7 @@ class UserView(CustomModelView):
     column_list = ('email', 'active', 'full_name', 'user_operations')
     column_filters = ('id', 'email', 'active', 'full_name')
     column_formatters = dict(user_operations=flask_admin.model.template.macro('user_operations'))
-    form_columns = ('email', 'full_name', 'active', 'roles')
+    form_columns = ('email', 'full_name', 'roles')
     list_template = 'admin/user/list.html'
 
     def on_model_change(self, form, user_model, is_created):
@@ -115,6 +115,7 @@ class UserView(CustomModelView):
 
         # Users created by an admin don't need email verification
         user_model.confirmed_at = datetime.datetime.now()
+        user_model.active = True
 
         # Automatically send password-recover email.
         if user_model.password is None:
