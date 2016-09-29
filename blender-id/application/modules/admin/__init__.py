@@ -19,6 +19,8 @@ import flask_login
 import flask_security.utils
 import flask_security.recoverable
 
+import wtforms
+
 from werkzeug.utils import secure_filename
 from jinja2 import Markup
 
@@ -108,8 +110,12 @@ class UserView(CustomModelView):
     column_list = ('email', 'active', 'full_name', 'user_operations')
     column_filters = ('id', 'email', 'active', 'full_name')
     column_formatters = dict(user_operations=flask_admin.model.template.macro('user_operations'))
-    form_columns = ('email', 'full_name', 'roles')
+    form_columns = ('email', 'full_name', 'roles', 'initial_password')
     list_template = 'admin/user/list.html'
+
+    form_extra_fields = {
+        'initial_password': wtforms.PasswordField('Initial Password')
+    }
 
     def on_model_change(self, form, user_model, is_created):
         if not is_created:
@@ -119,17 +125,28 @@ class UserView(CustomModelView):
         user_model.confirmed_at = datetime.datetime.now()
         user_model.active = True
 
-        # Automatically send password-recover email.
-        if user_model.password is None:
-            user_model.password = 'you really have to reset this password'
+        # Automatically send password-recover email, but only if the initial password was empty.
+        send_reset_mail = False
+        if not user_model.initial_password:
+            user_model.initial_password = u'you really have to reset this password'
+            send_reset_mail = True
 
-        try:
-            flask_security.recoverable.send_reset_password_instructions(user_model)
-            flask.flash('Password reset email sent to %s' % user_model.email)
-        except Exception as ex:
-            log.exception('Error sending password-recover mail to %s', user_model.email)
-            flask.flash('Unable to send password reset email to %s: %s' % (user_model.email, ex),
-                        category='warning')
+        user_model.password = flask_security.utils.encrypt_password(user_model.initial_password)
+        del user_model.initial_password
+
+        if send_reset_mail:
+            try:
+                flask_security.recoverable.send_reset_password_instructions(user_model)
+                flask.flash('Password reset email sent to %s' % user_model.email)
+            except Exception as ex:
+                log.exception('Error sending password-recover mail to %s', user_model.email)
+                flask.flash(
+                    'Unable to send password reset email to %s: %s' % (user_model.email, ex),
+                    category='warning')
+        else:
+            flask.flash('DID NOT SEND Password reset email to %s, '
+                        'you gave an initial password so send it yourself.' % user_model.email,
+                        category='info')
 
 
 # Create customized index view class that handles login & registration
