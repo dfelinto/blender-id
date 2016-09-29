@@ -38,19 +38,21 @@ def _list_items(view, context, model, name):
         return ''
     return Markup(
         '<div class="select2-container-multi">'
-            '<ul class="select2-choices" style="border:0;cursor:default;background:none;">%s</ul></div>' % (
-                ''.join(['<li class="select2-search-choice" style="padding:3px 5px;">'
-                            '<div>'+item.name+'</div></li>' for item in getattr(model,name)])))
+        '<ul class="select2-choices" style="border:0;cursor:default;background:none;">%s</ul></div>' % (
+            ''.join(['<li class="select2-search-choice" style="padding:3px 5px;">'
+                     '<div>' + item.name + '</div></li>' for item in getattr(model, name)])))
 
 
 def _list_thumbnail(view, context, model, name):
-    if not getattr(model,name):  #model.name only does not work because name is a string
+    if not getattr(model, name):  # model.name only does not work because name is a string
         return ''
     return Markup('<img src="%s">' % url_for('static',
-        filename=thumb.thumbnail(getattr(model,name), '50x50', crop='fit')))
+                                             filename=thumb.thumbnail(getattr(model, name), '50x50',
+                                                                      crop='fit')))
+
 
 # Create directory for file fields to use
-file_path = os.path.join(os.path.dirname(__file__), '../../static/files',)
+file_path = os.path.join(os.path.dirname(__file__), '../../static/files', )
 try:
     os.mkdir(file_path)
 except OSError:
@@ -78,11 +80,11 @@ def image_upload_field(label):
         endpoint='filemanager.static')
 
 
-
 # Create customized views with access restriction
 class CustomModelView(flask_admin.contrib.sqla.ModelView):
     def is_accessible(self):
         return flask_login.current_user.has_role('admin')
+
 
 class CustomBaseView(flask_admin.base.BaseView):
     def is_accessible(self):
@@ -132,7 +134,6 @@ class UserView(CustomModelView):
 
 # Create customized index view class that handles login & registration
 class MyAdminIndexView(flask_admin.AdminIndexView):
-
     @flask_admin.expose('/')
     def index(self):
         if flask_login.current_user.has_role('admin'):
@@ -156,4 +157,5 @@ backend = flask_admin.Admin(
 )
 
 backend.add_view(UserView(User, db.session, name='Users', url='users', endpoint='users'))
-backend.add_view(UserOperationsView(name='User Operations', endpoint='user-operations', url='user-operations'))
+backend.add_view(
+    UserOperationsView(name='User Operations', endpoint='user-operations', url='user-operations'))
