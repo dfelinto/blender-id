@@ -15,7 +15,7 @@ blender-id/application/static/thumbnails/
 *.egg-info/
 .cache/
 *.sql
-/.coverage
+.coverage
 
 # Jade/gulp generated files
 blender-id/application/templates/about.html
