@@ -8,8 +8,8 @@ from flask import request
 from flask import flash
 from flask import jsonify
 
-from flask.ext.security import login_required
-from flask.ext.security.core import current_user
+from flask_security import login_required
+from flask_security.core import current_user
 
 from application.modules.users.forms import ProfileForm
 from application.modules.users.forms import AddressForm

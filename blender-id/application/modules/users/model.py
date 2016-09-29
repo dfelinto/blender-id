@@ -3,9 +3,9 @@ import urllib
 import datetime
 import uuid
 from sqlalchemy.orm.exc import NoResultFound
-from flask.ext.security import SQLAlchemyUserDatastore
-from flask.ext.security import UserMixin
-from flask.ext.security import RoleMixin
+from flask_security import SQLAlchemyUserDatastore
+from flask_security import UserMixin
+from flask_security import RoleMixin
 
 from application import db
 from application.helpers import convert_to_type

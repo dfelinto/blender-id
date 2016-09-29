@@ -6,8 +6,8 @@ from flask import render_template
 from flask import request
 from flask import Blueprint
 
-from flask.ext.security import current_user
-from flask.ext.security import login_required
+from flask_security import current_user
+from flask_security import login_required
 from flask_security.utils import verify_password
 
 from application import app

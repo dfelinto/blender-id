@@ -4,11 +4,11 @@ import subprocess
 
 from flask import Flask
 from flask import Blueprint
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.mail import Mail
+from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
 from flask_oauthlib.provider import OAuth2Provider
-from flask.ext.thumbnails import Thumbnail
-from flask.ext.security import Security
+from flask_thumbnails import Thumbnail
+from flask_security import Security
 
 # Create app
 app = Flask(__name__)

@@ -5,9 +5,9 @@ import datetime
 from application import app
 from application import db
 
-from flask.ext.security import (Security, 
+from flask_security import (Security,
     SQLAlchemyUserDatastore,
-    UserMixin, 
+    UserMixin,
     RoleMixin)
 from sqlalchemy.orm.exc import NoResultFound
 

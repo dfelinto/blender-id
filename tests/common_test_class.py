@@ -8,7 +8,6 @@ import datetime
 
 from flask.testing import FlaskClient
 import flask_migrate
-from flask.ext.migrate import Migrate
 import oauthlib.common
 import sqlalchemy_utils.functions
 
@@ -49,7 +48,7 @@ class AbstractBlenderIdTest(unittest.TestCase):
         # Make sure we have the correct database.
         from application import db
 
-        Migrate(app, db)
+        flask_migrate.Migrate(app, db)
         with app.test_request_context():
             migdir = os.path.join(os.path.dirname(MY_PATH), 'blender-id', 'migrations')
             log.info('Loading migrations from %s', migdir)
