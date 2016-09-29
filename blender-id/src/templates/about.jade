@@ -34,7 +34,7 @@
 		// box
 	.col-md-6.about__join
 		.box
-			| {% if current_user.is_authenticated() %}
+			| {% if current_user.is_authenticated %}
 			.about__join-authenticated
 				.vertical-align
 					a(href="{{url_for('homepage')}}")
@@ -47,7 +47,7 @@
 						a(href="{{url_for('homepage')}}")  dashboard
 						|  for more info
 			| 			{% endif %}
-			| 			{% if not current_user.is_authenticated() %}
+			| 			{% if not current_user.is_authenticated %}
 			.about__join-anonymous
 				.vertical-align
 					ul.about__join-icons

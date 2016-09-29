@@ -54,11 +54,11 @@ html(lang="en")
 					ul.nav.navbar-nav.navbar-left
 						li(class="{% if title == 'about': %}active{% endif %}")
 							a(href="{{ url_for('about') }}") About
-						| {% if current_user.is_authenticated() %}
+						| {% if current_user.is_authenticated %}
 						li(class="{% if title == 'home': %}active{% endif %}")
 							a(href="{{url_for('homepage')}}") Dashboard
 						| {% endif %}
-						| {% if current_user.is_authenticated() %}
+						| {% if current_user.is_authenticated %}
 						li.dropdown.absolute.right
 							a.dropdown-toggle(href='#', data-toggle='dropdown')
 								| {{current_user.email}}

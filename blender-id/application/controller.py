@@ -19,7 +19,7 @@ from application.modules.oauth.model import Client
 # Views
 @app.route('/')
 def homepage():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         return render_template('index.html', title='home')
     else:
         return redirect(url_for('about'))
