@@ -28,10 +28,14 @@ class Role(db.Model, RoleMixin):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(255), unique=True)
+    email = db.Column(db.String(255), unique=True, nullable=False)
     first_name = db.Column(db.String(255))
     last_name = db.Column(db.String(255))
+
+    # nullable=False cannot be put into migration yet, until we have tested thoroughly
+    # with the store integration.
     full_name = db.Column(db.String(255), nullable=False)
+
     password = db.Column(db.String(255), nullable=False, default='')
     active = db.Column(db.Boolean(), default=True)
     confirmed_at = db.Column(db.DateTime())
