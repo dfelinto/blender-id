@@ -114,6 +114,9 @@ class UserView(CustomModelView):
     list_template = 'admin/user/list.html'
 
     form_extra_fields = {
+        'email': wtforms.StringField('Email address',
+                                     [wtforms.validators.DataRequired(),
+                                      wtforms.validators.Email()]),
         'initial_password': wtforms.PasswordField('Initial Password')
     }
 
