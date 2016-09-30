@@ -122,6 +122,15 @@ class UserView(CustomModelView):
 
     def on_model_change(self, form, user_model, is_created):
         if not is_created:
+            # Allow password resets
+            if not user_model.initial_password:
+                return
+            user_model.password = flask_security.utils.encrypt_password(user_model.initial_password)
+            del user_model.initial_password
+
+            flask.flash('Password for user %s was reset, '
+                        'you have to notify the user yourself.' % user_model.email,
+                        category='info')
             return
 
         # Users created by an admin don't need email verification
