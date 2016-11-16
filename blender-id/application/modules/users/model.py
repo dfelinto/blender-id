@@ -95,8 +95,8 @@ class User(db.Model, UserMixin):
             parameters['f'] = 'y'
 
         return "https://www.gravatar.com/avatar/" + \
-            hashlib.md5(self.email.lower()).hexdigest() + \
-            "?" + urllib.urlencode(parameters)
+            hashlib.md5(self.email.lower().encode('utf-8')).hexdigest() + \
+            "?" + urllib.parse.urlencode(parameters)
 
     def __str__(self):
         return str(self.email)

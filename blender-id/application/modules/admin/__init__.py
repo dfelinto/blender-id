@@ -69,7 +69,7 @@ def prefix_name(obj, file_data):
     # Has filename only (not extension)
     file_name = secure_filename(timestamp + '%s' % parts[0])
     # Put them together
-    full_name = hashlib.md5(file_name).hexdigest() + parts[1]
+    full_name = hashlib.md5(file_name.encode('utf-8')).hexdigest() + parts[1]
     return full_name
 
 
