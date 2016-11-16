@@ -22,9 +22,9 @@ def upgrade():
 def downgrade():
     op.create_table('country',
                     sa.Column('id', mysql.INTEGER(display_width=5), nullable=False),
-                    sa.Column('code', mysql.CHAR(length=2), server_default=sa.text(u"''"), nullable=False),
-                    sa.Column('name', mysql.VARCHAR(length=45), server_default=sa.text(u"''"), nullable=False),
+                    sa.Column('code', mysql.CHAR(length=2), server_default=sa.text("''"), nullable=False),
+                    sa.Column('name', mysql.VARCHAR(length=45), server_default=sa.text("''"), nullable=False),
                     sa.PrimaryKeyConstraint('id'),
-                    mysql_default_charset=u'utf8',
-                    mysql_engine=u'InnoDB'
+                    mysql_default_charset='utf8',
+                    mysql_engine='InnoDB'
                     )

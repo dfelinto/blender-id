@@ -29,8 +29,8 @@ def upgrade():
                     sa.ForeignKeyConstraint(['client_id'], ['client.client_id'], ),
                     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
                     sa.PrimaryKeyConstraint('subclient_specific_token'),
-                    mysql_default_charset=u'utf8',
-                    mysql_engine=u'InnoDB'
+                    mysql_default_charset='utf8',
+                    mysql_engine='InnoDB'
                     )
 
 

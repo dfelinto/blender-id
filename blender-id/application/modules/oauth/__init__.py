@@ -141,13 +141,13 @@ def revoke_token(): pass
 def split_name(full_name):
     # Backwards compatibility for full_name last_name
     if not full_name:
-        return u'', u''
+        return '', ''
 
-    name_split = full_name.split(u' ')
+    name_split = full_name.split(' ')
     half = len(name_split) // 2
 
-    return (u' '.join(name_split[:half]),
-            u' '.join(name_split[half:]))
+    return (' '.join(name_split[:half]),
+            ' '.join(name_split[half:]))
 
 
 @oauth_api.route('/user')

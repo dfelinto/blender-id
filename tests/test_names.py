@@ -13,17 +13,17 @@ class UserNameTest(AbstractBlenderIdTest):
     def test_split_name(self):
         from application.modules.oauth import split_name
 
-        self.assertEqual((u'Fürst', u'Name'),
-                         split_name(u'Fürst Name'))
+        self.assertEqual(('Fürst', 'Name'),
+                         split_name('Fürst Name'))
 
-        self.assertEqual((u'First', u'Double Lastname'),
-                         split_name(u'First Double Lastname'))
+        self.assertEqual(('First', 'Double Lastname'),
+                         split_name('First Double Lastname'))
 
-        self.assertEqual((u'Double First', u'Double Lastname'),
-                         split_name(u'Double First Double Lastname'))
+        self.assertEqual(('Double First', 'Double Lastname'),
+                         split_name('Double First Double Lastname'))
 
-        self.assertEqual((u'', u'Last'),
-                         split_name(u'Last'))
+        self.assertEqual(('', 'Last'),
+                         split_name('Last'))
 
-        self.assertEqual((u'', u''),
-                         split_name(u''))
+        self.assertEqual(('', ''),
+                         split_name(''))

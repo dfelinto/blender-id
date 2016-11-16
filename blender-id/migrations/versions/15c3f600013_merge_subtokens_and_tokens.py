@@ -30,11 +30,11 @@ def downgrade():
                               nullable=False),
                     sa.Column('expires', mysql.DATETIME(), nullable=True),
                     sa.Column('host_label', mysql.VARCHAR(length=255), nullable=True),
-                    sa.ForeignKeyConstraint(['client_id'], [u'client.client_id'],
-                                            name=u'subclient_token_ibfk_1'),
-                    sa.ForeignKeyConstraint(['user_id'], [u'user.id'],
-                                            name=u'subclient_token_ibfk_2'),
+                    sa.ForeignKeyConstraint(['client_id'], ['client.client_id'],
+                                            name='subclient_token_ibfk_1'),
+                    sa.ForeignKeyConstraint(['user_id'], ['user.id'],
+                                            name='subclient_token_ibfk_2'),
                     sa.PrimaryKeyConstraint('subclient_specific_token'),
-                    mysql_default_charset=u'utf8',
-                    mysql_engine=u'InnoDB'
+                    mysql_default_charset='utf8',
+                    mysql_engine='InnoDB'
                     )

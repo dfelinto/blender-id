@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-from __future__ import absolute_import
+
 
 import logging
 
@@ -24,10 +24,10 @@ class ManualUserCreationTest(AbstractBlenderIdTest):
 
     @mock.patch('flask_security.recoverable.send_mail')
     def test_manual_user_creation__no_password(self, mock_send_mail):
-        self._create_user_through_admin(u'')
+        self._create_user_through_admin('')
         mock_send_mail.assert_called_once()
 
-        created_user = self._find_user(u'user@example.com')
+        created_user = self._find_user('user@example.com')
 
         # Reset the password.
         with self.app.test_request_context():
@@ -35,22 +35,22 @@ class ManualUserCreationTest(AbstractBlenderIdTest):
             reset_link = flask_security.url_for_security('reset_password', token=token)
 
         resp = self.client.post(reset_link, data={
-            'password': u'haha nieuw password ImKUjg8Vk3KEXuiLoRPC2L3KFcn3ydLA',
-            'password_confirm': u'haha nieuw password ImKUjg8Vk3KEXuiLoRPC2L3KFcn3ydLA',
+            'password': 'haha nieuw password ImKUjg8Vk3KEXuiLoRPC2L3KFcn3ydLA',
+            'password_confirm': 'haha nieuw password ImKUjg8Vk3KEXuiLoRPC2L3KFcn3ydLA',
         })
         self.assertEqual(200, resp.status_code)
 
         # Check logging in with the new password.
-        self._assert_can_log_in_via_form(u'user@example.com',
-                                         u'haha nieuw password ImKUjg8Vk3KEXuiLoRPC2L3KFcn3ydLA')
+        self._assert_can_log_in_via_form('user@example.com',
+                                         'haha nieuw password ImKUjg8Vk3KEXuiLoRPC2L3KFcn3ydLA')
 
     @mock.patch('flask_security.recoverable.send_mail')
     def test_manual_user_creation(self, mock_send_mail):
-        self._create_user_through_admin(u'hae1chohteuKee0eepahJai1hochigoh')
+        self._create_user_through_admin('hae1chohteuKee0eepahJai1hochigoh')
 
         # Mail should not be sent due to an initial password being passed.
         mock_send_mail.assert_not_called()
-        self._assert_can_log_in_via_form(u'user@example.com', u'hae1chohteuKee0eepahJai1hochigoh')
+        self._assert_can_log_in_via_form('user@example.com', 'hae1chohteuKee0eepahJai1hochigoh')
 
     def _assert_can_log_in_via_form(self, email, cleartext_password):
         with self.app.test_request_context():
@@ -72,9 +72,9 @@ class ManualUserCreationTest(AbstractBlenderIdTest):
 
             resp = c.post(url,
                           data={
-                              'email': u'user@example.com',
+                              'email': 'user@example.com',
                               'initial_password': initial_password,
-                              'full_name': u'Mrs. Example',
+                              'full_name': 'Mrs. Example',
                               'roles': self.user_role.id,
                           })
         self.assertEqual(302, resp.status_code)
@@ -103,7 +103,7 @@ class ManualUserCreationTest(AbstractBlenderIdTest):
 
     def _create_test_user(self):
         user = self.create_user(email='test@example.com', password='password123',
-                                full_name=u'ဦး သီဟ',  # 'uncle lion' in Burmese
+                                full_name='ဦး သီဟ',  # 'uncle lion' in Burmese
                                 )
         self.db.session.commit()  # We need to commit to get the user ID.
         return user

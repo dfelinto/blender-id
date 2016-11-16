@@ -1,5 +1,5 @@
 import hashlib
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import datetime
 import uuid
 from sqlalchemy.orm.exc import NoResultFound
@@ -111,14 +111,14 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 class UsersRestTokens(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    token = db.Column(db.String(128), unique=True, nullable=False)
+    token = db.Column(db.String(129), unique=True, nullable=False)
     hostname = db.Column(db.String(128))
 
     @property
     def creation_date(self):
         u = uuid.UUID(self.token)
         return datetime.datetime.fromtimestamp(
-            (u.time - 0x01b21dd213814000L)*100/1e9)
+            (u.time - 0x01b21dd213814000)*100/1e9)
 
     def __str__(self):
         return str(self.token)

@@ -140,7 +140,7 @@ class UserView(CustomModelView):
         # Automatically send password-recover email, but only if the initial password was empty.
         send_reset_mail = False
         if not user_model.initial_password:
-            user_model.initial_password = u'you really have to reset this password'
+            user_model.initial_password = 'you really have to reset this password'
             send_reset_mail = True
 
         user_model.password = flask_security.utils.encrypt_password(user_model.initial_password)
